@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/search.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">    
+</head>
+<body>
+    
+    <%- include('partials/header1') %>
+
+    <section class="section1"> 
+        <div class="searchbox">
+            <h2>فقط یک جستجو با بهترین پزشکان فاصله دارید</h2>
+            <p>در کمتر از ۱ دقیقه نوبت خود را رزرو کنید</p>
+            <div class="search">
+                <img src="images\elements.png">
+                <input type="text" placeholder="پزشک یا تخصص مورد نظر خود را جستجو کنید" />
+            </div>
+        </div> 
+    </section> 
+    <section class="section2">
+        <div class="section2-in">
+            <div class="sectionone">                    
+                <div class="sectionone-in">                                
+                    <div class="angry-grid">                                       
+                        <div id="item-0"><img src="images\Picture.png"></div>                                  
+                        <div id="item-1">                                           
+                            <a class="btn1">پشتیبانی</a>                                              
+                            <a class="btn2">رزرو نوبت</a>                                    
+                        </div>                                      
+                        <div id="item-2">                                         
+                            <div class="doctor-row">                                                         
+                                <div class="doctor-code">                                                          
+                                    <span>کد نظام پزشکی: ۵۹۳۰۲</span>                                                          
+                                    <img src="images\Vector.png" class="check-icon" alt="check">                                                                  
+                                </div>                                                  
+                                <div class="doctor-name">                                                  
+                                    دکتر علی راد                                              
+                                </div>                                               
+                            </div>                                   
+                            <div class="doctor-info">                                                     
+                                <p class="doctor-specialty">متخصص ریه</p>                                                    
+                                <div class="rating">                                                       
+                                    <span class="rate-number">(۱۵۰ نظر)</span>                                                        
+                                    <span class="stars">★★★★★</span>                                                
+                                </div>                                              
+                            </div>                                 
+                        </div>                                                  
+                        <div id="item-3">                                        
+                            <div class="address">                                             
+                                ۳۶آدرس مطب: تهران، هفت تیر، خیابان بهارشیراز، پلاک                                                 
+                                <img src="images\map-pinpoint-02.png" >                                    
+                            </div>                                           
+                            <div class="time">                                              
+                                اولین نوبت در دسترس: دوشنبه ۲۴ دی                                                 
+                                <img src="images\alarm-clock.png" >                                             
+                            </div>                                    
+                        </div>                        
+                    </div>
+                </div>
+                <div class="sectionone-in">                                
+                    <div class="angry-grid">                                       
+                        <div id="item-0"><img src="images\Picture.png"></div>                                  
+                        <div id="item-1">                                           
+                            <a class="btn1">پشتیبانی</a>                                              
+                            <a class="btn2">رزرو نوبت</a>                                    
+                        </div>                                      
+                        <div id="item-2">                                         
+                            <div class="doctor-row">                                                         
+                                <div class="doctor-code">                                                          
+                                    <span>کد نظام پزشکی: ۵۹۳۰۲</span>                                                          
+                                    <img src="images\Vector.png" class="check-icon" alt="check">                                                                  
+                                </div>                                                  
+                                <div class="doctor-name">                                                  
+                                    دکتر علی راد                                              
+                                </div>                                               
+                            </div>                                   
+                            <div class="doctor-info">                                                     
+                                <p class="doctor-specialty">متخصص ریه</p>                                                    
+                                <div class="rating">                                                       
+                                    <span class="rate-number">(۱۵۰ نظر)</span>                                                        
+                                    <span class="stars">★★★★★</span>                                                
+                                </div>                                              
+                            </div>                                 
+                        </div>                                                  
+                        <div id="item-3">                                        
+                            <div class="address">                                             
+                                ۳۶آدرس مطب: تهران، هفت تیر، خیابان بهارشیراز، پلاک                                                 
+                                <img src="images\map-pinpoint-02.png" >                                    
+                            </div>                                           
+                            <div class="time">                                              
+                                اولین نوبت در دسترس: دوشنبه ۲۴ دی                                                 
+                                <img src="images\alarm-clock.png" >                                             
+                            </div>                                    
+                        </div>                        
+                    </div>
+                </div>                                
+            </div>      
+            <div class="filter-box" dir="rtl">          
+                <div class="filter-header">           
+                    <h3>فیلترها</h3>           
+                    <a href="#">حذف همه فیلترها ✕</a>          
+                </div>          
+                <div class="filterbox-in">           
+                    <input type="text" placeholder="جستجو پزشک">           
+                    <label class="label1">نام یا تخصص مورد نظرتان را وارد کنید.</label>            
+                </div>                    
+                <hr>                      
+                <div class="filterbox-in">                          
+                    <label>تخصص ها</label>                           
+                    <select>                                               
+                        <option>تخصص مورد نظر را انتخاب کنید</option>
+                    </select>             
+                </div>            
+                <hr>         
+                <div class="filterbox-in">                                   
+                    <label>بیمه</label>         
+                    <select>          
+                        <option>بیمه مورد نظر را انتخاب کنید</option>              
+                    </select>          
+                </div>        
+                <hr>          
+                <div class="filterbox-in">            
+                    <label>تجربه کاری</label>             
+                    <select>                         
+                        <option>۵ سال به بالا</option>              
+                    </select>               
+                </div>        
+                <hr>               
+                <div class="filterbox-in">           
+                    <label>وضعیت نوبت دهی</label>            
+                    <select>             
+                        <option>وضعیت مورد نظر را انتخاب کنید</option>             
+                    </select>                      
+                    <div class="checkbox-group">    
+                        <label><input type="checkbox" checked> پزشکان دارای نوبت خالی</label>             
+                        <label><input type="checkbox"> امکان ویزیت آنلاین</label>                 
+                        <label><input type="checkbox" checked> امکان نوبت حضوری</label>                
+                    </div>       
+                </div>      
+                <hr>       
+                <div class="filterbox-in">     
+                    <label>شهر</label>          
+                    <select>            
+                        <option>انتخاب شهر</option>           
+                    </select>                                
+                    <div class="checkbox-group">            
+                        <label><input type="checkbox"> تهران</label>             
+                        <label><input type="checkbox"> اصفهان</label>             
+                        <label><input type="checkbox"> شیراز</label>             
+                        <label><input type="checkbox"> تبریز</label>                                
+                    </div>         
+                </div>          
+                <hr>                          
+                <div class="filterbox-in">            
+                    <label>جنسیت پزشک</label>          
+                    <div class="gender">           
+                        <label><input type="checkbox" name="gender" checked> خانم</label>          
+                        <label><input type="checkbox" name="gender"> آقا</label>           
+                    </div>        
+                </div>          
+                <button class="button">اعمال فیلترها</button> 
+            </div>
+        </div>
+    </section>
+
+    <%- include('partials/footer') %>
+           
+</body>
+</html>
