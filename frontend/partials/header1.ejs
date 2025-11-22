@@ -8,12 +8,16 @@
 </head>
 <body>
     <header class="site-header">
+        <%if(user){%>
         <div class="profile" >      
             <div class="name">فاطمه طيبی</div>
             <div class="avatar" >
                 <img src="images\header profile.jpg">
             </div>
         </div>
+        <%}else{%>
+            <a href="/login">ورود / ثبت نام</a>
+        <%}%>
         <div class="links"> 
             <a href="/aboutus">درباره ما</a>        
             <a href="/questions">سوالات متداول</a>                

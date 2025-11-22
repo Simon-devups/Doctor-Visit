@@ -1,0 +1,132 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Users {
+  id         Int     @id @default(autoincrement())
+  firt_name  String
+  last_name  String
+  phone      String  @unique
+  role       Role    @default(PATIENT)
+}
+
+model User_informations {
+  user_id    Int 
+  code_meli  String
+  birthday   String
+  gender     String
+  city       String
+  email      String
+  Patient_appointments  appointments[]   @relation("PatientAppointments")
+}
+
+model doctors {
+  id           Int     @id @default(autoincrement())
+  first_name   String
+  last_name    String
+  spetialty    spetialty[]   @relation(fields:[spetialty_id] , references:[id])
+  spetialty_id Int
+  workingHours  WorkingHour[]
+  appointments  Appointment[]   @relation("DoctorAppointments")
+}
+
+model spetialty{
+  id   Int     @id @default(autoincrement())
+  spetialty   String
+}
+
+model workingHours{
+  id         Int     @id @default(autoincrement())
+  doctor      Doctor   @relation(fields: [doctorId], references: [id])
+  doctorId    Int
+  weekday    Int
+  start_time  String
+  end_time  String
+  appointment_time  String
+}
+
+model Appointment {
+  id         Int      @id @default(autoincrement())
+  doctor     doctors   @relation("DoctorAppointments", fields: [doctorId], references: [id])
+  doctorId   Int
+
+  patient    User_informations    @relation("PatientAppointments", fields: [patientId], references: [id])
+  patientId  Int
+
+  date       DateTime
+  startTime  String
+  endTime    String
+
+  status     AppointmentStatus @default(RESERVED)
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model doctor_descriptions {
+  doctorId    Int
+  description String
+  Addres      String
+  code        String
+}
+
+model doctor_contacts{
+  doctorId   Int
+  phone      String
+  instagram  String
+  web  String
+  web2  String
+}
+
+model doctor_prices {
+  doctor_id  Int
+  price   String
+}
+
+model comments{
+  doctor_id  Int
+  user_id  Int
+  data     DateTime @default(now())
+  comment String
+}
+
+model score{
+  doctor_id  Int
+  score Int
+}
+
+
+// مدل مربوط به سشن 
+model Session {
+  id        String   @id            // همان Session Token
+  user      Users     @relation(fields: [userId], references: [id])
+  userId    Int
+  expiresAt DateTime // تاریخ انقضا
+  createdAt DateTime @default(now())
+}
+
+
+enum Role {
+  DOCTOR
+  PATIENT
+}
+
+enum appointmentStatus {
+  RESERVED
+  PENDING
+  CANCELED
+  COMPLETED
+}
