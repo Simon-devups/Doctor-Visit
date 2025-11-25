@@ -18,6 +18,5 @@ const getDoctorById = async (doctorId)=>{
 
 
 
-
 const queries = {getDoctors,}
 export default queries;

@@ -1,6 +1,5 @@
-import { PrismaClient } from './generated/prisma/index.js';
+import prisma from "./prismaClient.js"
 
-const prisma = new PrismaClient();
 
 async function main() {
   // 1️⃣ اضافه کردن یک Specialty

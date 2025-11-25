@@ -65,11 +65,11 @@ app.use((req, res, next) => {
 
 
 
-
 //home page
-app.get('/', (req, res) => {
+app.get('/',async (req, res) => {
     try {
-        console.log(queries.getDoctors())
+        const allDoctors = await queries.getDoctors()
+        
         res.render("landing.ejs")
     } catch (err) {
         res.render("FAQ.ejs")
@@ -96,7 +96,7 @@ app.get('/login', (req, res) => {
 
 app.get('/code', (req, res) => {
     try {
-        const userPhone =
+        // const userPhone =
             res.render("code.ejs")
     } catch (err) {
         res.render("FAQ.html")
