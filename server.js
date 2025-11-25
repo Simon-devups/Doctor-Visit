@@ -8,6 +8,7 @@ import pg from "pg"
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
+import queries from "./queries.js";
 
 dotenv.config()
 
@@ -55,17 +56,21 @@ app.use(
     })
 )
 
+
+// authentication middleware
 app.use((req, res, next) => {
     res.locals.user = req.session.user || null;
     next();
 });
 
 
+
+
 //home page
 app.get('/', (req, res) => {
     try {
+        console.log(queries.getDoctors())
         res.render("landing.ejs")
-        // res.render("landing.ejs")
     } catch (err) {
         res.render("FAQ.ejs")
     }

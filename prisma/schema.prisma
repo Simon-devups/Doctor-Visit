@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../generated/prisma"
 }
 
@@ -21,36 +21,38 @@ model Users {
   last_name  String
   phone      String  @unique
   role       Role    @default(PATIENT)
+  avatar     String
 }
 
 model User_informations {
-  user_id    Int 
+  user_id    Int     @id @default(autoincrement())
   code_meli  String
   birthday   String
   gender     String
   city       String
   email      String
-  Patient_appointments  appointments[]   @relation("PatientAppointments")
+  Patient_appointments  Appointments[]   @relation("PatientAppointments")
 }
 
 model doctors {
   id           Int     @id @default(autoincrement())
   first_name   String
   last_name    String
-  spetialty    spetialty[]   @relation(fields:[spetialty_id] , references:[id])
+  spetialty    spetialty   @relation(fields:[spetialty_id] , references:[id])
   spetialty_id Int
-  workingHours  WorkingHour[]
-  appointments  Appointment[]   @relation("DoctorAppointments")
+  workingHours  WorkingHours[]
+  appointments  Appointments[]   @relation("DoctorAppointments")
 }
 
 model spetialty{
   id   Int     @id @default(autoincrement())
   spetialty   String
+  doctors doctors[]
 }
 
-model workingHours{
+model WorkingHours{
   id         Int     @id @default(autoincrement())
-  doctor      Doctor   @relation(fields: [doctorId], references: [id])
+  doctor      doctors   @relation(fields: [doctorId], references: [id])
   doctorId    Int
   weekday    Int
   start_time  String
@@ -58,12 +60,12 @@ model workingHours{
   appointment_time  String
 }
 
-model Appointment {
+model Appointments {
   id         Int      @id @default(autoincrement())
   doctor     doctors   @relation("DoctorAppointments", fields: [doctorId], references: [id])
   doctorId   Int
 
-  patient    User_informations    @relation("PatientAppointments", fields: [patientId], references: [id])
+  patient    User_informations    @relation("PatientAppointments", fields: [patientId], references: [user_id])
   patientId  Int
 
   date       DateTime
@@ -77,6 +79,7 @@ model Appointment {
 }
 
 model doctor_descriptions {
+  id          Int     @id @default(autoincrement())
   doctorId    Int
   description String
   Addres      String
@@ -84,6 +87,7 @@ model doctor_descriptions {
 }
 
 model doctor_contacts{
+  id          Int     @id @default(autoincrement())
   doctorId   Int
   phone      String
   instagram  String
@@ -92,11 +96,13 @@ model doctor_contacts{
 }
 
 model doctor_prices {
+  id          Int     @id @default(autoincrement())
   doctor_id  Int
   price   String
 }
 
 model comments{
+  id          Int     @id @default(autoincrement())
   doctor_id  Int
   user_id  Int
   data     DateTime @default(now())
@@ -104,19 +110,20 @@ model comments{
 }
 
 model score{
+  id          Int     @id @default(autoincrement())
   doctor_id  Int
   score Int
 }
 
 
 // مدل مربوط به سشن 
-model Session {
-  id        String   @id            // همان Session Token
-  user      Users     @relation(fields: [userId], references: [id])
-  userId    Int
-  expiresAt DateTime // تاریخ انقضا
-  createdAt DateTime @default(now())
-}
+// model Session {
+//   id        String   @id            // همان Session Token
+//   user      Users     @relation(fields: [userId], references: [id])
+//   userId    Int
+//   expiresAt DateTime // تاریخ انقضا
+//   createdAt DateTime @default(now())
+// }
 
 
 enum Role {
@@ -124,7 +131,7 @@ enum Role {
   PATIENT
 }
 
-enum appointmentStatus {
+enum AppointmentStatus {
   RESERVED
   PENDING
   CANCELED
