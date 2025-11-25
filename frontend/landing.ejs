@@ -112,10 +112,10 @@
                     <div class="pezeshk-img">
                         <img src="images\Image.png" />  
                     </div> 
-                    <div class="pezeshk-text1"  ><span></span>                                    دکتر علی راد</div>
+                    <div class="pezeshk-text1"  ><span></span>  <%= doctor.first_name %>    <%= doctor.last_name %></div>
                     <div class="pezeshk-text2" >متخصص ریه                             📍 تهران</div>                    
                     <div class="pezeshk-btn">                 
-                        <a class="pezeshk-nobat" href="/flow">دریافت نوبت</a>
+                        <a class="pezeshk-nobat" href="/flow/<%=doctor.id%>">دریافت نوبت</a>
                     </div>                    
 
                 </div>

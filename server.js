@@ -67,10 +67,11 @@ app.use((req, res, next) => {
 
 //home page
 app.get('/',async (req, res) => {
+
     try {
         const allDoctors = await queries.getDoctors()
         
-        res.render("landing.ejs")
+        res.render("landing.ejs",{doctor:allDoctors[0]})
     } catch (err) {
         res.render("FAQ.ejs")
     }
@@ -106,7 +107,8 @@ app.get('/code', (req, res) => {
 
 
 //choosing doctor
-app.get('/flow', (req, res) => {
+app.get('/flow/:id', (req, res) => {
+    const id = parseInt(req.params.id)
     try {
         res.render("flow.ejs")
     } catch (err) {

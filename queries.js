@@ -18,5 +18,6 @@ const getDoctorById = async (doctorId)=>{
 
 
 
-const queries = {getDoctors,}
+const queries = {getDoctors,getDoctorById}
+
 export default queries;
