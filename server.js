@@ -78,7 +78,7 @@ app.get('/',async (req, res) => {
 })
 
 //search page
-app.get('/search', (req, res) => {
+app.get('/search', async (req, res) => {
     try {
         res.render("search.ejs")
     } catch (err) {
