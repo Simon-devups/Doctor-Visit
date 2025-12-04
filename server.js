@@ -69,6 +69,9 @@ app.use((req, res, next) => {
 app.get('/',async (req, res) => {
 
     try {
+        // const d = await queries.getDoctorBySpetialty("چشم پزشک")
+        // console.log(d)
+
         const allDoctors = await queries.getDoctors()
         
         res.render("landing.ejs",{doctor:allDoctors[0]})
@@ -80,7 +83,35 @@ app.get('/',async (req, res) => {
 //search page
 app.get('/search', async (req, res) => {
     try {
-        res.render("search.ejs")
+        //search section 
+        const searchSTR = req.query.search || ""
+        let Doctors = []
+        if(searchSTR.trim() === "") {
+            Doctors = await queries.getDoctors()
+        }else{
+            const stringList = searchSTR.split(" ")
+
+            for (const method of stringList) {
+                const fName = await queries.getDoctorByFirstName(method);
+                const lName = await queries.getDoctorByLastName(method);
+                const spti = await queries.getDoctorBySpetialty(method);
+                Doctors = Doctors.concat(fName, lName, spti);
+            }
+        }
+
+        //filter section
+        const spetialty = await queries.getSpetialties()
+
+        res.render("search.ejs",{doctors:Doctors , spti:spetialty})
+    } catch (err) {
+        res.render("FAQ.html")
+    }
+})
+
+app.post('/search', async (req, res) => {
+    try {
+        const search = req.body.search || ""
+        res.redirect(`/search?search=${encodeURIComponent(search)}`)
     } catch (err) {
         res.render("FAQ.html")
     }
@@ -107,8 +138,8 @@ app.get('/code', (req, res) => {
 
 
 //choosing doctor
-app.get('/flow/:id', (req, res) => {
-    const id = parseInt(req.params.id)
+app.get('/flow', (req, res) => {
+    // const id = parseInt(req.params.id)
     try {
         res.render("flow.ejs")
     } catch (err) {

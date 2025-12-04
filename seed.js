@@ -2,52 +2,119 @@ import prisma from "./prismaClient.js"
 
 
 async function main() {
-  // 1️⃣ اضافه کردن یک Specialty
-  const specialty = await prisma.spetialty.create({
-    data: {
-      spetialty: 'Cardiology',
+
+  const spetialty = await prisma.spetialty.createMany({
+    data: [
+      {
+      spetialty: 'متخصص پوست',
     },
+    {
+      spetialty: 'چشم پزشک',
+    },
+    {
+      spetialty: 'متخصص ارتودنسی',
+    },
+    ]
   });
 
-  // 2️⃣ اضافه کردن یک Doctor
-  const doctor = await prisma.doctors.create({
-    data: {
-      first_name: 'Ahmad',
-      last_name: 'Ahmadi',
-      spetialty_id: specialty.id,
+  const doctor = await prisma.doctors.createMany({
+    data: [{
+      first_name: 'نیما',
+      last_name: 'شمشیری',
+      spetialty_id: 1,
     },
+    {
+      first_name: 'فریار',
+      last_name: 'انصاری',
+      spetialty_id: 3,
+    },{
+      first_name: 'سجاد ',
+      last_name: 'پیغمبردوست',
+      spetialty_id: 2,
+    },
+    {
+      first_name: 'آرین',
+      last_name: 'شفیع راد',
+      spetialty_id: 2,
+    },
+  ]
   });
 
-  // 3️⃣ اضافه کردن doctor_descriptions
-  const doctorDesc = await prisma.doctor_descriptions.create({
-    data: {
-      doctorId: doctor.id,
-      description: 'Experienced cardiologist with 10 years of practice',
-      Addres: 'Tehran, Valiasr St.',
+  const doctorDesc = await prisma.doctor_descriptions.createMany({
+    data: [
+      {
+      doctorId: 1,
+      description: 'پزشک با تجربه در این حوضه',
+      Addres: 'تبریز - آبرسان - چهارراه آبرسان',
+      code: 'DOC001',
+    },{
+      doctorId: 2,
+      description: 'پزشک با تجربه در این حوضه',
+      Addres: 'تبریز - آبرسان - چهارراه آبرسان',
+      code: 'DOC001',
+    },{
+      doctorId: 3,
+      description: 'پزشک با تجربه در این حوضه',
+      Addres: 'تبریز - آبرسان - چهارراه آبرسان',
+      code: 'DOC001',
+    },{
+      doctorId: 4,
+      description: 'پزشک با تجربه در این حوضه',
+      Addres: 'تبریز - آبرسان - چهارراه آبرسان',
       code: 'DOC001',
     },
+    ]
   });
 
-  // 4️⃣ اضافه کردن doctor_contacts
-  const doctorContact = await prisma.doctor_contacts.create({
-    data: {
-      doctorId: doctor.id,
+  // 
+  const doctorContact = await prisma.doctor_contacts.createMany({
+    data: [
+      {
+      doctorId: 1,
+      phone: '09120000000',
+      instagram: '@dr.ahmadi',
+      web: 'www.dr-ahmadi.com',
+      web2: '',
+    },{
+      doctorId: 2,
+      phone: '09120000000',
+      instagram: '@dr.ahmadi',
+      web: 'www.dr-ahmadi.com',
+      web2: '',
+    },{
+      doctorId: 3,
+      phone: '09120000000',
+      instagram: '@dr.ahmadi',
+      web: 'www.dr-ahmadi.com',
+      web2: '',
+    },{
+      doctorId: 4,
       phone: '09120000000',
       instagram: '@dr.ahmadi',
       web: 'www.dr-ahmadi.com',
       web2: '',
     },
+    ]
   });
 
-  // 5️⃣ اضافه کردن doctor_prices
-  const doctorPrice = await prisma.doctor_prices.create({
-    data: {
-      doctor_id: doctor.id,
+  const doctorPrice = await prisma.doctor_prices.createMany({
+    data: [
+      {
+      doctor_id: 1,
+      price: '500000',
+    },{
+      doctor_id: 2,
+      price: '500000',
+    },{
+      doctor_id: 3,
+      price: '500000',
+    },{
+      doctor_id: 4,
       price: '500000',
     },
+    ]
   });
 
-  // 6️⃣ اضافه کردن یک User
   const user = await prisma.user_informations.create({
     data: {
       code_meli: '1234567890',
@@ -58,10 +125,9 @@ async function main() {
     },
   });
 
-  // 7️⃣ اضافه کردن یک Appointment
   const appointment = await prisma.appointments.create({
     data: {
-      doctorId: doctor.id,
+      doctorId: 1,
       patientId: user.user_id,
       date: new Date('2025-11-25T10:00:00.000Z'),
       startTime: '10:00',
@@ -70,10 +136,9 @@ async function main() {
     },
   });
 
-  // 8️⃣ اضافه کردن یک Comment
   const comment = await prisma.comments.create({
     data: {
-      doctor_id: doctor.id,
+      doctor_id: 1,
       user_id: user.user_id,
       comment: 'Great doctor!',
     },
@@ -82,7 +147,7 @@ async function main() {
   // 9️⃣ اضافه کردن یک Score
   const score = await prisma.score.create({
     data: {
-      doctor_id: doctor.id,
+      doctor_id: 1,
       score: 5,
     },
   });
