@@ -1,0 +1,516 @@
+*{margin: 0; padding: 0; box-sizing: border-box;}
+:root{
+    --accent : #4179F0 ;
+    --Grey_100 : #E7E7E7 ;
+    --Neutral_40 : #F7F7F7 ;
+    --Neutral_900 : #3D3D3D ;
+    --Neutral_800 : #454545 ;
+    --Neutral_600 : #5D5D5D ;
+    --Neutral_500 : #6D6D6D ;
+    --Neutral_400 : #888888 ;
+}
+
+.site-header{
+    font-family: "Vazirmatn", sans-serif;
+    width:100%;
+    height: 88px;
+    background:#FFFFFF;
+    padding:12px 28px;
+    box-shadow: 0 2px 6px rgba(16,24,40,0.06);
+    display:flex;
+    align-items:center;
+    justify-content:space-around;
+    gap:30px;
+ }
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:5px;
+    text-decoration:none;
+    color:#1e73ff;
+    font-weight:700;
+    font-size:18px;
+
+}
+
+.links{
+    display:flex;
+    gap:40px;
+    align-items:center;
+}
+.links a{
+    text-decoration:none;
+    color:#262626;
+    font-size:14px;
+    font-weight: 400;
+    transition: color .15s ease, transform .12s ease;
+}
+.links a:hover{
+    color:#1e73ff;
+    transform:translateY(-1px);
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.profile .name{
+    font-size:12px;
+    color:#3D3D3D;
+}
+.avatar{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    overflow:hidden;
+    flex:0 0 34px;
+    box-shadow:0 1px 4px rgba(0,0,0,0.06);
+    display:inline-block;
+}
+.avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+ @media (max-width:860px){
+.links{
+    gap:18px;
+    font-size:13px 
+    }
+.site-header{ padding:10px 14px }
+ }
+ @media (max-width:650px){
+
+.links{
+    display:none 
+}
+}
+/* Root Colors (Customize these to your desired palette) */
+:root {
+    --primary-color: #3f51b5; /* Example Primary Color (like a blue) */
+    --secondary-color: #f50057; /* Example Secondary Color */
+    --background-color: #ffffff;
+    --text-color-dark: #333333;
+    --text-color-light: #555555;
+    --input-border-color: #cccccc;
+    --button-bg-color: #3f51b5; /* Blue from your image button */
+    --button-text-color: #ffffff;
+    --label-color: #333333; /* Darker text for labels */
+    --value-color: #666666; /* Slightly lighter text for values */
+    --upload-btn-border: #bbdefb; /* Light blue border for upload button */
+    --upload-btn-text: #3f51b5; /* Blue text for upload button */
+}
+
+/* Base Styles and Vazirmatn Font */
+body {
+    font-family: 'Vazirmatn', sans-serif;
+    direction: rtl; /* Ensure right-to-left for Persian content */
+    margin: 0;
+    padding: 0;
+}
+
+/* Main Container Layout */
+.profile-cont {
+    display: flex;
+    flex-direction: row-reverse;
+    max-width: 1000px;
+    margin: 2px auto;
+    background-color: var(--background-color);
+    border-radius: 8px;
+    padding: 40px;
+    gap: 1.2rem;
+}
+
+form{border: var(--Grey_100) 1px solid;border-radius: 1rem; padding: 1rem 1rem 0rem 1rem;}
+
+.left {
+    flex: 2; /* Takes up more space for the form fields */
+    padding-left: 50px; /* Space between the form and the image section */
+}
+
+.right {
+    flex: 0.7; /* Takes up less space for the image */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align image section to the top */
+    border: var(--Grey_100) 1px solid;
+    height: 300px;
+    width: clamp(200px , 250px , 250px) !important;
+    height: max-content;
+    padding: 1rem 0;
+    border-radius: 1rem;
+}
+
+/* Form Styling */
+.profile-form {
+    width: 100%;
+}
+
+.form input{color: #262626;}
+
+.form-row {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-bottom: 25px; /* Spacing between rows */
+    gap: 30px; /* Space between columns in a row */
+}
+
+.form-group {
+    flex-direction: column;
+    flex: 1; /* Each group takes equal width in the row */
+    gap: 1rem;
+    display: flex;
+    align-items:flex-start;
+    justify-content:flex-start; /* Space out label and input */
+    padding-bottom: 10px; /* Space below the group line */
+}
+
+.form-group label {
+    font-weight: 500; /* Medium weight for the label text */
+    color: var(--label-color);
+    white-space: nowrap; /* Prevent label from wrapping */
+    font-size: 1rem;
+}
+
+.form-group input {
+    border: none;
+    outline: none;
+    text-align: right; /* Aligns text to the left side of the field box */
+    padding: 0;
+    font-weight: 500; /* Normal weight for the value text */
+    color: #262626;
+    padding-right: 0.4rem;
+    font-size: 1rem;
+    width: 60%; /* Adjust to control space between label and value */
+    direction: ltr; /* Ensure numbers and Latin text align left */
+    font-family: 'vazirmatn';
+}
+.form-group label {color: var(--Neutral_600); font-weight: 500;}
+
+/* Styling for the Email Input Placeholder */
+
+
+/* Submit Button */
+.button-row {
+    justify-content: flex-start; /* Align button to the start (right in RTL) */
+    margin-top: 40px; /* Extra space above the button */
+}
+
+.edit-btn {
+    background-color: var(--accent);
+    color: var(--button-text-color);
+    border: none;
+    border-radius: 6px;
+    padding: 10px 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+    font-family: 'Vazirmatn' ;
+    margin-left: 0.6rem;
+}
+
+
+/* Profile Image Section */
+.profile-image-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-img {
+    width: 150px; /* Size of the profile image placeholder */
+    height: 150px;
+    border-radius: 50%;
+    /* The image in the example has a subtle border and shadow */
+    border: 1px solid #eee; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.upload-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 8px 15px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    background-color: #fff; 
+    border-radius: 0.5rem;
+    width: 100%;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.upload-btn .icon-plus {
+    width: 18px;
+    height: 18px;
+    /* This color is defined by the parent 'currentColor' which is upload-btn-text */
+}
+
+
+
+
+
+.profile-cont {
+    display: flex;
+    flex-wrap: wrap; /* نکته کلیدی: اجازه می‌دهد آیتم‌ها به خط بعد بروند */
+
+}
+
+/* تایتل: تمام عرض را می‌گیرد تا خط اول پر شود */
+.title {
+    width: 100%; 
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-align: right;
+    color: var(--text-color-dark);
+}
+
+/* فرم (چپ): بخشی از عرض خط دوم را می‌گیرد */
+.left {
+    flex: 2; /* ضریب بزرگتر برای اشغال فضای بیشتر */
+    /* یا می‌توانید از width: 65% استفاده کنید */
+    padding-left: 50px; 
+    box-sizing: border-box; /* برای محاسبه دقیق پدینگ و عرض */
+}
+
+/* عکس (راست): فضای باقی‌مانده خط دوم را می‌گیرد */
+.right {
+    flex: 1; /* ضریب کوچکتر */
+    /* یا width: 35% */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    max-width: 220px;
+}
+
+@media (max-width:891px) {
+    .profile-cont{flex-direction: column-reverse; flex-wrap: nowrap;}
+    .left{flex: 1; order: 0; padding-left: 0px;}
+    .right{flex: 1; order: 1; min-width: 100%;}
+    .title{order: 2;}
+    .profile-img{height: 300px; width: 300px;}
+    *{font-size: 0.95rem;}
+}
+.footer{
+    width: 100%;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    justify-content: center;
+}
+
+.footer-top{
+    display:flex; 
+    gap:40px;
+    width: 88%;
+    align-items: flex-start;
+    padding:36px 0;
+    border-bottom:1px solid #E7E7E7}
+
+.div3{
+    flex:1;
+    min-width:220px
+}
+.quick-links{
+    color:#9aa0a6;
+}
+.quick-links h4{
+    color:#3D3D3D;
+    font-size:15px ; 
+    font-weight:700 ;
+    margin-top: 0px; 
+    margin-bottom:30px
+}
+.quick-links ul{
+    list-style:none;
+    padding:0;
+    margin:0;
+    display:flex;
+    flex-direction:column;
+    gap:10px
+}
+.quick-links li{
+    cursor:pointer;
+    font-size: 13px; 
+    font-weight:400;
+}
+.legal{
+    color:#9aa0a6;
+}
+.legal h4{
+    color:#3D3D3D;
+    font-size: 15px;
+    margin-top: 0px; 
+    font-weight:700;
+    margin-bottom:30px
+}
+.legal p{
+    margin:0;
+    font-size: 13px; 
+    font-weight:400;
+}
+.cocontact{
+    flex:0.7;
+    min-width:220px
+}
+.contact{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    align-items:center
+}
+.group{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-bottom: 8px; 
+    align-items:center
+}
+.group h4{
+    color:#3D3D3D;
+    font-size: 15px;
+    margin-top: 0px; 
+    font-weight:700;
+}
+.group svg{
+    opacity:0.9
+}
+    
+.phones{
+    font-size:13px;
+    color:#9aa0a6;
+    line-height:1.6;
+    text-align:center
+}
+.code{
+    flex:1.04;
+    height: 224px; 
+    min-width:220px
+}
+.subscribe-card{
+    background:#f7f8fa;
+    height: 224px;; 
+    padding:30px 22px 22px 22px;
+    border-radius:12px;
+    box-shadow: 0 6px 18px rgba(15,23,42,0.04);;
+    max-width:420px
+}
+    
+.subscribe-card h4{
+    margin:0 0 12px 0;
+    color:#1f2937 ;
+    font-size: 16px;
+    font-weight: 400;
+}
+.input-row{
+    display:flex;
+    height: 43.5px;
+    width: 93%; 
+    align-items:center
+}
+    
+.input-row input{
+    flex:1;
+    padding:10px 12px;
+    height: 43.5px;    
+    font-family:"Vazirmatn", sans-serif;
+     border:1.5px solid #e6e9ef;
+     border-radius:0px 6px 6px 0px;
+     background:#ffffff
+    }
+    
+.send-btn{
+    background:#4179F0;
+    color:#fff;
+    border-bottom-left-radius: 6px;
+    border-top-left-radius: 6px;
+    height: 43.5px; 
+    padding:12px 14px;
+    margin-left:10px;
+    border:none;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+}
+    
+.desc{
+    color:#9aa0a6;
+    font-size:14px;
+    margin-top:15px;
+    line-height:1.7
+} 
+.footer-bottom{
+    display:flex;
+    width: 88%;
+     align-items:center;
+     justify-content:space-between;
+     padding:20px 0
+}
+.brand{
+    display:flex;
+    align-items:center;
+    gap:0px
+}
+.brand .logo{
+    font-weight:700;
+    color:#111827;
+    font-size:18px
+}
+.brand .plus{
+    margin-top: 12px;
+}
+.socials{
+    display:flex;
+    gap:5px;
+    align-items:center
+}
+.socials button{
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    padding:6px
+}
+.icon{
+    width:22px;
+    height:22px;
+    opacity:0.95
+}
+
+@media (max-width:900px){
+    .footer-top{flex-direction:column;gap:18px}
+    .contact{flex-direction:row;justify-content:space-around;width:100%}
+    .subscribe-card{max-width:100%}
+    .footer-bottom{flex-direction:column;gap:12px;align-items:flex-start}
+}
+
+.form-group select {
+    border: none;
+    outline: none;
+    text-align: right;
+    padding: 0;
+    font-weight: 500;
+    color: #262626;
+    padding-right: 0.4rem;
+    font-size: 1rem;
+    width: 60%;
+    direction: rtl; /* چون مقدارها فارسی هستند */
+    font-family: 'Vazirmatn', sans-serif;
+    background: transparent;
+    appearance: none;        /* برای حذف استایل پیش‌فرض سیستم */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+
