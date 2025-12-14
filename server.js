@@ -196,6 +196,41 @@ app.get('/aboutus', (req, res) => {
     }
 })
 
+app.get('/userprofile', (req, res) => {
+    try {
+        res.render("userprofile.ejs")
+    } catch (err) {
+        res.render("FAQ.html")
+    }
+})
+
+
+app.get('/index3', (req, res) => {
+    try {
+        res.render("index3.ejs")
+    } catch (err) {
+        res.render("FAQ.html")
+    }
+})
+
+
+app.get('/index4', (req, res) => {
+    try {
+        res.render("index4.ejs")
+    } catch (err) {
+        res.render("FAQ.html")
+    }
+})
+
+
+app.get('/index6', (req, res) => {
+    try {
+        res.render("index6.ejs")
+    } catch (err) {
+        res.render("FAQ.html")
+    }
+})
+
 
 
 app.listen(PORT, () => {
