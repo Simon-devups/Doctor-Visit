@@ -6,6 +6,11 @@ const getDoctors = async()=>{
     return result
 }
 
+const getSpecifiedDOctors = async()=>{
+    const result = await prisma.doctors.findMany({})
+    return result
+}
+
 const getDoctorById = async (doctorId)=>{
     const result = await prisma.doctors.findUnique({
         where:{id:doctorId}

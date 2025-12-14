@@ -75,20 +75,20 @@
                         <%})%>
 
                 </div>
-                <form action="/filter" method="post">
+                <form action="/search" method="post">
                     <div class="filter-box" dir="rtl">
                         <div class="filter-header">
                             <h3>فیلترها</h3>
                             <a href="/search">حذف همه فیلترها ✕</a>
                         </div>
-                        <div class="filterbox-in">
+                        <!-- <div class="filterbox-in">
                             <input type="text" placeholder="جستجو پزشک">
                             <label class="label1">نام یا تخصص مورد نظرتان را وارد کنید.</label>
-                        </div>
+                        </div> -->
                         <hr>
                         <div class="filterbox-in">
                             <label>تخصص ها</label>
-                            <select>
+                            <select name="spetialty">
                                 <option>تخصص مورد نظر را انتخاب کنید</option>
                                 <%spti.forEach(option=>{%>
                                     <option><%=option.spetialty%></option>
@@ -96,52 +96,52 @@
                             </select>
                         </div>
                         <hr>
-                        <div class="filterbox-in">
+                        <!-- <div class="filterbox-in">
                             <label>بیمه</label>
-                            <select>
+                            <select name="bime">
                                 <option>بیمه مورد نظر را انتخاب کنید</option>
                             </select>
-                        </div>
+                        </div> -->
                         <hr>
                         <div class="filterbox-in">
                             <label>تجربه کاری</label>
-                            <select>
-                                <option>۵ سال به بالا</option>
+                            <select name="workExperience">
+                                <option>تجربه کاری مورد نظر خود را انتخاب کنید</option>
                             </select>
                         </div>
                         <hr>
                         <div class="filterbox-in">
                             <label>وضعیت نوبت دهی</label>
-                            <select>
+                            <!-- <select>
                                 <option>وضعیت مورد نظر را انتخاب کنید</option>
-                            </select>
+                            </select> -->
                             <div class="checkbox-group">
-                                <label><input type="checkbox" checked> پزشکان دارای نوبت خالی</label>
-                                <label><input type="checkbox"> امکان ویزیت آنلاین</label>
-                                <label><input type="checkbox" checked> امکان نوبت حضوری</label>
+                                <label><input type="checkbox" name="aptmStatus" checked> پزشکان دارای نوبت خالی</label>
+                                <label><input type="checkbox" name="aptmStatus"> امکان ویزیت آنلاین</label>
+                                <label><input type="checkbox" name="aptmStatus" checked> امکان نوبت حضوری</label>
                             </div>
                         </div>
                         <hr>
                         <div class="filterbox-in">
                             <label>شهر</label>
-                            <select>
+                            <select name="city">
                                 <option>انتخاب شهر</option>
                             </select>
                             <div class="checkbox-group">
-                                <label><input type="checkbox"> تهران</label>
-                                <label><input type="checkbox"> اصفهان</label>
-                                <label><input type="checkbox"> شیراز</label>
-                                <label><input type="checkbox"> تبریز</label>
+                                <label><input type="checkbox" name="city"> تهران</label>
+                                <label><input type="checkbox" name="city"> اصفهان</label>
+                                <label><input type="checkbox" name="city"> شیراز</label>
+                                <label><input type="checkbox" name="city"> تبریز</label>
                             </div>
                         </div>
                         <hr>
-                        <div class="filterbox-in">
+                        <!-- <div class="filterbox-in">
                             <label>جنسیت پزشک</label>
                             <div class="gender">
                                 <label><input type="checkbox" name="gender" checked> خانم</label>
                                 <label><input type="checkbox" name="gender"> آقا</label>
                             </div>
-                        </div>
+                        </div> -->
                         <button class="button">اعمال فیلترها</button>
                 </form>
             </div>

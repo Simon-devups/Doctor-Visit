@@ -84,12 +84,14 @@ app.get('/',async (req, res) => {
 app.get('/search', async (req, res) => {
     try {
         //search section 
-        const searchSTR = req.query.search || ""
+        const {workExperience ,spetialty,search,aptmStatus,city} = req.query || ""
+        // const searchSTR = req.query.search || ""
+        // const filter = req.params.filter || ""
         let Doctors = []
-        if(searchSTR.trim() === "") {
+        if(search.trim() === "") {
             Doctors = await queries.getDoctors()
         }else{
-            const stringList = searchSTR.split(" ")
+            const stringList = search.split(" ")
 
             for (const method of stringList) {
                 const fName = await queries.getDoctorByFirstName(method);
@@ -99,19 +101,30 @@ app.get('/search', async (req, res) => {
             }
         }
 
-        //filter section
-        const spetialty = await queries.getSpetialties()
+        let where = {}
+        if(workExperience){
+            
+        }
+        if(aptmStatus){}
+        if(spetialty){}
+        if(city){}
 
-        res.render("search.ejs",{doctors:Doctors , spti:spetialty})
+
+        //filter section
+        const spetialties = await queries.getSpetialties()
+
+        res.render("search.ejs",{doctors:Doctors , spti:spetialties})
     } catch (err) {
         res.render("FAQ.html")
     }
 })
 
+
 app.post('/search', async (req, res) => {
     try {
-        const search = req.body.search || ""
-        res.redirect(`/search?search=${encodeURIComponent(search)}`)
+        const {workExperience ,spetialty,search,aptmStatus,city} = req.body || ""
+
+        res.redirect(`/search?search=${encodeURIComponent(search)}&spetialty=${encodeURIComponent(spetialty)}&workExperience=${encodeURIComponent(workExperience)}`)
     } catch (err) {
         res.render("FAQ.html")
     }
