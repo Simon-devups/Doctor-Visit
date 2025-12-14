@@ -42,6 +42,7 @@ model doctors {
   spetialty_id Int
   workingHours  WorkingHours[]
   appointments  Appointments[]   @relation("DoctorAppointments")
+  description   doctor_descriptions[]
 }
 
 model spetialty{

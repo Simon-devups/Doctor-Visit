@@ -6,6 +6,11 @@ const getDoctors = async()=>{
     return result
 }
 
+const getSpecifiedDOctors = async()=>{
+    const result = await prisma.doctors.findMany({})
+    return result
+}
+
 const getDoctorById = async (doctorId)=>{
     const result = await prisma.doctors.findUnique({
         where:{id:doctorId}
@@ -15,14 +20,20 @@ const getDoctorById = async (doctorId)=>{
 
 const getDoctorBySpetialty = async(spetialty)=>{
     const result = await prisma.doctors.findMany({
-        where:{spetialty:spetialty}
+        where:{
+            spetialty:{spetialty:spetialty}
+        },
+        // include:{spetialty:true,doctorDesc:true},
     })
     return result
 }
 
 const getDoctorByFirstName = async(firstName)=>{
     const result = await prisma.doctors.findMany({
-        where:{first_name:firstName}
+        where:{first_name:firstName},
+        // include:{spetialty:true,
+        //     doctorDesc:true
+        // }
     })
     return result
 }
@@ -34,36 +45,15 @@ const getDoctorByLastName = async(lastName)=>{
     return result
 }
 
-
-const getSearchedDoctor = async (searchString)=>{
-
-    const searchedDoctors = []
-
-    const stringList = searchString.toLowerCase().split(" ")
-    stringList.forEach(async method=>{
-        const fName = await getDoctorByFirstName(method)
-        const lName = await getDoctorByLastName(method)
-        const spti = await getDoctorBySpetialty(method)
-
-        if(lName){
-            searchedDoctors.concat(lName)
-        }else if(spti){
-            searchedDoctors.concat(spti)
-        }else if( fName){
-            searchedDoctors.concat(fName)
-        }else{
-            return null
-        }
-        
-    })
-    return searchedDoctors
-    
+const getSpetialties = async ()=>{
+    const result = await prisma.spetialty.findMany()
+    return result
 }
 
 
 
 
 const queries = {getDoctors,getDoctorById,getDoctorBySpetialty,
-    getDoctorByFirstName,getDoctorByLastName,getSearchedDoctor}
+    getDoctorByFirstName,getDoctorByLastName,getSpetialties}
 
 export default queries;

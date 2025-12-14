@@ -69,6 +69,9 @@ app.use((req, res, next) => {
 app.get('/',async (req, res) => {
 
     try {
+        // const d = await queries.getDoctorBySpetialty("چشم پزشک")
+        // console.log(d)
+
         const allDoctors = await queries.getDoctors()
         
         res.render("landing.ejs",{doctor:allDoctors[0]})
@@ -80,7 +83,48 @@ app.get('/',async (req, res) => {
 //search page
 app.get('/search', async (req, res) => {
     try {
-        res.render("search.ejs")
+        //search section 
+        const {workExperience ,spetialty,search,aptmStatus,city} = req.query || ""
+        // const searchSTR = req.query.search || ""
+        // const filter = req.params.filter || ""
+        let Doctors = []
+        if(search.trim() === "") {
+            Doctors = await queries.getDoctors()
+        }else{
+            const stringList = search.split(" ")
+
+            for (const method of stringList) {
+                const fName = await queries.getDoctorByFirstName(method);
+                const lName = await queries.getDoctorByLastName(method);
+                const spti = await queries.getDoctorBySpetialty(method);
+                Doctors = Doctors.concat(fName, lName, spti);
+            }
+        }
+
+        let where = {}
+        if(workExperience){
+            
+        }
+        if(aptmStatus){}
+        if(spetialty){}
+        if(city){}
+
+
+        //filter section
+        const spetialties = await queries.getSpetialties()
+
+        res.render("search.ejs",{doctors:Doctors , spti:spetialties})
+    } catch (err) {
+        res.render("FAQ.html")
+    }
+})
+
+
+app.post('/search', async (req, res) => {
+    try {
+        const {workExperience ,spetialty,search,aptmStatus,city} = req.body || ""
+
+        res.redirect(`/search?search=${encodeURIComponent(search)}&spetialty=${encodeURIComponent(spetialty)}&workExperience=${encodeURIComponent(workExperience)}`)
     } catch (err) {
         res.render("FAQ.html")
     }
@@ -107,8 +151,8 @@ app.get('/code', (req, res) => {
 
 
 //choosing doctor
-app.get('/flow/:id', (req, res) => {
-    const id = parseInt(req.params.id)
+app.get('/flow', (req, res) => {
+    // const id = parseInt(req.params.id)
     try {
         res.render("flow.ejs")
     } catch (err) {
