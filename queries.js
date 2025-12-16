@@ -6,9 +6,17 @@ const getDoctors = async()=>{
     return result
 }
 
-const getSpecifiedDOctors = async()=>{
-    const result = await prisma.doctors.findMany({})
+const getSpecifiedDoctors = async(where)=>{
+    const result = await prisma.doctors.findMany({where:where})
     return result
+}
+
+const getCities = async()=>{
+    const cities = await prisma.doctor_descriptions.findMany(
+        // select:{
+        //     city:true
+        // }}
+)
 }
 
 const getDoctorById = async (doctorId)=>{
@@ -54,6 +62,8 @@ const getSpetialties = async ()=>{
 
 
 const queries = {getDoctors,getDoctorById,getDoctorBySpetialty,
-    getDoctorByFirstName,getDoctorByLastName,getSpetialties}
+    getDoctorByFirstName,getDoctorByLastName,getSpetialties,getSpecifiedDoctors,
+    getCities,
+}
 
 export default queries;

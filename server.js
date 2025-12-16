@@ -85,36 +85,57 @@ app.get('/search', async (req, res) => {
     try {
         //search section 
         const {workExperience ,spetialty,search,aptmStatus,city} = req.query || ""
-        // const searchSTR = req.query.search || ""
+        // const search = req.query.search || ""
         // const filter = req.params.filter || ""
-        let Doctors = []
-        if(search.trim() === "") {
-            Doctors = await queries.getDoctors()
-        }else{
-            const stringList = search.split(" ")
+        // let Doctors = []
+        // if(search.trim() === "") {
+        //     Doctors = await queries.getDoctors()
+        // }else{
+        //     const stringList = search.split(" ")
 
-            for (const method of stringList) {
-                const fName = await queries.getDoctorByFirstName(method);
-                const lName = await queries.getDoctorByLastName(method);
-                const spti = await queries.getDoctorBySpetialty(method);
-                Doctors = Doctors.concat(fName, lName, spti);
-            }
-        }
+        //     for (const method of stringList) {
+        //         const fName = await queries.getDoctorByFirstName(method);
+        //         const lName = await queries.getDoctorByLastName(method);
+        //         const spti = await queries.getDoctorBySpetialty(method);
+        //         Doctors = Doctors.concat(fName, lName, spti);
+        //     }
+        // }
 
         let where = {}
-        if(workExperience){
-            
-        }
-        if(aptmStatus){}
-        if(spetialty){}
-        if(city){}
+        if(search){
+            const parts = search.split(" ");
 
+            where.AND = parts.map(p => ({
+                OR: [
+                    { first_name: { contains: p, mode: "insensitive" } },
+                    { last_name: { contains: p, mode: "insensitive" } },
+                    { spetialty: {
+                        is:{
+                            spetialty: { contains: p, mode: "insensitive" }
+                        }
+                    }}
+                ]
+            }));
+        }
+        if(spetialty){
+            where.spetialty = spetialty
+        }
+        if(city){
+            where.city = city
+        }
+        const citiess = await queries.getCities()
+        console.log(citiess)
+
+        // const Doctors = await queries.getSpecifiedDoctors(where)
+        const Doctors = []
+        const cities = []
 
         //filter section
         const spetialties = await queries.getSpetialties()
 
-        res.render("search.ejs",{doctors:Doctors , spti:spetialties})
+        res.render("search.ejs",{doctors:Doctors , spti:spetialties , cities:cities})
     } catch (err) {
+        console.log(err)
         res.render("FAQ.html")
     }
 })

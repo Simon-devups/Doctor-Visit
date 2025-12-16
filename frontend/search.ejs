@@ -102,7 +102,7 @@
                                 <option>بیمه مورد نظر را انتخاب کنید</option>
                             </select>
                         </div> -->
-                        <hr>
+                        <!-- <hr>
                         <div class="filterbox-in">
                             <label>تجربه کاری</label>
                             <select name="workExperience">
@@ -112,20 +112,21 @@
                         <hr>
                         <div class="filterbox-in">
                             <label>وضعیت نوبت دهی</label>
-                            <!-- <select>
-                                <option>وضعیت مورد نظر را انتخاب کنید</option>
-                            </select> -->
+                            
                             <div class="checkbox-group">
                                 <label><input type="checkbox" name="aptmStatus" checked> پزشکان دارای نوبت خالی</label>
                                 <label><input type="checkbox" name="aptmStatus"> امکان ویزیت آنلاین</label>
                                 <label><input type="checkbox" name="aptmStatus" checked> امکان نوبت حضوری</label>
                             </div>
-                        </div>
+                        </div> -->
                         <hr>
                         <div class="filterbox-in">
                             <label>شهر</label>
                             <select name="city">
                                 <option>انتخاب شهر</option>
+                                <%cities.forEach(city=>{%>
+                                    <option value="<%=city%>"><%=city%></option>
+                                <%})%>
                             </select>
                             <div class="checkbox-group">
                                 <label><input type="checkbox" name="city"> تهران</label>
@@ -134,7 +135,7 @@
                                 <label><input type="checkbox" name="city"> تبریز</label>
                             </div>
                         </div>
-                        <hr>
+                        <hr> 
                         <!-- <div class="filterbox-in">
                             <label>جنسیت پزشک</label>
                             <div class="gender">

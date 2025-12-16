@@ -40,6 +40,7 @@ model doctors {
   last_name    String
   spetialty    spetialty   @relation(fields:[spetialty_id] , references:[id])
   spetialty_id Int
+  image_url    String
   workingHours  WorkingHours[]
   appointments  Appointments[]   @relation("DoctorAppointments")
   description   doctor_descriptions[]
@@ -47,7 +48,7 @@ model doctors {
 
 model spetialty{
   id   Int     @id @default(autoincrement())
-  spetialty   String
+  spetialty   String  @unique
   doctors doctors[]
 }
 
@@ -82,7 +83,9 @@ model Appointments {
 model doctor_descriptions {
   id          Int     @id @default(autoincrement())
   doctorId    Int
+  doctor      doctors @relation(fields: [doctorId], references: [id]) 
   description String
+  city        String
   Addres      String
   code        String
 }
