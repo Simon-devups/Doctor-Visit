@@ -22,8 +22,8 @@
                 <div class="search">
                     <img src="images\elements.png">
                     <form id="search-form" action="/search" method="POST">
-                        <input type="text" name="search" placeholder="پزشک یا تخصص مورد نظر خود را جستجو کنید" />
-                        <button id="submit" type="submit"> جستجو </button>
+                        <input type="text" name="search" placeholder="پزشک یا تخصص مورد نظر را جستجو کنید " />
+                        <!-- <button id="submit" type="submit"> جستجو </button> -->
                     </form>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                     <%doctors.forEach(doctor=>{%>
                         <div class="sectionone-in">
                             <div class="angry-grid">
-                                <div id="item-0"><img src="images\Picture.png"></div>
+                                <div id="item-0"><img src="images\<%=doctor.image_url%>"></div>
                                 <div id="item-1">
                                     <a class="btn1">پشتیبانی</a>
                                     <a class="btn2">رزرو نوبت</a>
@@ -42,7 +42,7 @@
                                 <div id="item-2">
                                     <div class="doctor-row">
                                         <div class="doctor-code">
-                                            <span>کد نظام پزشکی: <%=doctor.code%></span>
+                                            <span>کد نظام پزشکی: <%=doctor.description[0].code%></span>
                                             <img src="images\Vector.png" class="check-icon" alt="check">
                                         </div>
                                         <div class="doctor-name">
@@ -52,7 +52,7 @@
                                     </div>
                                     <div class="doctor-info">
                                         <p class="doctor-specialty">
-                                            <%=doctor.spetialty%>
+                                            <%=doctor.spetialty.spetialty%>
                                         </p>
                                         <div class="rating">
                                             <span class="rate-number">(۱۵۰ نظر)</span>
@@ -62,7 +62,7 @@
                                 </div>
                                 <div id="item-3">
                                     <div class="address">
-                                        <%=doctor.Addres%>
+                                        <%=doctor.description[0].Addres%>
                                             <img src="images\map-pinpoint-02.png">
                                     </div>
                                     <div class="time">
@@ -89,9 +89,9 @@
                         <div class="filterbox-in">
                             <label>تخصص ها</label>
                             <select name="spetialty">
-                                <option>تخصص مورد نظر را انتخاب کنید</option>
+                                <option value="">تخصص مورد نظر را انتخاب کنید</option>
                                 <%spti.forEach(option=>{%>
-                                    <option><%=option.spetialty%></option>
+                                    <option value="<%=option.spetialty%>"><%=option.spetialty%></option>
                                 <%})%>
                             </select>
                         </div>
@@ -123,9 +123,9 @@
                         <div class="filterbox-in">
                             <label>شهر</label>
                             <select name="city">
-                                <option>انتخاب شهر</option>
+                                <option value="">انتخاب شهر</option>
                                 <%cities.forEach(city=>{%>
-                                    <option value="<%=city%>"><%=city%></option>
+                                    <option value="<%=city.city%>"><%=city.city%></option>
                                 <%})%>
                             </select>
                             <div class="checkbox-group">
@@ -152,16 +152,86 @@
         <%- include('partials/footer') %>
 
 </body>
-<script>
-    // جلوگیری از انباشته شدن تاریخچه هنگام سرچ
-    document.getElementById("search-form").addEventListener("submit", (e) => {
-        const qValue = document.getElementById("search-input").value;
-        const params = new URLSearchParams(window.location.search);
-        params.set("search", qValue);
+<script defer>
+  const thumbsCont = document.getElementById('item-1');
+  const Up = document.getElementById('yesBtn');
+  const Down = document.getElementById('noBtn');
 
-        // URL را بدون ایجاد تاریخچه جدید به‌روزرسانی می‌کند
-        history.replaceState({}, "", `?${params.toString()}`);
-    });
+  thumbsCont.addEventListener('click' , (e)=>{
+    if(e.target.closest('#yesBtn')){
+      Up.firstElementChild.src='recourses/vectors/thumbs-up[accent].svg'
+      Down.firstElementChild.src='recourses/vectors/thumbs-down[grey].svg'
+      Up.style = 'transition:all 0.2s ease ; color: var(--accent);border-color: var(--accent)'
+      Down.style = ''
+    }
+    if(e.target.closest('#noBtn')){
+      Up.firstElementChild.src='recourses/vectors/thumbs-up[grey].svg'
+      Down.firstElementChild.src='recourses/vectors/thumbs-down[accent].svg'
+      Down.style = 'transition:all 0.2s ease ;color: var(--accent);border-color: var(--accent)'
+      Up.style = ''
+    }
+  })
+
+  // ============================================
+        // Normalization helpers (Persian/Arabic character normalization)
+        // ============================================
+        function normalizePersian(input) {
+            if (!input && input !== 0) return '';
+            return String(input)
+                .replace(/\u200C/g, '')          // remove zero-width non-joiner
+                .replace(/[\u064B-\u0652]/g, '') // remove Arabic diacritics if any
+                .replace(/ي/g, 'ی')               // Arabic Yeh -> Persian Yeh
+                .replace(/ك/g, 'ک')               // Arabic Kaf -> Persian Kaf
+                .replace(/[أإآ]/g, 'ا')           // different Alef forms
+                .replace(/ؤ/g, 'و')
+                .replace(/ئ/g, 'ی')
+                .replace(/ھ/g, 'ه')
+                .replace(/\s+/g, ' ')            // collapse whitespace
+                .trim()
+                .toLowerCase();
+        }
+
+        // ============================================
+        // RENDER DOCTORS
+        // ============================================
+        // function renderDoctors(doctorsToShow) {
+        //     const doctorContainer = document.getElementById('doctorsList');
+        //     doctorContainer.innerHTML = '';
+
+        //     if (!doctorsToShow  doctorsToShow.length === 0) {
+        //         doctorContainer.innerHTML = `
+        //             <div style="padding: 40px; text-align: center; color: #666; font-size: 18px;">
+        //                 ⚠️ پزشکی با این مشخصات یافت نشد
+        //             </div>
+        //         `;
+        //         return;
+        //     }}
+        // function initializeSearchHandlers() {
+        //     const searchBtn = document.getElementById('searchBtn');
+        //     const mainInput = document.getElementById('mainSearchInput');
+
+        //     // clicking magnifier triggers full filter+search
+        //     if (searchBtn) {
+        //         searchBtn.addEventListener('click', function() {
+        //             console.log('Magnifier clicked — running search');
+        //             applyAllFilters();
+        //         });
+        //     }
+
+        //     // pressing Enter inside main input will trigger search too
+        //     if (mainInput) {
+        //         mainInput.addEventListener('keydown', function(e) {
+        //             if (e.key === 'Enter') {
+        //                 e.preventDefault();
+        //                 console.log('Enter pressed — running search');
+        //                 applyAllFilters();
+        //             }
+        //         });
+        //     }
+
+        //     // IMPORTANT: do NOT search on every keystroke — that was the request
+        // }
+
 </script>
 
 </html>

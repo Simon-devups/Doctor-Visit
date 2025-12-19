@@ -8,26 +8,19 @@
 </head>
 <body>
     <header class="site-header">
-        <%if(user){%>
-        <div class="profile" >      
-            <div class="name">فاطمه طيبی</div>
-            <div class="avatar" >
-                <img src="images\header profile.jpg">
-            </div>
+        <div class="login" >      
+            <a>ورود | ثبت نام</a>
         </div>
-        <%}else{%>
-            <a href="/login">ورود / ثبت نام</a>
-        <%}%>
-        <div class="links"> 
-            <a href="/aboutus">درباره ما</a>        
-            <a href="/questions">سوالات متداول</a>                
-            <a href="/search">لیست پزشکان</a>
-            <a href="/">صفحه اصلی</a>
+        <div class="links">
+            <a href="">تماس با ما</a>        
+            <a href="">درباره ما</a>        
+            <a href="">سوالات متداول</a>                
+            <a href="">لیست پزشکان</a>
         </div>
-        <a class="logo" href="/">
+        <div class="logo">
             <span class="logo-text"><span style="color: rgb(0, 0, 0);">دکتر </span>رزرو </span>
-            <img src="images\logo.png">
-        </a>
+            <img src="/images/logo.png">
+        </div>
     </header>
 </body>
 </html>

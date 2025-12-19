@@ -2,26 +2,61 @@ import prisma from "./prismaClient.js"
 
 //
 const getDoctors = async()=>{
-    const result = await prisma.doctors.findMany()
+    const result = await prisma.doctors.findMany({
+        include:{
+            spetialty:true,
+            description:true
+        }
+    });
     return result
 }
 
 const getSpecifiedDoctors = async(where)=>{
-    const result = await prisma.doctors.findMany({where:where})
+    const doctors = await prisma.doctors.findMany({
+      where,
+      include: {
+        spetialty: true,
+        description: true
+      }
+    });
+    return doctors
+}
+
+const getTopDoctors = async()=>{
+    const result = await prisma.doctors.findMany({
+        orderBy:{
+            totalReservs:'desc'
+        },
+        include:{
+            spetialty:true,
+            description:true
+        },
+        take:4
+    })
     return result
 }
 
-const getCities = async()=>{
-    const cities = await prisma.doctor_descriptions.findMany(
-        // select:{
-        //     city:true
-        // }}
-)
+const getOldDoctors = async()=>{
+    const result = await prisma.doctors.findMany({
+        orderBy:{
+            createdAt:'desc'
+        },
+        include:{
+            spetialty:true,
+            description:true
+        },
+        take:4
+    })
+    return result
 }
 
 const getDoctorById = async (doctorId)=>{
     const result = await prisma.doctors.findUnique({
-        where:{id:doctorId}
+        where:{id:doctorId},
+        include:{
+            spetialty:true,
+            description:true
+        }
     })
     return result
 }
@@ -58,12 +93,21 @@ const getSpetialties = async ()=>{
     return result
 }
 
+const getCities = async()=>{
+    const cities = await prisma.doctor_descriptions.findMany({
+        select:{
+            city:true
+        }}
+    )
+    return cities
+}
+
 
 
 
 const queries = {getDoctors,getDoctorById,getDoctorBySpetialty,
     getDoctorByFirstName,getDoctorByLastName,getSpetialties,getSpecifiedDoctors,
-    getCities,
+    getCities,getTopDoctors,getOldDoctors,
 }
 
 export default queries;

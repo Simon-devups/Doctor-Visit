@@ -105,7 +105,7 @@
 
     <div class="breadcrumb-section">
         <span class="breadcrumb-title">صفحه پزشک</span>
-        <img src="recourses/vectors/right-icon-circle.svg" alt="آیکن">
+        <img src="/recourses/vectors/right-icon-circle.svg" alt="آیکن">
     </div>
     <main class="main">
         <div class="left-m">
@@ -196,7 +196,7 @@
                 </div>
 
                 <div class="pc-actions">
-                    <a class="pc-reserve" href="/flow2">رزرو نوبت</a>
+                    <a class="pc-reserve" href="/flow2/<%=doctor.id%>">رزرو نوبت</a>
                 </div>
             </section>
 
@@ -206,25 +206,25 @@
                 <div class="doctor-bio">
                     <div class="doctor-code">
                         <span class="doctor-code-text" style="align-items: center; justify-content: center;">
-                            <span><span class="code-label">کد نظام پزشکی: </span><span class="code-value">۴۰۲۲۳</span></span>
+                            <span><span class="code-label">کد نظام پزشکی: </span><span class="code-value"><%=doctor.description[0].code%></span></span>
                             <img style="height: 1.4rem; " src="/recourses/vectors/CheckCircle.svg" alt="تایید">
                         </span>
                     </div>
                     <div class="left-lables">
-                        <div class="title">دکتر زهرا وارسته</div>
+                        <div class="title"><%=doctor.first_name%> <%=doctor.last_name%></div>
                         <div class="doctor-specialty">متخصص قلب و عروق</div>
                         <div class="doctor-comments-count">(۱۰۵ نظر)</div>
                     </div>
-                    <div class="flow-img"><img src="./recourses/Picture.png" alt="تصویر دکتر زهرا وارسته" loading="lazy"></div>
+                    <div class="flow-img"><img src="/images/<%=doctor.image_url%>" alt="تصویر دکتر زهرا وارسته" loading="lazy"></div>
                 </div>
                 <div class="clinic-address">
-                    آدرس مطب: تهران، ستارخان، خیابان هفتم، پلاک ۴۰
-                    <img src="./recourses/vectors/map-pinpoint-02.svg" alt="آیکن موقعیت">
+                    <%=doctor.description[0].Addres%>
+                    <img src="/recourses/vectors/map-pinpoint-02.svg" alt="آیکن موقعیت">
                 </div>
                 <div class="appointment-info">
                     <div class="appointment-day">دوشنبه ۲۴ دی</div>
                     <span class="appointment-text">: اولین نوبت در دسترس</span>
-                    <img src="./recourses/vectors/alarm-clock.svg" alt="آیکن ساعت">
+                    <img src="/recourses/vectors/alarm-clock.svg" alt="آیکن ساعت">
                 </div>
                 <hr style="margin-top: 0.5rem;">
                 <!-- replace original about block with this -->
@@ -234,19 +234,12 @@
                     <!-- collapsed wrapper (short visible area) -->
                     <div class="bio-collapse" aria-hidden="true">
                         <p class="bio-text">
-                            دارای بورد تخصصی بیماری های نوزادان و کودکان درمان
-                            اختلالات گوارشی و الرژیک نوزادان و کودکان اختلالات رشد و نمو نوزادان و کودکان اختلال رشد و
-                            بلوغ
-                            نوجواناندر مطب سونوگرافی شکم، تست حساسیت به کازیین شیر، تست حساسیت به لاکتوز شیر، تست تنفسی
-                            (
-                            اسپیرومتری )، حضور دستیار کارشناس ارشد مشاور کودکان و نوجوانان جهت راهنمایی های تکمیلی و
-                            پاسخدهی
-                            به پرسش های مراجعین انجام می شودسابقه فعالیت بیش از 20
+                            <%=doctor.description[0].description%>
                         </p>
                     </div>
 
                     <!-- red circular button -->
-                    <button class="expand-btn" aria-expanded="false" aria-label="نمایش بیشتر"><img src="./recourses/vectors/Vector (Stroke).svg" alt=""></button>
+                    <button class="expand-btn" aria-expanded="false" aria-label="نمایش بیشتر"><img src="/recourses/vectors/Vector (Stroke).svg" alt=""></button>
                 </div>
 
             </div>
@@ -275,9 +268,9 @@
                 <span>90%</span>
                 <img src="/recourses/vectors/thumbs-up.svg" style="max-height: 1.4rem;" alt="آیکن تأیید">
             </div>
-            <button class="sabte-nazar">
+            <a href="/comment/<%=doctor.id%>" class="sabte-nazar">
                 <img src="/recourses/vectors/comment add-01.svg" alt="">ثبت نظر
-            </button>
+            </a>
         </div>
 
         <div class="N2-comments">

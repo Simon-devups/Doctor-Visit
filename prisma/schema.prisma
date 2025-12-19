@@ -38,12 +38,19 @@ model doctors {
   id           Int     @id @default(autoincrement())
   first_name   String
   last_name    String
+
   spetialty    spetialty   @relation(fields:[spetialty_id] , references:[id])
   spetialty_id Int
+
   image_url    String
+
+  totalReservs Int
+
   workingHours  WorkingHours[]
   appointments  Appointments[]   @relation("DoctorAppointments")
   description   doctor_descriptions[]
+
+  createdAt     DateTime @default(now())
 }
 
 model spetialty{
@@ -56,10 +63,10 @@ model WorkingHours{
   id         Int     @id @default(autoincrement())
   doctor      doctors   @relation(fields: [doctorId], references: [id])
   doctorId    Int
+
   weekday    Int
   start_time  String
   end_time  String
-  appointment_time  String
 }
 
 model Appointments {
@@ -71,10 +78,8 @@ model Appointments {
   patientId  Int
 
   date       DateTime
-  startTime  String
-  endTime    String
 
-  status     AppointmentStatus @default(RESERVED)
+  status     AppointmentStatus @default(CONFIRMED)
 
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -88,6 +93,7 @@ model doctor_descriptions {
   city        String
   Addres      String
   code        String
+  insurance   String
 }
 
 model doctor_contacts{
@@ -120,24 +126,14 @@ model score{
 }
 
 
-// مدل مربوط به سشن 
-// model Session {
-//   id        String   @id            // همان Session Token
-//   user      Users     @relation(fields: [userId], references: [id])
-//   userId    Int
-//   expiresAt DateTime // تاریخ انقضا
-//   createdAt DateTime @default(now())
-// }
-
-
 enum Role {
   DOCTOR
   PATIENT
 }
 
 enum AppointmentStatus {
-  RESERVED
+  CONFIRMED
   PENDING
   CANCELED
-  COMPLETED
+  DONE
 }
