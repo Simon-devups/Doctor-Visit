@@ -69,12 +69,11 @@ app.use((req, res, next) => {
 app.get('/',async (req, res) => {
 
     try {
-        // const d = await queries.getDoctorBySpetialty("چشم پزشک")
-        // console.log(d)
-
-        const allDoctors = await queries.getDoctors()
+        const topDoctors = await queries.getTopDoctors()
         
-        res.render("landing.ejs",{doctor:allDoctors[0]})
+        const oldDoctor = await queries.getOldDoctors()
+        
+        res.render("landing.ejs",{topDoctors:topDoctors,oldDoctors:oldDoctor})
     } catch (err) {
         res.render("FAQ.ejs")
     }
@@ -85,36 +84,52 @@ app.get('/search', async (req, res) => {
     try {
         //search section 
         const {workExperience ,spetialty,search,aptmStatus,city} = req.query || ""
-        // const searchSTR = req.query.search || ""
-        // const filter = req.params.filter || ""
-        let Doctors = []
-        if(search.trim() === "") {
-            Doctors = await queries.getDoctors()
-        }else{
-            const stringList = search.split(" ")
+        
+        const andConditions = [];
 
-            for (const method of stringList) {
-                const fName = await queries.getDoctorByFirstName(method);
-                const lName = await queries.getDoctorByLastName(method);
-                const spti = await queries.getDoctorBySpetialty(method);
-                Doctors = Doctors.concat(fName, lName, spti);
-            }
+        // filter and search section : create conditions with req.query
+        if (search && search.trim() !== "") {
+        const parts = search.trim().split(/\s+/);
+        andConditions.push(
+            ...parts.map(p => ({
+            OR: [
+                { first_name: { contains: p, mode: "insensitive" } },
+                { last_name: { contains: p, mode: "insensitive" } },
+                { spetialty: { is: { spetialty: { contains: p, mode: "insensitive" } } } },
+                { description: { some: { description: { contains: p, mode: "insensitive" } } } },
+                { description: { some: { city: { contains: p, mode: "insensitive" } } } },
+                { description: { some: { Addres: { contains: p, mode: "insensitive" } } } }
+            ]
+            }))
+        );
         }
 
-        let where = {}
-        if(workExperience){
-            
+        if (spetialty && spetialty.trim()!=="") {
+        andConditions.push({
+            spetialty: { is: { spetialty: spetialty } }
+        });
         }
-        if(aptmStatus){}
-        if(spetialty){}
-        if(city){}
 
+        if (city && city.trim()!=="") {
+            andConditions.push({
+                description: { some: { city: city } }
+            });
+        }
 
-        //filter section
+    
+        const where = andConditions.length > 0 ? { AND: andConditions } : {};
+
+        //---------------------------------------=>
+        const cities = await queries.getCities()
+
+        const Doctors = await queries.getSpecifiedDoctors(where)
+
+        // get spetcialies for filter section 
         const spetialties = await queries.getSpetialties()
 
-        res.render("search.ejs",{doctors:Doctors , spti:spetialties})
+        res.render("search.ejs",{doctors:Doctors , spti:spetialties , cities:cities})
     } catch (err) {
+        console.log(err)
         res.render("FAQ.html")
     }
 })
@@ -124,7 +139,13 @@ app.post('/search', async (req, res) => {
     try {
         const {workExperience ,spetialty,search,aptmStatus,city} = req.body || ""
 
-        res.redirect(`/search?search=${encodeURIComponent(search)}&spetialty=${encodeURIComponent(spetialty)}&workExperience=${encodeURIComponent(workExperience)}`)
+        const queryParams = new URLSearchParams();
+        if (search) queryParams.set("search", search);
+        if (spetialty) queryParams.set("spetialty", spetialty);
+        if (workExperience) queryParams.set("workExperience", workExperience);
+        if (city) queryParams.set("city", city);
+
+        res.redirect(`/search?${queryParams.toString()}`);
     } catch (err) {
         res.render("FAQ.html")
     }
@@ -151,10 +172,11 @@ app.get('/code', (req, res) => {
 
 
 //choosing doctor
-app.get('/flow', (req, res) => {
-    // const id = parseInt(req.params.id)
+app.get('/flow/:id', async (req, res) => {
+    const id = parseInt(req.params.id)
     try {
-        res.render("flow.ejs")
+        const specifiedDoctor = await queries.getDoctorById(id)
+        res.render("flow.ejs" , {doctor : specifiedDoctor})
     } catch (err) {
         res.render("FAQ.html")
     }
@@ -202,6 +224,13 @@ app.get('/userprofile', (req, res) => {
     } catch (err) {
         res.render("FAQ.html")
     }
+})
+
+app.get('/comment/:id',async(req,res)=>{
+    const id = parseInt(req.params.id)
+    try{
+        res.render('comment.ejs')
+    }catch(err){}
 })
 
 

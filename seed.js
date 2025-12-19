@@ -14,6 +14,12 @@ async function main() {
     {
       spetialty: 'متخصص ارتودنسی',
     },
+    {
+      spetialty: 'ارتوپد',
+    },
+    {
+      spetialty: 'قلب و عروق',
+    },
     ]
   });
 
@@ -22,20 +28,28 @@ async function main() {
       first_name: 'نیما',
       last_name: 'شمشیری',
       spetialty_id: 1,
+      image_url:'image (1).png',
+      totalReservs:1
     },
     {
       first_name: 'فریار',
       last_name: 'انصاری',
       spetialty_id: 3,
+      image_url:'image.png',
+      totalReservs:4
     },{
       first_name: 'سجاد ',
       last_name: 'پیغمبردوست',
       spetialty_id: 2,
+      image_url:'3.png',
+      totalReservs:2
     },
     {
       first_name: 'آرین',
       last_name: 'شفیع راد',
       spetialty_id: 2,
+      image_url:'2.png',
+      totalReservs:4
     },
   ]
   });
@@ -46,22 +60,30 @@ async function main() {
       doctorId: 1,
       description: 'پزشک با تجربه در این حوضه',
       Addres: 'تبریز - آبرسان - چهارراه آبرسان',
+      city:'تبریز',
       code: 'DOC001',
+      insurance:'معلم'
     },{
       doctorId: 2,
       description: 'پزشک با تجربه در این حوضه',
-      Addres: 'تبریز - آبرسان - چهارراه آبرسان',
+      Addres: 'تهران - آبرسان - چهارراه آبرسان',
+      city:'تهران',
       code: 'DOC001',
+      insurance:'تامین اجتماعی'
     },{
       doctorId: 3,
       description: 'پزشک با تجربه در این حوضه',
-      Addres: 'تبریز - آبرسان - چهارراه آبرسان',
+      Addres: 'اصفهان - آبرسان - چهارراه آبرسان',
+      city:'اصفهان',
       code: 'DOC001',
+      insurance:'تامین اجتماعی'
     },{
       doctorId: 4,
       description: 'پزشک با تجربه در این حوضه',
       Addres: 'تبریز - آبرسان - چهارراه آبرسان',
+      city:'تبریز',
       code: 'DOC001',
+      insurance:'معلم'
     },
     ]
   });
@@ -72,26 +94,26 @@ async function main() {
       {
       doctorId: 1,
       phone: '09120000000',
-      instagram: '@dr.ahmadi',
-      web: 'www.dr-ahmadi.com',
+      instagram: '@dr.nima',
+      web: 'www.dr-shamshiri.com',
       web2: '',
     },{
       doctorId: 2,
       phone: '09120000000',
-      instagram: '@dr.ahmadi',
-      web: 'www.dr-ahmadi.com',
+      instagram: '@dr.fariar',
+      web: 'www.dr-ansari.com',
       web2: '',
     },{
       doctorId: 3,
       phone: '09120000000',
-      instagram: '@dr.ahmadi',
-      web: 'www.dr-ahmadi.com',
+      instagram: '@dr.sajjad',
+      web: 'www.dr-sajjadpd.com',
       web2: '',
     },{
       doctorId: 4,
       phone: '09120000000',
-      instagram: '@dr.ahmadi',
-      web: 'www.dr-ahmadi.com',
+      instagram: '@dr.arian',
+      web: 'www.dr-shafirad.com',
       web2: '',
     },
     ]
@@ -104,13 +126,13 @@ async function main() {
       price: '500000',
     },{
       doctor_id: 2,
-      price: '500000',
+      price: '350000',
     },{
       doctor_id: 3,
-      price: '500000',
+      price: '300000',
     },{
       doctor_id: 4,
-      price: '500000',
+      price: '400000',
     },
     ]
   });
@@ -125,14 +147,79 @@ async function main() {
     },
   });
 
+  const schedule = await prisma.workingHours.createMany({
+    data: [
+      {
+        doctorId: 1,
+        weekday: 6, // Saturday
+        start_time: "09:00",
+        end_time: "15:00",
+      },
+      {
+        doctorId: 1,
+        weekday: 0, // Sunday
+        start_time: "09:00",
+        end_time: "17:00",
+      },
+      {
+        doctorId: 1,
+        weekday: 1, // Monday
+        start_time: "10:00",
+        end_time: "17:00",
+      },
+      {
+        doctorId: 1,
+        weekday: 2, // Tuesday
+        start_time: "09:00",
+        end_time: "17:00",
+      },
+      {
+        doctorId: 1,
+        weekday: 3, // Wednesday
+        start_time: "09:00",
+        end_time: "17:00",
+      },
+      // doctor 2
+      {
+        doctorId: 2,
+        weekday: 6, // Saturday
+        start_time: "09:00",
+        end_time: "15:00",
+      },
+      {
+        doctorId: 2,
+        weekday: 0, // Sunday
+        start_time: "09:00",
+        end_time: "17:00",
+      },
+      {
+        doctorId: 2,
+        weekday: 1, // Monday
+        start_time: "10:00",
+        end_time: "14:00",
+      },
+      {
+        doctorId: 2,
+        weekday: 2, // Tuesday
+        start_time: "09:00",
+        end_time: "17:00",
+      },
+      {
+        doctorId: 2,
+        weekday: 3, // Wednesday
+        start_time: "09:00",
+        end_time: "17:00",
+      },
+
+    ],
+  });
+
   const appointment = await prisma.appointments.create({
     data: {
       doctorId: 1,
       patientId: user.user_id,
       date: new Date('2025-11-25T10:00:00.000Z'),
-      startTime: '10:00',
-      endTime: '10:30',
-      status: 'RESERVED',
+      status: 'CONFIRMED',
     },
   });
 

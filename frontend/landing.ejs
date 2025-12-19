@@ -70,31 +70,31 @@
                 <div class="label2">لیست تخصص ها </div>
             </div>
             <div class="takhassosha">
-                <a class="takhassos1">
+                <a href="#" onclick="go('گوش حلق بینی')" class="takhassos1">
                     <img src="images\dental.png" />
                     <h1>گوش حلق بینی</h1>
                 </a>
-                <a class="takhassos2">
+                <a href="#" onclick="go('اطفال')" class="takhassos2">
                     <img src="images\pediartic.png" />
                     <h1>اطفال</h1>                   
                 </a>
-                <a class="takhassos3">
+                <a href="#" onclick="go('چشم پزشک')" class="takhassos3">
                     <img src="images\eye.png" />
                     <h1>چشم پزشکی</h1>                   
                 </a>
-                <a class="takhassos4">
+                <a href="#" onclick="go('دستگاه تنفسی')" class="takhassos4">
                     <img src="images\pulmonology 1.png" />
                     <h1>دستگاه تنفسی</h1>                   
                 </a>
-                <a class="takhassos5">
+                <a href="#" onclick="go('مغز و اعصاب')" class="takhassos5">
                     <img src="images\brain.png" />
                     <h1>مغز و اعصاب</h1>                  
                 </a>
-                <a class="takhassos6">
+                <a href="#" onclick="go('ارتوپد')" class="takhassos6">
                     <img src="images\orthopedics 1.png" />
                     <h1>ارتوپد</h1>                   
                 </a>
-                <a class="takhassos7">
+                <a href="#" onclick="go('قلب و عروق')" class="takhassos7">
                     <img src="images\heart.png" />
                     <h1>قلب و عروق</h1>                   
                 </a>
@@ -104,51 +104,24 @@
     <section class="section5">
         <div class="section5-in">
             <div class="label-pezeshk">
-                <div class="label1">مشاهده همه</div>
+                <div class="label1"><a href="/search">مشاهده همه</a></div>
                 <div class="label2">محبوب ترین پزشکان <span>( بر اساس تعداد نوبت‌های رزرو شده )</span></div>
             </div>
             <div class="pezeshkha">
-                <div class="pezeshk1">
-                    <div class="pezeshk-img">
-                        <img src="images\Image.png" />  
-                    </div> 
-                    <div class="pezeshk-text1"  ><span></span>  <%= doctor.first_name %>    <%= doctor.last_name %></div>
-                    <div class="pezeshk-text2" >متخصص ریه                             📍 تهران</div>                    
-                    <div class="pezeshk-btn">                 
-                        <a class="pezeshk-nobat" href="/flow/<%=doctor.id%>">دریافت نوبت</a>
-                    </div>                    
+                <%topDoctors.forEach(doctor=>{%>
+                    <div class="pezeshk1">
+                        <div class="pezeshk-img">
+                            <img src="images\<%=doctor.image_url%>" />  
+                        </div> 
+                        <div class="pezeshk-text1"  ><span></span>  <%= doctor.first_name %>    <%= doctor.last_name %></div>
+                        <div class="pezeshk-text2" > <%=doctor.spetialty.spetialty%>                             📍 <%=doctor.description[0].city%></div>                    
+                        <div class="pezeshk-btn">                 
+                            <a class="pezeshk-nobat" href="/flow/<%=doctor.id%>">دریافت نوبت</a>
+                        </div>                    
 
-                </div>
-                <div class="pezeshk2">
-                    <div class="pezeshk-img">
-                        <img src="images\5.png" />  
-                    </div> 
-                    <div class="pezeshk-text1"  ><span></span> <%= doctor.first_name %>    <%= doctor.last_name %>  </div>
-                    <div class="pezeshk-text2" >متخصص گوش حلق و بینی         📍 تهران</div>                    
-                    <div class="pezeshk-btn">                 
-                        <a class="pezeshk-nobat" href="/flow/<%=doctor.id%>">دریافت نوبت</a>
-                    </div>                        
-                </div>
-                <div class="pezeshk3">
-                     <div class="pezeshk-img">
-                        <img src="images\Image (1).png" />  
-                    </div> 
-                    <div class="pezeshk-text1"  ><span></span><%= doctor.first_name %>    <%= doctor.last_name %>   </div>
-                    <div class="pezeshk-text2" >متخصص قلب و عروق                📍 تهران</div>                    
-                    <div class="pezeshk-btn">                 
-                        <a class="pezeshk-nobat" href="/flow/<%=doctor.id%>">دریافت نوبت</a>
-                    </div>                 
-                </div>
-                <div class="pezeshk4">
-                    <div class="pezeshk-img">
-                        <img src="images\5 (1).png" />  
-                    </div> 
-                    <div class="pezeshk-text1"  ><span></span>   <%= doctor.first_name %>    <%= doctor.last_name %> </div>
-                    <div class="pezeshk-text2" >متخصص قلب و عروق               📍 تهران</div>                    
-                    <div class="pezeshk-btn">                 
-                        <a class="pezeshk-nobat" href="/flow/<%=doctor.id%>">دریافت نوبت</a>
-                    </div>                   
-                </div>
+                    </div>
+                <%})%>
+
 
             </div>
         </div>
@@ -174,47 +147,18 @@
                 <div class="label2">جدید ترین پزشک ها</div>
             </div>
             <div class="pezeshkha">
-                <div class="pezeshk1">
-                    <div class="pezeshk-img">
-                        <img src="images\2.png" />  
-                    </div> 
-                    <div class="pezeshk-text1"  ><span></span>  <%= doctor.first_name %>    <%= doctor.last_name %> </div>
-                    <div class="pezeshk-text2" >متخصص ریه                             📍 تهران</div>                    
-                    <div class="pezeshk-btn">                 
-                        <a class="pezeshk-nobat" href="/flow/<%=doctor.id%>">دریافت نوبت</a>
-                    </div>                    
-
-                </div>
-                <div class="pezeshk2">
-                    <div class="pezeshk-img">
-                        <img src="images\2 (1).png" />  
-                    </div> 
-                    <div class="pezeshk-text1"  ><span></span> <%= doctor.first_name %>    <%= doctor.last_name %></div>
-                    <div class="pezeshk-text2" >متخصص گوش حلق و بینی         📍 تهران</div>                    
-                    <div class="pezeshk-btn">                 
-                        <a class="pezeshk-nobat" href="/flow/<%=doctor.id%>" >دریافت نوبت</a>
-                    </div>                        
-                </div>
-                <div class="pezeshk3">
-                     <div class="pezeshk-img">
-                        <img src="images\3.png" />  
-                    </div> 
-                    <div class="pezeshk-text1"  ><span></span>  <%= doctor.first_name %>    <%= doctor.last_name %></div>
-                    <div class="pezeshk-text2" >متخصص قلب و عروق                📍 تهران</div>                    
-                    <div class="pezeshk-btn">                 
-                        <a class="pezeshk-nobat" href="/flow/<%=doctor.id%>">دریافت نوبت</a>
-                    </div>                 
-                </div>
-                <div class="pezeshk4">
-                    <div class="pezeshk-img">
-                        <img src="images\Image (2).png" />  
-                    </div> 
-                    <div class="pezeshk-text1"  ><span></span>  <%= doctor.first_name %>    <%= doctor.last_name %></div>
-                    <div class="pezeshk-text2" >متخصص قلب و عروق               📍 تهران</div>                    
-                    <div class="pezeshk-btn">                 
-                        <a class="pezeshk-nobat" href="/flow/<%=doctor.id%>">دریافت نوبت</a>
-                    </div>                   
-                </div>
+                <%oldDoctors.forEach(doctor=>{%>
+                    <div class="pezeshk1">
+                        <div class="pezeshk-img">
+                            <img src="images\2.png" />  
+                        </div> 
+                        <div class="pezeshk-text1"  ><span></span>  <%= doctor.first_name %>    <%= doctor.last_name %> </div>
+                        <div class="pezeshk-text2" >متخصص ریه                             📍 تهران</div>                    
+                        <div class="pezeshk-btn">                 
+                            <a class="pezeshk-nobat" href="/flow/<%=doctor.id%>">دریافت نوبت</a>
+                        </div> 
+                    <div>
+                <%})%>
             </div>
         </div>
     </section>
@@ -299,6 +243,12 @@
     <%- include('partials/footer') %>
     
     <script>
+
+        function go(title){
+            const url = `/search?spetialty=${encodeURIComponent(title)}`
+            window.location.href = url
+        }
+
         const headers = document.querySelectorAll('.accordion-header');
         headers.forEach(header => {
             header.addEventListener('click', () => {

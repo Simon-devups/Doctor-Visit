@@ -10,21 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">      
 </head>
 <body>
-    <header class="site-header">
-        <div class="login" >      
-            <a>ورود | ثبت نام</a>
-        </div>
-        <div class="links">
-            <a href="">تماس با ما</a>        
-            <a href="">درباره ما</a>        
-            <a href="">سوالات متداول</a>                
-            <a href="">لیست پزشکان</a>
-        </div>
-        <div class="logo">
-            <span class="logo-text"><span style="color: rgb(0, 0, 0);">دکتر </span>رزرو </span>
-            <img src="resources\logo\logo.png">
-        </div>
-    </header>
+    <%- include('partials/header1') %>
+
     <section class="sectionone">                   
         <div class="sectionone-in">                                             
             <div class="angry-grid">                                       
@@ -132,4 +119,24 @@
       </div>
     </footer>
 </body>
+<script defer>
+  const thumbsCont = document.getElementById('item-1');
+  const Up = document.getElementById('yesBtn');
+  const Down = document.getElementById('noBtn');
+
+  thumbsCont.addEventListener('click' , (e)=>{
+    if(e.target.closest('#yesBtn')){
+      Up.firstElementChild.src='recourses/vectors/thumbs-up[accent].svg'
+      Down.firstElementChild.src='recourses/vectors/thumbs-down[grey].svg'
+      Up.style = 'transition:all 0.2s ease ; color: var(--accent);border-color: var(--accent)'
+      Down.style = ''
+    }
+    if(e.target.closest('#noBtn')){
+      Up.firstElementChild.src='recourses/vectors/thumbs-up[grey].svg'
+      Down.firstElementChild.src='recourses/vectors/thumbs-down[accent].svg'
+      Down.style = 'transition:all 0.2s ease ;color: var(--accent);border-color: var(--accent)'
+      Up.style = ''
+    }
+  })
+</script>
 </html>
