@@ -10,6 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">    
 </head>
 <body>
+    <%- include('partials/header1') %>
+
     <div class="container">
         <div class="logo">
             <img src="resources\logo\logo b.png">
@@ -28,6 +30,9 @@
         <div class="timer" id="timer">01:00 تا دریافت مجدد کد</div>
         <a class="btn" id="verifyBtn">ورود</a>
     </div> 
+
+    <%- include('partials/footer') %>
+    
     <script>
         const inputs = document.querySelectorAll(".code-input");
         const verifyBtn = document.getElementById("verifyBtn");

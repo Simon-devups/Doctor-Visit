@@ -12,19 +12,9 @@
 </head>
 
 <body>
-    <header class="site-header">
-        <a href="/login">ورود / ثبت نام</a>
-        <div class="links">
-            <a href="/aboutus">درباره ما</a>
-            <a href="/questions">سوالات متداول</a>
-            <a href="/search">لیست پزشکان</a>
-            <a href="/">صفحه اصلی</a>
-        </div>
-        <a class="logo" href="/">
-            <span class="logo-text"><span style="color: rgb(0, 0, 0);">دکتر </span>رزرو </span>
-            <img src="images\logo.png">
-        </a>
-    </header>
+
+    <%- include('partials/header1') %>
+
 
     <main class="main">
         <div class="profile-cont">
@@ -108,69 +98,9 @@
 
         </div>
     </main>
-    <footer class="footer" dir="rtl">
-        <div class="footer-top">
-            <div class="div3">
-                <div style="display:flex;gap:40px;justify-content:space-between">
-                    <div class="quick-links">
-                        <h4>لینک‌های سریع</h4>
-                        <ul>
-                            <li>صفحه اصلی</li>
-                            <li>لیست پزشکان</li>
-                            <li>سوالات متداول</li>
-                            <li>درباره ما</li>
-                            <li>تماس با ما</li>
-                        </ul>
-                    </div>
-                    <div class="legal" style="min-width:180px">
-                        <h4>اطلاعات حقوقی</h4>
-                        <p>تمامی حقوق محفوظ است.</p>
-                        <p style="margin-top:8px;">سال تاسیس یا بروزرسانی: 2025</p>
-                    </div>
-                </div>
-            </div>
-            <div class="cocontact">
-                <div class="group">
-                    <h4>اطلاعات تماس</h4>
-                    <img src="images\smart-phone-01-stroke-rounded 1.png" />
-                    <div class="phones">
-                        <div>0912-345-6789</div>
-                        <div>0912-345-6790</div>
-                    </div>
-                </div>
-                <div class="group">
-                    <img src="images\phone 3.png" />
-                    <div class="phones">
-                        <div>021-77 345867</div>
-                        <div>021-77 345868</div>
-                    </div>
-                </div>
-            </div>
-            <div class="code">
-                <div class="subscribe-card">
-                    <h4>مشترک شوید</h4>
-                    <div class="input-row">
-                        <input type="email" placeholder="آدرس ایمیل" />
-                        <button class="send-btn" aria-hidden="true">←</button>
-                    </div>
-                    <p class="desc">اپلیکیشن رزرو نوبت برای گرفتن نوبت سریع</br> و غیرحضوری و بهترین دکترهای متخصص با
-                        </br>دکتر رزرو.</p>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="socials">
-                <button><img src="images\whatsapp.png" /></button>
-                <button><img src="images\instagram.png" /></button>
-                <button><img src="images\telegram.png" /></button>
-                <button><img src="images\linkedin-01.png" /></button>
-            </div>
-            <div class="brand">
-                <div class="plus"><img src="images\logo.png" /></div>
-                <div class="logo">دکتر <span style="color:var(--accent)">رزرو</span></div>
-            </div>
-        </div>
-    </footer>
+    
+    <%- include('partials/footer') %>
+    
 </body>
 
 </html>
