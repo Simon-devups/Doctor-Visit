@@ -217,6 +217,16 @@ const updateUserPhoto = async (user, filename) => {
     return result
 }
 
+//flow3
+const getDoctorPrice = async(doctorId)=>{
+    const result = await prisma.doctor_prices.findMany({
+        where:{
+            doctor_id:doctorId
+        }
+    })
+    return result[0].price
+}
+
 //get fileds of inputs
 const getSpetialties = async () => {
     const result = await prisma.spetialty.findMany()
@@ -241,7 +251,7 @@ const queries = {
     getDoctors, getDoctorById, getDoctorBySpetialty,
     getDoctorByFirstName, getDoctorByLastName, getSpetialties, getSpecifiedDoctors,
     getCities, getTopDoctors, getOldDoctors, findUser, signUpUser, findUserById, updateUser,
-    updateUserPhoto, getDoctorComments,getDoctorContacts,addCommentToDoctor,
+    updateUserPhoto, getDoctorComments,getDoctorContacts,addCommentToDoctor,getDoctorPrice
 }
 
 export default queries;

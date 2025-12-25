@@ -275,6 +275,7 @@
 
         <div class="N2-comments">
             <%comments.forEach(comment=>{%>
+                
                 <div class="comment">
                     <div class="comment-top">
                         <div class="comment-date"> <%=comment.date%> </div>
@@ -289,32 +290,7 @@
                     <p class="comment-nazar"><%=comment.comment%></p>
                 </div>
             <%})%>
-            <!-- <div class="comment">
-                <div class="comment-top">
-                    <div class="comment-date">(۱۴۰۳/۱۰/۲۰)</div>
-                    <div class="comment-property">
-                        <div class="comment-starsAndname">
-                            <div class="name">فاطمه</div>
-                            <div class="stars" aria-label="رتبه‌بندی"></div>
-                        </div>
-                        <div class="comment-profile"><img src="/recourses/Avatar.png" alt="پروفایل فاطمه" loading="lazy"></div>
-                    </div>
-                </div>
-                <p class="comment-nazar">دکتر وارسته رو از اینستاگرام میشناختم و اینجا تونستم به راحتی نوبت رزرو کنم.</p>
-            </div>
-            <div class="comment">
-                <div class="comment-top">
-                    <div class="comment-date">(۱۴۰۳/۱۰/۲۰)</div>
-                    <div class="comment-property">
-                        <div class="comment-starsAndname">
-                            <div class="name">فاطمه</div>
-                            <div class="stars" aria-label="رتبه‌بندی"></div>
-                        </div>
-                        <div class="comment-profile"><img src="/recourses/Avatar.png" alt="پروفایل فاطمه" loading="lazy"></div>
-                    </div>
-                </div>
-                <p class="comment-nazar">دکتر وارسته رو از اینستاگرام میشناختم و اینجا تونستم به راحتی نوبت رزرو کنم.</p>
-            </div> -->
+            
             <div class="show-more-comments" onclick="loadMoreComments()" role="button" tabindex="0" aria-label="نمایش نظرات بیشتر">
                 <img src="/recourses/vectors/Down.svg" alt="">نظرات بیشتر
             </div>

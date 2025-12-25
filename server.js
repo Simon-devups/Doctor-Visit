@@ -10,6 +10,7 @@ import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
 import queries from "./queries.js";
 import upload from "./multer.js";
+import { Console } from "console";
 
 dotenv.config()
 
@@ -71,6 +72,7 @@ app.use((req, res, next) => {
 app.get('/',async (req, res) => {
 
     try {
+        
         const topDoctors = await queries.getTopDoctors()
         
         const oldDoctor = await queries.getOldDoctors()
@@ -206,12 +208,13 @@ app.post('/login',async(req,res)=>{
     }
 })
 
-app.post('/login/code', (req, res) => {
+app.post('/login/code',async (req, res) => {
     try {
         const userPhone = req.body.phoneNumber
         req.session.phone = userPhone
 
-        if(!queries.findUser(userPhone)) return res.json({message:'user not exist...'})
+        const user = await queries.findUser(userPhone)
+        if(!user) return res.json({ message: "User not exist! please sign up." })
         res.render('code.ejs')
     } catch (err) {
         res.render("FAQ.ejs")
@@ -268,18 +271,34 @@ app.get('/flow/:id', async (req, res) => {
 })
 
 
-app.get('/flow2', (req, res) => {
+app.get('/flow2/:id', async(req, res) => {
+    const id = parseInt(req.params.id)
     try {
-        res.render("flow2.ejs")
+        const specifiedDoctor = await queries.getDoctorById(id)
+
+        res.render("flow2.ejs",{doctor:specifiedDoctor})
     } catch (err) {
         res.render("FAQ.ejs")
     }
 })
 
 
-app.get('/flow3', (req, res) => {
+app.get('/flow3/:id',async (req, res) => {
+    const id = parseInt(req.params.id)
     try {
-        res.render("flow3.ejs")
+        //price section
+        const doctorPrice =parseInt( await queries.getDoctorPrice(id))
+        const commission = 20000
+        const prices = {
+            commission:commission,
+            doctorPrice:doctorPrice,
+            finallPrice:doctorPrice+commission
+        }
+
+        //doctor information
+        const specifiedDoctor = await queries.getDoctorById(id)
+
+        res.render("flow3.ejs",{prices:prices , doctor:specifiedDoctor})
     } catch (err) {
         res.render("FAQ.ejs")
     }
@@ -311,6 +330,7 @@ app.get('/userprofile', (req, res) => {
     }
 })
 
+// comment section : send comment to the doctor
 app.get('/comment/:id',async(req,res)=>{
     const id = parseInt(req.params.id)
     try{
@@ -322,7 +342,6 @@ app.get('/comment/:id',async(req,res)=>{
     }
 })
 
-// comment section : send comment to the doctor
 app.post('/comment/:id/send',async(req,res)=>{
     const id = parseInt(req.params.id)
     try{
