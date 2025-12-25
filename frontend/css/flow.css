@@ -43,7 +43,7 @@ button{cursor: pointer;}
 .clinic-address, .clinic-address{display: flex; justify-content: end; padding: .5rem;}
 
 /* navbar */
-    .navbar {
+    /* .navbar {
       width: 100%;
       display: flex;
       align-items: center;
@@ -55,10 +55,10 @@ button{cursor: pointer;}
       position: absolute;
       right: 0; left: 0;
       top: 0;
-    }
+    } */
 
     /* ===== Right Section (Logo + Brand) ===== */
-    .nav-logo {
+    /* .nav-logo {
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -66,16 +66,16 @@ button{cursor: pointer;}
       font-weight: 700;
       font-size: 1.1rem;
       color: var(--Neutral_900);
-    }
+    } */
 
-    .nav-logo img {
+    /* .nav-logo img {
       width: 22px;
       height: 22px;
       filter: drop-shadow(0 0 6px rgba(65, 121, 240, 0.5));
-    }
+    } */
 
     /* ===== Center Links ===== */
-    .nav-links {
+    /* .nav-links {
       display: flex;
       flex-direction: row-reverse;
       align-items: center;
@@ -92,7 +92,7 @@ button{cursor: pointer;}
 
     .nav-links a:hover {
       color: var(--accent);
-    }
+    } */
 
     /* ===== Left Side (Login/Register) ===== */
     .nav-auth {

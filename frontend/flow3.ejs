@@ -28,19 +28,19 @@
                         <p style="text-align: end; font-size: 1.2rem; font-weight: bold;">جزئیات پرداخت</p>
                         <div class="details">
                             <div class="detail">
-                                <p>۲۰۰،۰۰۰ تومان</p>
+                                <p><%=prices.doctorPrice%> تومان</p>
                                 <h5>:مبلغ ویزیت</h5>
                             </div>
                         </div>
                         <div class="details">
                             <div class="detail">
-                                <p>۲۰،۰۰۰ تومان</p>
+                                <p><%=prices.commission%> تومان</p>
                                 <h5>:هزینه کارمزد</h5>
                             </div>
                         </div>
                         <div class="details" style="margin-top: 1rem;">
                             <div class="detail">
-                                <p>۲۲۰،۰۰۰ تومان</p>
+                                <p><%=prices.finallPrice%> تومان</p>
                                 <h5>:مبلغ نهایی</h5>
                             </div>
                         </div>
@@ -84,19 +84,19 @@
                     <div class="doctor-bio">
                         <div style="text-align:left; width: 100%;"><span style="position: relative; top: -.4rem; "><span
                                     style="color:var(--Neutral_800) ;">کد نظام پزشکی: </span><span
-                                    style="color: var(--Neutral_500);">۴۰۲۲۳</span></span><img style="height: 1.4rem; "
+                                    style="color: var(--Neutral_500);"><%=doctor.description[0].code%></span></span><img style="height: 1.4rem; "
                             <img src="/recourses/vectors/CheckCircle.svg" alt="تأیید"></div>
                         <div class="left-lables">
-                            <div class="title">دکتر زهرا وارسته</div>
-                            <div style="margin-top: 10px; color:#262626">متخصص قلب و عروق</div>
+                            <div class="title">دکتر <%=doctor.first_name%> <%=doctor.last_name%></div>
+                            <div style="margin-top: 10px; color:#262626"><%=doctor.spetialty.spetialty%></div>
                             <div style="margin-top: 10px; color:#454545 ; align-self: end;">(۱۰۵ نظر)</div>
                         </div>
-                    <div class="flow-img"><img src="./recourses/Picture.png" alt="تصویر دکتر زهرا وارسته" style="height: 100%;"></div>
+                    <div class="flow-img"><img src="/images/<%=doctor.image_url%>" alt="تصویر دکتر <%=doctor.first_name%> <%=doctor.last_name%>" style="height: 100%;"></div>
 
                     </div>
                     <div class="doctor-details">
                         <div class="detail">
-                            <p style="color: var(--Neutral_900)">تهران، ستارخان، خیابان هفتم، پلاک ۴۰</p>
+                            <p style="color: var(--Neutral_900)"><%=doctor.description[0].Addres%></p>
                             <p style="color: var(--Neutral_500)">:آدرس مطب</p>
                         </div>
                         <div class="detail">
@@ -108,7 +108,7 @@
                             <p style="color: var(--Neutral_500)">:زمان نوبت</p>
                         </div>
                         <div class="detail">
-                            <p style="color: var(--Neutral_900)">علی مهدوی</p>
+                            <p style="color: var(--Neutral_900)"><%=user.first_name%> <%=user.last_name%></p>
                             <p style="color: var(--Neutral_500)">:مراجعه کننده</p>
                         </div>
                     </div>
