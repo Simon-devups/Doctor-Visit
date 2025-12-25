@@ -21,14 +21,19 @@ model Users {
   last_name  String
   phone      String  @unique
   role       Role    @default(PATIENT)
-  avatar     String
+  avatar_url String
+
+  userInfo   User_informations[]
+  comments   comments[]
 }
 
 model User_informations {
-  user_id    Int     @id @default(autoincrement())
+  id         Int     @id @default(autoincrement())
+  user_id    Int     @unique
+  user       Users   @relation(fields: [user_id], references: [id]) 
   code_meli  String
   birthday   String
-  gender     String
+  gender     gender
   city       String
   email      String
   Patient_appointments  Appointments[]   @relation("PatientAppointments")
@@ -49,6 +54,8 @@ model doctors {
   workingHours  WorkingHours[]
   appointments  Appointments[]   @relation("DoctorAppointments")
   description   doctor_descriptions[]
+  comments   comments[]
+  score      score[]
 
   createdAt     DateTime @default(now())
 }
@@ -74,7 +81,7 @@ model Appointments {
   doctor     doctors   @relation("DoctorAppointments", fields: [doctorId], references: [id])
   doctorId   Int
 
-  patient    User_informations    @relation("PatientAppointments", fields: [patientId], references: [user_id])
+  patient    User_informations    @relation("PatientAppointments", fields: [patientId], references: [id])
   patientId  Int
 
   date       DateTime
@@ -98,7 +105,7 @@ model doctor_descriptions {
 
 model doctor_contacts{
   id          Int     @id @default(autoincrement())
-  doctorId   Int
+  doctorId   Int  @unique
   phone      String
   instagram  String
   web  String
@@ -114,17 +121,31 @@ model doctor_prices {
 model comments{
   id          Int     @id @default(autoincrement())
   doctor_id  Int
+  doctor     doctors  @relation(fields: [doctor_id],references: [id] , onDelete: Cascade)
+
   user_id  Int
-  data     DateTime @default(now())
+  user     Users   @relation(fields: [user_id],references: [id] , onDelete: Cascade)
+
+  score    Int
+  date     DateTime @default(now())
   comment String
 }
 
 model score{
   id          Int     @id @default(autoincrement())
   doctor_id  Int
+  doctor     doctors  @relation(fields: [doctor_id],references: [id] , onDelete: Cascade)
+
   score Int
 }
 
+model session {
+  sid    String   @id
+  sess   Json
+  expire DateTime
+
+  @@index([expire])
+}
 
 enum Role {
   DOCTOR
@@ -136,4 +157,9 @@ enum AppointmentStatus {
   PENDING
   CANCELED
   DONE
+}
+
+enum gender {
+  MALE
+  FEMALE
 }

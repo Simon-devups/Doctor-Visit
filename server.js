@@ -9,12 +9,12 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
 import queries from "./queries.js";
+import upload from "./multer.js";
 
 dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT;
-const sendMassage_API = "https://hamkaransms.com/"
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -35,6 +35,7 @@ const pool = new pg.Pool({
     port: process.env.DB_PORT,
     database: process.env.DB_NAME,
 });
+
 //cookie and sessions part
 const pgSession = connectPgSimple(session);
 app.use(cookieParser());
@@ -62,6 +63,7 @@ app.use((req, res, next) => {
     res.locals.user = req.session.user || null;
     next();
 });
+
 
 
 
@@ -129,8 +131,7 @@ app.get('/search', async (req, res) => {
 
         res.render("search.ejs",{doctors:Doctors , spti:spetialties , cities:cities})
     } catch (err) {
-        console.log(err)
-        res.render("FAQ.html")
+        res.render("FAQ.ejs")
     }
 })
 
@@ -147,38 +148,122 @@ app.post('/search', async (req, res) => {
 
         res.redirect(`/search?${queryParams.toString()}`);
     } catch (err) {
-        res.render("FAQ.html")
+        res.render("FAQ.ejs")
     }
 })
 
 //login page and signup
-app.get('/login', (req, res) => {
+app.get('/login_signUp', (req, res) => {
     try {
         res.render("login.ejs")
     } catch (err) {
-        res.render("FAQ.html")
+        res.render("FAQ.ejs")
     }
 })
 
-app.get('/code', (req, res) => {
+
+app.get('/signUp_page',(req,res)=>{
+    res.render('signUp.ejs')
+})
+
+
+app.post('/signUp', upload.single("avatar") , async(req,res) => {
+    try{
+        const filename = req.file.filename
+        const user = req.body
+        const signUpUser = await queries.signUpUser(user,filename)
+        res.redirect('/login_signUp')
+    }catch(err){
+        res.render("FAQ.ejs")
+    }
+})
+
+app.post('/login',async(req,res)=>{
     try {
-        // const userPhone =
-            res.render("code.ejs")
+        const userCode = req.body.code1 + req.body.code2 + req.body.code3 + req.body.code4 + req.body.code5
+
+        //initialiez code that will send to user phone
+        const user = await queries.findUser(req.session.phone)
+        const CODE = '12345';
+
+        if(userCode !== CODE) {res.json({message:'code is wrong'})}
+        else{
+            req.session.user = {
+                id:user.id,
+                first_name:user.firt_name,
+                last_name:user.last_name,
+                phone:user.phone,
+                avatar:user.avatar_url,
+            }
+
+            res.redirect('/')
+        }
+        
     } catch (err) {
-        res.render("FAQ.html")
+        console.log(req.session.user)
+        console.log(err)
+        res.render("FAQ.ejs")
     }
 })
 
+app.post('/login/code', (req, res) => {
+    try {
+        const userPhone = req.body.phoneNumber
+        req.session.phone = userPhone
+
+        if(!queries.findUser(userPhone)) return res.json({message:'user not exist...'})
+        res.render('code.ejs')
+    } catch (err) {
+        res.render("FAQ.ejs")
+    }
+})
+
+app.get('/profile', async(req, res) => {
+    try {
+        const User = await queries.findUserById(req.session.user.id)
+        console.log(User)
+        res.render("userprofile.ejs",{User:User})
+    } catch (err) {
+        console.log(err)
+        res.render("FAQ.ejs")
+    }
+})
+
+app.post('/profile/update',async(req,res)=>{
+    try{
+        const updatedInfo = req.body
+        const updateUser = await queries.updateUser(req.session.user,updatedInfo)
+        res.redirect('/profile')
+    }catch(err){
+        console.log(err)
+        res.render("FAQ.ejs")
+    }
+})
+
+app.post('/profile/updatePhoto',async(req,res)=>{
+    try{
+        const updatedPhoto = req.file.filename
+        const updateUser = await queries.updateUser(req.session.user,updatedPhoto)
+        res.redirect('/profile')
+    }catch(err){
+        res.render("FAQ.ejs")
+    }
+})
 
 
 //choosing doctor
 app.get('/flow/:id', async (req, res) => {
     const id = parseInt(req.params.id)
     try {
+        const doctorComments = await queries.getDoctorComments(id)
+        const contact = await queries.getDoctorContacts(id)
+
         const specifiedDoctor = await queries.getDoctorById(id)
-        res.render("flow.ejs" , {doctor : specifiedDoctor})
+
+        res.render("flow.ejs" , {doctor : specifiedDoctor , contact:contact , comments:doctorComments[0].comments})
     } catch (err) {
-        res.render("FAQ.html")
+        console.log(err)
+        res.render("FAQ.ejs")
     }
 })
 
@@ -187,7 +272,7 @@ app.get('/flow2', (req, res) => {
     try {
         res.render("flow2.ejs")
     } catch (err) {
-        res.render("FAQ.html")
+        res.render("FAQ.ejs")
     }
 })
 
@@ -196,7 +281,7 @@ app.get('/flow3', (req, res) => {
     try {
         res.render("flow3.ejs")
     } catch (err) {
-        res.render("FAQ.html")
+        res.render("FAQ.ejs")
     }
 })
 
@@ -205,7 +290,7 @@ app.get('/questions', (req, res) => {
     try {
         res.render("questions.ejs")
     } catch (err) {
-        res.render("FAQ.html")
+        res.render("FAQ.ejs")
     }
 })
 
@@ -214,7 +299,7 @@ app.get('/aboutus', (req, res) => {
     try {
         res.render("aboutus.ejs")
     } catch (err) {
-        res.render("FAQ.html")
+        res.render("FAQ.ejs")
     }
 })
 
@@ -222,23 +307,47 @@ app.get('/userprofile', (req, res) => {
     try {
         res.render("userprofile.ejs")
     } catch (err) {
-        res.render("FAQ.html")
+        res.render("FAQ.ejs")
     }
 })
 
 app.get('/comment/:id',async(req,res)=>{
     const id = parseInt(req.params.id)
     try{
-        res.render('comment.ejs')
-    }catch(err){}
+        const userId = req.session.user.id
+        const specifiedDoctor = await queries.getDoctorById(id)
+        res.render('comment.ejs',{doctor:specifiedDoctor})
+    }catch(err){
+        res.render("FAQ.ejs")
+    }
 })
 
+// comment section : send comment to the doctor
+app.post('/comment/:id/send',async(req,res)=>{
+    const id = parseInt(req.params.id)
+    try{
+        const userId = req.session.user.id
+        const comment = req.body.comment
+        const score = req.body.score
+        const data = {
+            user_id:userId,
+            doctor_id:id,
+            score:score,
+            comment:comment
+        }
+
+        const sendComment = await queries.addCommentToDoctor(data)
+        res.redirect('/flow/:id')                                         //???????
+    }catch(err){
+        res.render("FAQ.ejs")
+    }
+})
 
 app.get('/index3', (req, res) => {
     try {
         res.render("index3.ejs")
     } catch (err) {
-        res.render("FAQ.html")
+        res.render("FAQ.ejs")
     }
 })
 

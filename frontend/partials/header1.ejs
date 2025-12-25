@@ -8,9 +8,19 @@
 </head>
 <body>
     <header class="site-header">
-        <div class="login" >      
-            <a>ورود | ثبت نام</a>
-        </div>
+        <%if(user){%>
+            <a class="profile" href="/profile">      
+                <div class="name"><%=user.first_name%>    <%=user.last_name%></div>
+                <div class="avatar" >
+                    <!-- <%=user.avatar%> -->
+                     <img src="/uploads/">
+                </div>
+            </a>
+        <%}else{%>
+            <div class="login" >      
+                <a href="/login_signUp">ورود | ثبت نام</a>
+            </div>
+        <%}%>
         <div class="links">
             <a href="/">خانه</a>
             <!-- <a href="/aboutus">تماس با ما</a>         -->

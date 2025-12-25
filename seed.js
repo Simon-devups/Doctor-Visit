@@ -137,11 +137,22 @@ async function main() {
     ]
   });
 
-  const user = await prisma.user_informations.create({
+  const user = await prisma.users.create({
+    data:{
+      firt_name:'سایمون',
+      last_name:'',
+      phone:'09920001122',
+      avatar_url:'.',
+    }
+  })
+
+
+  const userInfo = await prisma.user_informations.create({
     data: {
+      user_id:1,
       code_meli: '1234567890',
       birthday: '2000-01-01',
-      gender: 'male',
+      gender: 'MALE',
       city: 'Tehran',
       email: 'ali@example.com',
     },
@@ -214,29 +225,80 @@ async function main() {
     ],
   });
 
-  const appointment = await prisma.appointments.create({
-    data: {
+  const appointment = await prisma.appointments.createMany({
+    data: [
+      {
       doctorId: 1,
-      patientId: user.user_id,
+      patientId: user.id,
+      date: new Date('2025-11-25T10:00:00.000Z'),
+      status: 'CONFIRMED',
+    },{
+      doctorId: 1,
+      patientId: user.id,
+      date: new Date('2025-11-25T10:00:00.000Z'),
+      status: 'CONFIRMED',
+    },{
+      doctorId: 2,
+      patientId: user.id,
       date: new Date('2025-11-25T10:00:00.000Z'),
       status: 'CONFIRMED',
     },
+    ]
   });
 
-  const comment = await prisma.comments.create({
-    data: {
+  const comment = await prisma.comments.createMany({
+    data: [
+      {
       doctor_id: 1,
-      user_id: user.user_id,
-      comment: 'Great doctor!',
+      user_id: user.id,
+      score:3,
+      comment: 'از لحاظ اطلاعات و سواد دکتر خوبیه ولی بد اخلاقه .',
+    },{
+      doctor_id: 1,
+      user_id: user.id,
+      score:3,
+      comment: 'یکم زیادی خشکه',
+    },{
+      doctor_id: 2,
+      user_id: user.id,
+      score:3,
+      comment: 'خیلی با ادبه',
+    },{
+      doctor_id: 2,
+      user_id: user.id,
+      score:3,
+      comment: 'اطلاعاتش خیلی زیاده ',
+    },{
+      doctor_id: 3,
+      user_id: user.id,
+      score:3,
+      comment: 'خیلی خوش ادبه',
+    },{
+      doctor_id: 4,
+      user_id: user.id,
+      score:3,
+      comment: 'با ادبه',
     },
+  ]
   });
 
   // 9️⃣ اضافه کردن یک Score
-  const score = await prisma.score.create({
-    data: {
+  const score = await prisma.score.createMany({
+    data: [
+      {
       doctor_id: 1,
-      score: 5,
+      score: 85,
+    },{
+      doctor_id: 1,
+      score: 70,
+    },{
+      doctor_id: 1,
+      score: 85,
+    },{
+      doctor_id: 1,
+      score: 75,
     },
+    ]
   });
 
   console.log('Seed data inserted successfully!');

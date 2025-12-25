@@ -15,7 +15,7 @@
     <section class="sectionone">                   
         <div class="sectionone-in">                                             
             <div class="angry-grid">                                       
-                <div id="item-0"><img src="resources\images\Picture.png"></div>                                                      
+                <div id="item-0"><img src="/images/<%=doctor.image_url%>"></div>                                                      
                 <div id="item-1">                                                              
                     <button type="button" class="suggest-btn" id="noBtn">👎 پزشک را پیشنهاد نمی‌کنم</button>
                     <button type="button" class="suggest-btn" id="yesBtn">👍 پزشک را پیشنهاد می‌کنم</button>                                               
@@ -23,15 +23,15 @@
                 <div id="item-2">                                                                 
                     <div class="doctor-row">                                                                                
                         <div class="doctor-code">                                                                                   
-                            <span>کد نظام پزشکی: ۵۹۳۰۲</span>                                                                                   
-                            <img src="resources\logo\Vector.png" class="check-icon" alt="check">                                                                              
+                            <span>کد نظام پزشکی: <%=doctor.description[0].code%></span>                                                                                   
+                            <img src="/images/Vector.png" class="check-icon" alt="check">                                                                              
                         </div>                                                                             
                         <div class="doctor-name">                                                                           
-                            دکتر علی راد                                                                     
+                            دکتر <%=doctor.first_name%> <%=doctor.last_name%>                                                                     
                         </div>                                                                     
                     </div>                                                             
                     <div class="doctor-info">                                                                                                    
-                        <p class="doctor-specialty">متخصص ریه</p>                                                                                                                             
+                        <p class="doctor-specialty"><%=doctor.spetialty.spetialty%></p>                                                                                                                             
                     </div>                                                        
                 </div>                                                                         
                 <div id="item-3">                                                                                                                                
