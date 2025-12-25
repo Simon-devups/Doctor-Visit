@@ -64,6 +64,9 @@ app.use((req, res, next) => {
     next();
 });
 
+
+
+
 //home page
 app.get('/',async (req, res) => {
 
@@ -311,11 +314,34 @@ app.get('/userprofile', (req, res) => {
 app.get('/comment/:id',async(req,res)=>{
     const id = parseInt(req.params.id)
     try{
+        const userId = req.session.user.id
         const specifiedDoctor = await queries.getDoctorById(id)
         res.render('comment.ejs',{doctor:specifiedDoctor})
-    }catch(err){}
+    }catch(err){
+        res.render("FAQ.ejs")
+    }
 })
 
+// comment section : send comment to the doctor
+app.post('/comment/:id/send',async(req,res)=>{
+    const id = parseInt(req.params.id)
+    try{
+        const userId = req.session.user.id
+        const comment = req.body.comment
+        const score = req.body.score
+        const data = {
+            user_id:userId,
+            doctor_id:id,
+            score:score,
+            comment:comment
+        }
+
+        const sendComment = await queries.addCommentToDoctor(data)
+        res.redirect('/flow/:id')                                         //???????
+    }catch(err){
+        res.render("FAQ.ejs")
+    }
+})
 
 app.get('/index3', (req, res) => {
     try {

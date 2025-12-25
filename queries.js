@@ -35,8 +35,10 @@ const getDoctorComments = async (doctorId) => {
 }
 
 //add comment for doctor 
-const addCommentToDoctor = async(userId,doctorId)=>{
-    const result = await prisma.comments.create({})
+const addCommentToDoctor = async(data)=>{
+    const result = await prisma.comments.create({
+        data
+    })
 }
 
 const getDoctorContacts = async(doctorId)=>{
@@ -239,7 +241,7 @@ const queries = {
     getDoctors, getDoctorById, getDoctorBySpetialty,
     getDoctorByFirstName, getDoctorByLastName, getSpetialties, getSpecifiedDoctors,
     getCities, getTopDoctors, getOldDoctors, findUser, signUpUser, findUserById, updateUser,
-    updateUserPhoto, getDoctorComments,getDoctorContacts
+    updateUserPhoto, getDoctorComments,getDoctorContacts,addCommentToDoctor,
 }
 
 export default queries;
