@@ -87,7 +87,7 @@ app.get('/',async (req, res) => {
 app.get('/search', async (req, res) => {
     try {
         //search section 
-        const {workExperience ,spetialty,search,aptmStatus,city} = req.query || ""
+        const {workExperience ,spetialty,search,aptmStatus,city,gender} = req.query || ""
         
         const andConditions = [];
 
@@ -119,7 +119,11 @@ app.get('/search', async (req, res) => {
                 description: { some: { city: city } }
             });
         }
-
+        if (gender && gender.trim()!=="") {
+            andConditions.push({
+                description: { some: { gender: gender } }
+            });
+        }
     
         const where = andConditions.length > 0 ? { AND: andConditions } : {};
 
@@ -140,13 +144,14 @@ app.get('/search', async (req, res) => {
 
 app.post('/search', async (req, res) => {
     try {
-        const {workExperience ,spetialty,search,aptmStatus,city} = req.body || ""
+        const {workExperience ,spetialty,search,aptmStatus,city,gender} = req.body || ""
 
         const queryParams = new URLSearchParams();
         if (search) queryParams.set("search", search);
         if (spetialty) queryParams.set("spetialty", spetialty);
         if (workExperience) queryParams.set("workExperience", workExperience);
         if (city) queryParams.set("city", city);
+        if (gender) queryParams.set("gender", gender);
 
         res.redirect(`/search?${queryParams.toString()}`);
     } catch (err) {
