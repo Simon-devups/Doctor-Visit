@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پروفایل کاربری</title>
+    <link rel="stylesheet" href="/css/UserProfile.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header class="site-header">
+        <a href="/login">ورود / ثبت نام</a>
+        <div class="links">
+            <a href="/aboutus">درباره ما</a>
+            <a href="/questions">سوالات متداول</a>
+            <a href="/search">لیست پزشکان</a>
+            <a href="/">صفحه اصلی</a>
+        </div>
+        <a class="logo" href="/">
+            <span class="logo-text"><span style="color: rgb(0, 0, 0);">دکتر </span>رزرو </span>
+            <img src="images\logo.png">
+        </a>
+    </header>
+
+    <main class="main">
+        <div class="profile-cont">
+            <div class="title" style="display: flex;">پروفایل کاربری</div>
+            <div class="left">
+                <form action="/profile/update" method="POST" class="profile-form">
+
+                    <div class="form-row">
+                        <div class="form-group last-name">
+                            <label for="lastName">نام خانوادگی:</label>
+                            <input type="text" id="lastName" name="lastName" value="<%=user.last_name%>">
+                        </div>
+                        <div class="form-group first-name">
+                            <label for="firstName">نام:</label>
+                            <input type="text" id="firstName" name="firstName" value="<%=user.first_name%>">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group birth-year">
+                            <label for="birthYear">سال تولد:</label>
+                            <input type="text" id="birthYear" name="birthYear" value="<%=User.userInfo[0].birthday%>">
+                        </div>
+                        <div class="form-group national-code">
+                            <label for="nationalCode">کد ملی:</label>
+                            <input type="text" id="nationalCode" name="nationalCode" value="<%=User.userInfo[0].code_meli%>">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group city">
+                            <label for="city">شهر:</label>
+                            <select id="city" name="city">
+                                <option value="">انتخاب کنید...</option>
+                                <option value="تهران" selected>تهران</option>
+                                <option value="مشهد">مشهد</option>
+                                <option value="اصفهان">اصفهان</option>
+                                <option value="شیراز">شیراز</option>
+                                <option value="تبریز">تبریز</option>
+                            </select>
+                        </div>
+                        <div class="form-group gender">
+                            <label for="gender">جنسیت:</label>
+                            <select id="gender" name="gender">
+                                <option value="">انتخاب کنید...</option>
+                                <option value="MALE" selected>آقا</option>
+                                <option value="FEMALE">خانم</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group email">
+                            <label for="email">ایمیل:</label>
+                            <input type="email" id="email" name="email" style="text-decoration: none;"
+                                placeholder="<%=User.userInfo[0].email%>">
+                        </div>
+                        <div class="form-group mobile">
+                            <label for="mobile">شماره موبایل:</label>
+                            <input type="text" id="mobile" name="mobile" value="<%=User.phone%>">
+                        </div>
+                    </div>
+
+                    <div class="form-row button-row">
+                        <button type="submit" class="edit-btn">ویرایش اطلاعات</button>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="right">
+                <form class="profile-image-section" action="/profile/updatePhoto" method="post">
+                    <img src="/uploads/<%=User.avatar_url%>" alt="Profile Picture" class="profile-img">
+
+                    <label for="imageUpload" class="upload-btn">
+                        آپلود تصویر <img src="recourses/vectors/add-circle.svg" alt="">
+                    </label>
+                    <input type="file" id="imageUpload" name="profileImage" style="display: none;" accept="image/*" required>
+                </form>
+            </div>
+
+        </div>
+    </main>
+    <footer class="footer" dir="rtl">
+        <div class="footer-top">
+            <div class="div3">
+                <div style="display:flex;gap:40px;justify-content:space-between">
+                    <div class="quick-links">
+                        <h4>لینک‌های سریع</h4>
+                        <ul>
+                            <li>صفحه اصلی</li>
+                            <li>لیست پزشکان</li>
+                            <li>سوالات متداول</li>
+                            <li>درباره ما</li>
+                            <li>تماس با ما</li>
+                        </ul>
+                    </div>
+                    <div class="legal" style="min-width:180px">
+                        <h4>اطلاعات حقوقی</h4>
+                        <p>تمامی حقوق محفوظ است.</p>
+                        <p style="margin-top:8px;">سال تاسیس یا بروزرسانی: 2025</p>
+                    </div>
+                </div>
+            </div>
+            <div class="cocontact">
+                <div class="group">
+                    <h4>اطلاعات تماس</h4>
+                    <img src="images\smart-phone-01-stroke-rounded 1.png" />
+                    <div class="phones">
+                        <div>0912-345-6789</div>
+                        <div>0912-345-6790</div>
+                    </div>
+                </div>
+                <div class="group">
+                    <img src="images\phone 3.png" />
+                    <div class="phones">
+                        <div>021-77 345867</div>
+                        <div>021-77 345868</div>
+                    </div>
+                </div>
+            </div>
+            <div class="code">
+                <div class="subscribe-card">
+                    <h4>مشترک شوید</h4>
+                    <div class="input-row">
+                        <input type="email" placeholder="آدرس ایمیل" />
+                        <button class="send-btn" aria-hidden="true">←</button>
+                    </div>
+                    <p class="desc">اپلیکیشن رزرو نوبت برای گرفتن نوبت سریع</br> و غیرحضوری و بهترین دکترهای متخصص با
+                        </br>دکتر رزرو.</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="socials">
+                <button><img src="images\whatsapp.png" /></button>
+                <button><img src="images\instagram.png" /></button>
+                <button><img src="images\telegram.png" /></button>
+                <button><img src="images\linkedin-01.png" /></button>
+            </div>
+            <div class="brand">
+                <div class="plus"><img src="images\logo.png" /></div>
+                <div class="logo">دکتر <span style="color:var(--accent)">رزرو</span></div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
