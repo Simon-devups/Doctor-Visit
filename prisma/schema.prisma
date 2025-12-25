@@ -86,7 +86,7 @@ model Appointments {
 
   date       DateTime
 
-  status     AppointmentStatus @default(CONFIRMED)
+  status     AppointmentStatus @default(PENDING)
 
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -101,6 +101,7 @@ model doctor_descriptions {
   Addres      String
   code        String
   insurance   String
+  gender      gender   @default(MALE)
 }
 
 model doctor_contacts{

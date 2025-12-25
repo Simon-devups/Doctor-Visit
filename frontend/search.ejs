@@ -36,8 +36,8 @@
                             <div class="angry-grid">
                                 <div id="item-0"><img src="images\<%=doctor.image_url%>"></div>
                                 <div id="item-1">
-                                    <a class="btn1">پشتیبانی</a>
-                                    <a class="btn2">رزرو نوبت</a>
+                                    <a class="btn1" >پشتیبانی</a>
+                                    <a class="btn2" href="/flow/<%=doctor.id%>">رزرو نوبت</a>
                                 </div>
                                 <div id="item-2">
                                     <div class="doctor-row">
@@ -129,20 +129,20 @@
                                 <%})%>
                             </select>
                             <div class="checkbox-group">
-                                <label><input type="checkbox" name="city"> تهران</label>
-                                <label><input type="checkbox" name="city"> اصفهان</label>
-                                <label><input type="checkbox" name="city"> شیراز</label>
-                                <label><input type="checkbox" name="city"> تبریز</label>
+                                <label><input type="checkbox" name="city" value="تهران"> تهران</label>
+                                <label><input type="checkbox" name="city" value="اصفهان"> اصفهان</label>
+                                <label><input type="checkbox" name="city" value="شیراز"> شیراز</label>
+                                <label><input type="checkbox" name="city" value="تبریز"> تبریز</label>
                             </div>
                         </div>
                         <hr> 
-                        <!-- <div class="filterbox-in">
+                        <div class="filterbox-in">
                             <label>جنسیت پزشک</label>
                             <div class="gender">
-                                <label><input type="checkbox" name="gender" checked> خانم</label>
-                                <label><input type="checkbox" name="gender"> آقا</label>
+                                <label><input type="checkbox" name="gender" value="FEMALE" name="gender"> خانم</label>
+                                <label><input type="checkbox" name="gender" value="MALE" name="gender"> آقا</label>
                             </div>
-                        </div> -->
+                        </div>
                         <button class="button">اعمال فیلترها</button>
                 </form>
             </div>
