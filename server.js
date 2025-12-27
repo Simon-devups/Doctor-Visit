@@ -263,10 +263,16 @@ app.post('/profile/updatePhoto',async(req,res)=>{
 app.get('/flow/:id', async (req, res) => {
     const id = parseInt(req.params.id)
     try {
+        //comment section
         const doctorComments = await queries.getDoctorComments(id)
+        //doctor description section
         const contact = await queries.getDoctorContacts(id)
-
         const specifiedDoctor = await queries.getDoctorById(id)
+        
+        //callendar
+        //result example : { weekday: 6, start_time: '09:00', end_time: '15:00' } in array
+        const workingDaysInWeek = await queries.getDoctorWorkingDays(id)  // 0:saturday  ,  1:sonday  ,  ... 
+        console.log(workingDaysInWeek)
 
         res.render("flow.ejs" , {doctor : specifiedDoctor , contact:contact , comments:doctorComments[0].comments})
     } catch (err) {

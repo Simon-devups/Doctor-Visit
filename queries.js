@@ -217,6 +217,21 @@ const updateUserPhoto = async (user, filename) => {
     return result
 }
 
+//callendar schedule
+const getDoctorWorkingDays = async(doctorId)=>{
+    const result = await prisma.workingHours.findMany({
+        where:{
+            doctorId:doctorId
+        },
+        select:{
+            weekday:true,
+            start_time:true,
+            end_time:true
+        }
+    })
+    return result
+}
+
 //flow3
 const getDoctorPrice = async(doctorId)=>{
     const result = await prisma.doctor_prices.findMany({
@@ -251,7 +266,8 @@ const queries = {
     getDoctors, getDoctorById, getDoctorBySpetialty,
     getDoctorByFirstName, getDoctorByLastName, getSpetialties, getSpecifiedDoctors,
     getCities, getTopDoctors, getOldDoctors, findUser, signUpUser, findUserById, updateUser,
-    updateUserPhoto, getDoctorComments,getDoctorContacts,addCommentToDoctor,getDoctorPrice
+    updateUserPhoto, getDoctorComments,getDoctorContacts,addCommentToDoctor,getDoctorPrice,
+    getDoctorWorkingDays,
 }
 
 export default queries;
