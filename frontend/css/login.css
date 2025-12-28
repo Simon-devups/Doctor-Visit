@@ -18,7 +18,9 @@ body {
     width: 100%;              
     max-width: 400px;                
     padding: 30px;             
-    text-align: center;    
+    text-align: center; 
+    border: 1px solid #E7E7E7; 
+    border-radius: 20px;    
 }         
 .logo {         
     margin-bottom: 20px;     
