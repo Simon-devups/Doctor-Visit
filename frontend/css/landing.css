@@ -389,6 +389,7 @@ body{
 }
 /*------------------------------*/
 .section4{
+    
     font-family: "Vazirmatn", sans-serif;    
     height: 223px;
     width: 100%;
@@ -401,6 +402,7 @@ body{
 
 }
 .section4-in{
+    
     width: 88%;
     height: 223px;    
     display: flex;
@@ -408,6 +410,7 @@ body{
     gap: 25px;   
 }
 .label-takhassos{
+    
     flex: 1;
     width: 100%;
     display: flex;
@@ -426,6 +429,7 @@ body{
     font-weight: 600;
 }
 .takhassosha{
+    
     flex: 2.9;
     display: flex;
     gap: 10px;
@@ -445,6 +449,7 @@ body{
     margin-top: 20px;
 }
 .takhassos1 h1{
+    
     color:#3D3D3D ;
     font-size:15px ;
     font-weight: 500;

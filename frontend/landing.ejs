@@ -147,18 +147,23 @@
                 <div class="label2">جدید ترین پزشک ها</div>
             </div>
             <div class="pezeshkha">
-                <%oldDoctors.forEach(doctor=>{%>
-                    <div class="pezeshk1">
-                        <div class="pezeshk-img">
-                            <img src="images\<%=doctor.image_url%>" />  
-                        </div> 
-                        <div class="pezeshk-text1"  ><span></span>  <%= doctor.first_name %>    <%= doctor.last_name %> </div>
-                        <div class="pezeshk-text2" ><%=doctor.spetialty.spetialty%>                            📍 <%=doctor.description[0].city%></div>                    
-                        <div class="pezeshk-btn">                 
-                            <a class="pezeshk-nobat" href="/flow/<%=doctor.id%>">دریافت نوبت</a>
-                        </div> 
-                    <div>
-                <%})%>
+            <% oldDoctors.forEach(doctor => { %>
+                <div class="pezeshk1">
+                    <div class="pezeshk-img">
+                        <img src="/images/<%= doctor.image_url %>" />
+                    </div> 
+
+                    <div class="pezeshk-text1"><span></span>  <%= doctor.first_name %>    <%= doctor.last_name %></div>
+
+                    <div class="pezeshk-text2"><%= doctor.spetialty.spetialty %>                             📍 <%= doctor.description[0].city %></div>                    
+
+                    <div class="pezeshk-btn">                 
+                    <a class="pezeshk-nobat" href="/flow/<%= doctor.id %>">
+                     دریافت نوبت
+                    </a>
+                    </div> 
+                </div> 
+            <% }) %>
             </div>
         </div>
     </section>
