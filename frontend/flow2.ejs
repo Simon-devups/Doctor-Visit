@@ -28,18 +28,18 @@
                 <div class="doctor-bio">
                     <div class="code-nezam" style="text-align:left; width: 100%;"><span style="position: relative; top: -.4rem; "><span
                                 style="color:var(--Neutral_800) ;" >کد نظام پزشکی: </span><span
-                                style="color: var(--Neutral_500);">۴۰۲۲۳</span></span><img style="height: 1.4rem; "
+                                style="color: var(--Neutral_500);"><%=doctor.description[0].code%></span></span><img style="height: 1.4rem; "
                             src="/recourses/vectors/CheckCircle.svg" alt=""></div>
                     <div class="left-lables">
-                        <div class="title">دکتر زهرا وارسته</div>
-                        <div style="margin-top: 10px; color:#262626; width: 100%; text-align: right;">متخصص قلب و عروق</div>
+                        <div class="title">دکتر <%=doctor.first_name%> <%=doctor.last_name%></div>
+                        <div style="margin-top: 10px; color:#262626; width: 100%; text-align: right;"><%=doctor.spetialty.spetialty%></div>
                         <div style="margin-top: 10px; color:#454545 ; align-self: end;">(۱۰۵ نظر)</div>
                     </div>
                     <div class="flow-img"><img src="./recourses/Picture.png" alt="" style="height: 100%;"></div>
                 </div>
                 <div style="display: flex; justify-content: end; gap: 1rem; margin-top: 1rem; color: #262626; font-weight: 600;">آدرس مطب:
-                    تهران، ستارخان،
-                    خیابان هفتم، پلاک ۴۰<img src="./recourses/vectors/map-pinpoint-02.svg" alt=""></div>
+                    <%=doctor.description[0].Addres%>
+                    <img src="./recourses/vectors/map-pinpoint-02.svg" alt=""></div>
                 <div style="display: flex; justify-content: end;; gap: 1rem; margin-top: 1rem;">
                     <div style="font-weight: 700; color: #262626;"> دوشنبه ۲۴ دی</div><span style="color: #6D6D6D;"> :
                         اولین نوبت در دسترس</span><img src="./recourses/vectors/alarm-clock.svg" alt="">
@@ -54,20 +54,20 @@
                 <label class="visit-option">
                     <input type="radio" name="patient" checked>
                     <div class="option-content">
-                        <span class="option-name">علی مهدوی (خودم)</span>
-                        <span class="option-phone">۰۹۱۲۳۴۵۶۷۸۹</span>
+                        <span class="option-name"><%=user.first_name%> <%=user.last_name%> (خودم)</span>
+                        <span class="option-phone"><%=user.phone%></span>
                     </div>
                     <span class="radio-indicator"></span>
                 </label>
 
                 <button class="add-person-btn">
                     دریافت نوبت برای شخص دیگر 
-                    <img src="./recourses/vectors/add-01.svg" alt="add" class="add-icon">
+                    <img src="/recourses/vectors/add-01.svg" alt="add" class="add-icon">
                 </button>
             </div>
 
             <div class="visit-actions">
-                <a class="visit-continue" href="/flow3">ادامه<img src="./recourses/vectors/arrow-left-01-sharp.svg" alt=""></a>
+                <a class="visit-continue" href="/flow3/<%=doctor.id%>">ادامه<img src="./recourses/vectors/arrow-left-01-sharp.svg" alt=""></a>
             </div>
         </section>
     </main>

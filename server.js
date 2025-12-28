@@ -10,6 +10,7 @@ import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
 import queries from "./queries.js";
 import upload from "./multer.js";
+import { Console } from "console";
 
 dotenv.config()
 
@@ -71,6 +72,7 @@ app.use((req, res, next) => {
 app.get('/',async (req, res) => {
 
     try {
+        
         const topDoctors = await queries.getTopDoctors()
         
         const oldDoctor = await queries.getOldDoctors()
@@ -85,7 +87,7 @@ app.get('/',async (req, res) => {
 app.get('/search', async (req, res) => {
     try {
         //search section 
-        const {workExperience ,spetialty,search,aptmStatus,city} = req.query || ""
+        const {workExperience ,spetialty,search,aptmStatus,city,gender} = req.query || ""
         
         const andConditions = [];
 
@@ -117,7 +119,11 @@ app.get('/search', async (req, res) => {
                 description: { some: { city: city } }
             });
         }
-
+        if (gender && gender.trim()!=="") {
+            andConditions.push({
+                description: { some: { gender: gender } }
+            });
+        }
     
         const where = andConditions.length > 0 ? { AND: andConditions } : {};
 
@@ -138,13 +144,14 @@ app.get('/search', async (req, res) => {
 
 app.post('/search', async (req, res) => {
     try {
-        const {workExperience ,spetialty,search,aptmStatus,city} = req.body || ""
+        const {workExperience ,spetialty,search,aptmStatus,city,gender} = req.body || ""
 
         const queryParams = new URLSearchParams();
         if (search) queryParams.set("search", search);
         if (spetialty) queryParams.set("spetialty", spetialty);
         if (workExperience) queryParams.set("workExperience", workExperience);
         if (city) queryParams.set("city", city);
+        if (gender) queryParams.set("gender", gender);
 
         res.redirect(`/search?${queryParams.toString()}`);
     } catch (err) {
@@ -206,12 +213,13 @@ app.post('/login',async(req,res)=>{
     }
 })
 
-app.post('/login/code', (req, res) => {
+app.post('/login/code',async (req, res) => {
     try {
         const userPhone = req.body.phoneNumber
         req.session.phone = userPhone
 
-        if(!queries.findUser(userPhone)) return res.json({message:'user not exist...'})
+        const user = await queries.findUser(userPhone)
+        if(!user) return res.json({ message: "User not exist! please sign up." })
         res.render('code.ejs')
     } catch (err) {
         res.render("FAQ.ejs")
@@ -255,10 +263,16 @@ app.post('/profile/updatePhoto',async(req,res)=>{
 app.get('/flow/:id', async (req, res) => {
     const id = parseInt(req.params.id)
     try {
+        //comment section
         const doctorComments = await queries.getDoctorComments(id)
+        //doctor description section
         const contact = await queries.getDoctorContacts(id)
-
         const specifiedDoctor = await queries.getDoctorById(id)
+        
+        //callendar
+        //result example : { weekday: 6, start_time: '09:00', end_time: '15:00' } in array
+        const workingDaysInWeek = await queries.getDoctorWorkingDays(id)  // 0:saturday  ,  1:sonday  ,  ... 
+        console.log(workingDaysInWeek)
 
         res.render("flow.ejs" , {doctor : specifiedDoctor , contact:contact , comments:doctorComments[0].comments})
     } catch (err) {
@@ -268,18 +282,34 @@ app.get('/flow/:id', async (req, res) => {
 })
 
 
-app.get('/flow2', (req, res) => {
+app.get('/flow2/:id', async(req, res) => {
+    const id = parseInt(req.params.id)
     try {
-        res.render("flow2.ejs")
+        const specifiedDoctor = await queries.getDoctorById(id)
+
+        res.render("flow2.ejs",{doctor:specifiedDoctor})
     } catch (err) {
         res.render("FAQ.ejs")
     }
 })
 
 
-app.get('/flow3', (req, res) => {
+app.get('/flow3/:id',async (req, res) => {
+    const id = parseInt(req.params.id)
     try {
-        res.render("flow3.ejs")
+        //price section
+        const doctorPrice =parseInt( await queries.getDoctorPrice(id))
+        const commission = 20000
+        const prices = {
+            commission:commission,
+            doctorPrice:doctorPrice,
+            finallPrice:doctorPrice+commission
+        }
+
+        //doctor information
+        const specifiedDoctor = await queries.getDoctorById(id)
+
+        res.render("flow3.ejs",{prices:prices , doctor:specifiedDoctor})
     } catch (err) {
         res.render("FAQ.ejs")
     }
@@ -311,6 +341,7 @@ app.get('/userprofile', (req, res) => {
     }
 })
 
+// comment section : send comment to the doctor
 app.get('/comment/:id',async(req,res)=>{
     const id = parseInt(req.params.id)
     try{
@@ -322,7 +353,6 @@ app.get('/comment/:id',async(req,res)=>{
     }
 })
 
-// comment section : send comment to the doctor
 app.post('/comment/:id/send',async(req,res)=>{
     const id = parseInt(req.params.id)
     try{

@@ -62,28 +62,32 @@ async function main() {
       Addres: 'تبریز - آبرسان - چهارراه آبرسان',
       city:'تبریز',
       code: 'DOC001',
-      insurance:'معلم'
+      insurance:'معلم',
+      gender:"MALE"
     },{
       doctorId: 2,
       description: 'پزشک با تجربه در این حوضه',
       Addres: 'تهران - آبرسان - چهارراه آبرسان',
       city:'تهران',
       code: 'DOC001',
-      insurance:'تامین اجتماعی'
+      insurance:'تامین اجتماعی',
+      gender:'MALE'
     },{
       doctorId: 3,
       description: 'پزشک با تجربه در این حوضه',
       Addres: 'اصفهان - آبرسان - چهارراه آبرسان',
       city:'اصفهان',
       code: 'DOC001',
-      insurance:'تامین اجتماعی'
+      insurance:'تامین اجتماعی',
+      gender:'MALE'
     },{
       doctorId: 4,
       description: 'پزشک با تجربه در این حوضه',
       Addres: 'تبریز - آبرسان - چهارراه آبرسان',
       city:'تبریز',
       code: 'DOC001',
-      insurance:'معلم'
+      insurance:'معلم',
+      gender:'MALE'
     },
     ]
   });
@@ -231,7 +235,7 @@ async function main() {
       doctorId: 1,
       patientId: user.id,
       date: new Date('2025-11-25T10:00:00.000Z'),
-      status: 'CONFIRMED',
+      status: 'PENDING',
     },{
       doctorId: 1,
       patientId: user.id,
