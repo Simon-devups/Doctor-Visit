@@ -312,6 +312,16 @@ hr{
     margin: 12px 0px;  
 }
 
+.doctor-grid {
+    border: 1px solid #E7E7E7; 
+    border-radius: 12px; 
+    padding: 20px;
+}
+
+.doctor-row {
+    margin-top: 0px;
+}
+
 
 
 
@@ -321,6 +331,7 @@ hr{
     display: flex;
     flex-direction: column;
     gap: 15px;
+    
 }
 .sectionone-in{
     box-sizing: content-box !important;        
@@ -357,6 +368,18 @@ hr{
    justify-content: center;
    align-items: center;
    
+}
+
+.doctor-image {
+   display: inline;
+}
+
+.doctor-main-info {
+    display: inline;
+}
+
+.time {
+    margin-bottom: 20px;
 }
 .btn1 {
     display: inline-block;
