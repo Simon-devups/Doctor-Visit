@@ -58,9 +58,12 @@
             <h2>فقط یک جستجو با بهترین پزشکان فاصله دارید</h2>
             <p>در کمتر از ۱ دقیقه نوبت خود را رزرو کنید</p>
             <div class="search">
-                <img src="images\elements.png">
-                <input type="text" placeholder="پزشک یا تخصص مورد نظر خود را جستجو کنید" />
-            </div>
+                    <img src="images\elements.png">
+                    <form id="search-form" action="/search" method="POST">
+                        <input type="text" name="search" placeholder="پزشک یا تخصص مورد نظر را جستجو کنید" />
+                        <!-- <button id="submit" type="submit"> جستجو </button> -->
+                    </form>
+                </div>
         </div> 
     </section>
     <section class="section4">
@@ -270,6 +273,27 @@
                 }
             });
         });
-    </script>    <section class="section8"></section> 
+
+  const thumbsCont = document.getElementById('item-1');
+  const Up = document.getElementById('yesBtn');
+  const Down = document.getElementById('noBtn');
+
+  thumbsCont.addEventListener('click' , (e)=>{
+    if(e.target.closest('#yesBtn')){
+      Up.firstElementChild.src='recourses/vectors/thumbs-up[accent].svg'
+      Down.firstElementChild.src='recourses/vectors/thumbs-down[grey].svg'
+      Up.style = 'transition:all 0.2s ease ; color: var(--accent);border-color: var(--accent)'
+      Down.style = ''
+    }
+    if(e.target.closest('#noBtn')){
+      Up.firstElementChild.src='recourses/vectors/thumbs-up[grey].svg'
+      Down.firstElementChild.src='recourses/vectors/thumbs-down[accent].svg'
+      Down.style = 'transition:all 0.2s ease ;color: var(--accent);border-color: var(--accent)'
+      Up.style = ''
+    }
+  })
+</script>
+        <section class="section8"></section> 
+
 </body>
 </html>
