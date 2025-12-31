@@ -144,27 +144,27 @@
                         <div class="filterbox-in">
                             <label>شهر</label>
                             <select name="city">
-                                <option value="">انتخاب شهر</option>
+                                <option value="" class="city-checkbox">انتخاب شهر</option>
                                 <%cities.forEach(city=>{%>
                                     <option value="<%=city.city%>"><%=city.city%></option>
                                 <%})%>
                             </select>
                             <div class="checkbox-group">
-                                <label><input type="checkbox" name="city" value="تهران"> تهران</label>
-                                <label><input type="checkbox" name="city" value="اصفهان"> اصفهان</label>
-                                <label><input type="checkbox" name="city" value="شیراز"> شیراز</label>
-                                <label><input type="checkbox" name="city" value="تبریز"> تبریز</label>
+                                <label><input type="checkbox" name="city" value="تهران">تهران</label>
+                                <label><input type="checkbox" name="city" value="اصفهان">اصفهان</label>
+                                <label><input type="checkbox" name="city" value="شیراز">شیراز</label>
+                                <label><input type="checkbox" name="city" value="تبریز">تبریز</label>
                             </div>
                         </div>
                         <hr> 
                         <div class="filterbox-in">
                             <label>جنسیت پزشک</label>
                             <div class="gender">
-                                <label><input type="checkbox" name="gender" value="FEMALE" name="gender"> خانم</label>
-                                <label><input type="checkbox" name="gender" value="MALE" name="gender"> آقا</label>
+                                <label><input type="checkbox" name="gender" value="FEMALE"> خانم</label>
+                                <label><input type="checkbox" name="gender" value="MALE"> آقا</label>
                             </div>
                         </div>
-                        <button class="button">اعمال فیلترها</button>
+                        <button class="button" type="submit">اعمال فیلترها</button>
                 </form>
             </div>
             </div>
@@ -174,6 +174,12 @@
 
 </body>
 <script defer>
+    form.addEventListener("submit", () => {
+        document
+            .querySelectorAll(".city-checkbox")
+            .forEach(cb => cb.disabled = true);
+        });
+
   const thumbsCont = document.getElementById('item-1');
   const Up = document.getElementById('yesBtn');
   const Down = document.getElementById('noBtn');

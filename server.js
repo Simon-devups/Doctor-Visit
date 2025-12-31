@@ -115,6 +115,7 @@ app.get('/search', async (req, res) => {
         }
 
         if (city && city.trim()!=="") {
+            // city = city.split(',')
             andConditions.push({
                 description: { some: { city: city } }
             });
@@ -131,6 +132,7 @@ app.get('/search', async (req, res) => {
         const cities = await queries.getCities()
 
         const Doctors = await queries.getSpecifiedDoctors(where)
+        console.log(where.AND[0])
 
         // get spetcialies for filter section 
         const spetialties = await queries.getSpetialties()
