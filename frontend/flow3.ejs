@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/flow3.css">
+</head>
+
+<body>
+
+    <%- include('partials/header1') %>
+    <main class="main">
+        <div
+            style="margin-top: 6.5rem; display: flex; justify-content: end; gap: 0.5rem; width: 100%; max-width: 1400px; margin-bottom: 1.7rem; padding: 0 1rem;">
+            <span style="color: var(--Neutral_900); font-weight: bold; font-size: clamp(1rem, 5vw, 1.6rem);">انتخاب مراجع</span>
+            <img src="recourses/vectors/right-icon-circle.svg" alt="">
+        </div>
+        <div class="left-right-holder">
+            <div>
+                <section class="left-m">
+
+                    <div class="left-in1">
+                        <p style="text-align: end; font-size: 1.2rem; font-weight: bold;">جزئیات پرداخت</p>
+                        <div class="details">
+                            <div class="detail">
+                                <p><%=prices.doctorPrice%> تومان</p>
+                                <h5>:مبلغ ویزیت</h5>
+                            </div>
+                        </div>
+                        <div class="details">
+                            <div class="detail">
+                                <p><%=prices.commission%> تومان</p>
+                                <h5>:هزینه کارمزد</h5>
+                            </div>
+                        </div>
+                        <div class="details" style="margin-top: 1rem;">
+                            <div class="detail">
+                                <p><%=prices.finallPrice%> تومان</p>
+                                <h5>:مبلغ نهایی</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="left-in1" style="border-radius: 0rem 0rem 1rem 1rem;">
+                        <p style="text-align: end; font-size: 1.2rem; font-weight: bold;">درگاه پرداخت آنلاین</p>
+                        <label class="bank-detail">
+                            <input type="radio" name="bank" checked>
+                            <span class="bank-radio-indicator"></span>
+                            <div class="bank-detail-right">
+                                <span>بانک سامان</span>
+                                <img src="/recourses/bankPNG/image 17.png" alt="">
+                            </div>
+
+                        </label>
+                        <label class="bank-detail">
+                            <input type="radio" name="bank" checked>
+                            <span class="bank-radio-indicator"></span>
+                            <div class="bank-detail-right">
+                                <span>بانک پارسیان</span>
+                                <img src="/recourses/bankPNG/image 18.png" alt="">
+                            </div>
+
+                        </label>
+
+                    </div>
+
+                    <label style="display: flex; flex-direction: row-reverse;">
+                        <p style="color: var(--Neutral_900);">.پرداخت به منزله پذیرش شرایط و قوانین است</p>
+                        <input type="checkbox" class="check">
+                    </label>
+                    <button class="joseiat-btn"><img src="/recourses/vectors/arrow-left-01-sharp.svg" alt=""><span
+                            style="color: white;">پرداخت</span>
+                    </button>
+                </section>
+            </div>
+            <div class="right-m">
+                <div class="alert">نوبت شما هنوز تکمیل نشده است، برای ادامه پرداخت را انجام دهید</div>
+                <div class="flow-top">
+                    <div class="doctor-bio">
+                        <div style="text-align:left; width: 100%;"><span style="position: relative; top: -.4rem; "><span
+                                    style="color:var(--Neutral_800) ;">کد نظام پزشکی: </span><span
+                                    style="color: var(--Neutral_500);"><%=doctor.description[0].code%></span></span><img style="height: 1.4rem; "
+                            <img src="/recourses/vectors/CheckCircle.svg" alt="تأیید"></div>
+                        <div class="left-lables">
+                            <div class="title">دکتر <%=doctor.first_name%> <%=doctor.last_name%></div>
+                            <div style="margin-top: 10px; color:#262626"><%=doctor.spetialty.spetialty%></div>
+                            <div style="margin-top: 10px; color:#454545 ; align-self: end;">(۱۰۵ نظر)</div>
+                        </div>
+                    <div class="flow-img"><img src="/images/<%=doctor.image_url%>" alt="تصویر دکتر <%=doctor.first_name%> <%=doctor.last_name%>" style="height: 100%;"></div>
+
+                    </div>
+                    <div class="doctor-details">
+                        <div class="detail">
+                            <p style="color: var(--Neutral_900)"><%=doctor.description[0].Addres%></p>
+                            <p style="color: var(--Neutral_500)">:آدرس مطب</p>
+                        </div>
+                        <div class="detail">
+                            <p style="color: var(--Neutral_900)">حضوری</p>
+                            <p style="color: var(--Neutral_500)">:نوع نوبت</p>
+                        </div>
+                        <div class="detail">
+                            <p style="color: var(--Neutral_900)">دوشنبه ۲۴ دی ساعت ۹:۳۰ </p>
+                            <p style="color: var(--Neutral_500)">:زمان نوبت</p>
+                        </div>
+                        <div class="detail">
+                            <p style="color: var(--Neutral_900)"><%=user.first_name%> <%=user.last_name%></p>
+                            <p style="color: var(--Neutral_500)">:مراجعه کننده</p>
+                        </div>
+                    </div>
+                </div>
+                <section class="visit-section" dir="rtl">
+                    <h2 class="visit-title">با اطمینان نوبت خود را ثبت کنید
+                    </h2>
+                    <ul style="margin-right: 5%; display: flex; flex-direction: column;gap:1rem;">
+                        <li>امکان لغو نوبت</li>
+                        <li>امکان بازگشت وجه</li>
+                        <li>امکان ویرایش نوبت</li>
+                    </ul>
+
+                </section>
+            </div>
+
+        </div>
+    </main>
+
+        <%- include('partials/footer') %>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const checkbox = document.querySelector(".check");
+            const payButton = document.querySelector(".joseiat-btn");
+
+            // اول دکمه غیرفعال باشه
+            payButton.disabled = true;
+            payButton.style.opacity = "0.6";
+            payButton.style.cursor = "not-allowed";
+
+            // هر بار وضعیت چک‌باکس عوض شد، بررسی کن
+            checkbox.addEventListener("change", () => {
+                if (checkbox.checked) {
+                    payButton.disabled = false;
+                    payButton.style.opacity = "1";
+                    payButton.style.cursor = "pointer";
+                } else {
+                    payButton.disabled = true;
+                    payButton.style.opacity = "0.6";
+                    payButton.style.cursor = "not-allowed";
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

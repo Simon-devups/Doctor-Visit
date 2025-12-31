@@ -1,0 +1,166 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Users {
+  id         Int     @id @default(autoincrement())
+  firt_name  String
+  last_name  String
+  phone      String  @unique
+  role       Role    @default(PATIENT)
+  avatar_url String
+
+  userInfo   User_informations[]
+  comments   comments[]
+}
+
+model User_informations {
+  id         Int     @id @default(autoincrement())
+  user_id    Int     @unique
+  user       Users   @relation(fields: [user_id], references: [id]) 
+  code_meli  String
+  birthday   String
+  gender     gender
+  city       String
+  email      String
+  Patient_appointments  Appointments[]   @relation("PatientAppointments")
+}
+
+model doctors {
+  id           Int     @id @default(autoincrement())
+  first_name   String
+  last_name    String
+
+  spetialty    spetialty   @relation(fields:[spetialty_id] , references:[id])
+  spetialty_id Int
+
+  image_url    String
+
+  totalReservs Int
+
+  workingHours  WorkingHours[]
+  appointments  Appointments[]   @relation("DoctorAppointments")
+  description   doctor_descriptions[]
+  comments   comments[]
+  score      score[]
+
+  createdAt     DateTime @default(now())
+}
+
+model spetialty{
+  id   Int     @id @default(autoincrement())
+  spetialty   String  @unique
+  doctors doctors[]
+}
+
+model WorkingHours{
+  id         Int     @id @default(autoincrement())
+  doctor      doctors   @relation(fields: [doctorId], references: [id])
+  doctorId    Int
+
+  weekday    Int
+  start_time  String
+  end_time  String
+}
+
+model Appointments {
+  id         Int      @id @default(autoincrement())
+  doctor     doctors   @relation("DoctorAppointments", fields: [doctorId], references: [id])
+  doctorId   Int
+
+  patient    User_informations    @relation("PatientAppointments", fields: [patientId], references: [id])
+  patientId  Int
+
+  date       DateTime
+
+  status     AppointmentStatus @default(PENDING)
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model doctor_descriptions {
+  id          Int     @id @default(autoincrement())
+  doctorId    Int
+  doctor      doctors @relation(fields: [doctorId], references: [id]) 
+  description String
+  city        String
+  Addres      String
+  code        String
+  insurance   String
+  gender      gender   @default(MALE)
+}
+
+model doctor_contacts{
+  id          Int     @id @default(autoincrement())
+  doctorId   Int  @unique
+  phone      String
+  instagram  String
+  web  String
+  web2  String
+}
+
+model doctor_prices {
+  id          Int     @id @default(autoincrement())
+  doctor_id  Int
+  price   String
+}
+
+model comments{
+  id          Int     @id @default(autoincrement())
+  doctor_id  Int
+  doctor     doctors  @relation(fields: [doctor_id],references: [id] , onDelete: Cascade)
+
+  user_id  Int
+  user     Users   @relation(fields: [user_id],references: [id] , onDelete: Cascade)
+
+  score    Int
+  date     DateTime @default(now())
+  comment String
+}
+
+model score{
+  id          Int     @id @default(autoincrement())
+  doctor_id  Int
+  doctor     doctors  @relation(fields: [doctor_id],references: [id] , onDelete: Cascade)
+
+  score Int
+}
+
+model session {
+  sid    String   @id
+  sess   Json
+  expire DateTime
+
+  @@index([expire])
+}
+
+enum Role {
+  DOCTOR
+  PATIENT
+}
+
+enum AppointmentStatus {
+  CONFIRMED
+  PENDING
+  CANCELED
+  DONE
+}
+
+enum gender {
+  MALE
+  FEMALE
+}

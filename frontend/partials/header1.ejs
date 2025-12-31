@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/partials/header1.css">
+    <title>Document</title>
+</head>
+<body>
+    <header class="site-header">
+        <%if(user){%>
+            <a class="profile" href="/profile">      
+                <div class="name"><%=user.first_name%>    <%=user.last_name%></div>
+                <div class="avatar" >
+                    <!-- <%=user.avatar%> -->
+                     <img src="/uploads/<%=user.avatar%>">
+                </div>
+            </a>
+        <%}else{%>
+            <div class="login" >      
+                <a class="buttonof" href="/login_signUp">ورود | ثبت نام</a>
+            </div>
+        <%}%>
+        <div class="links">
+            <!-- <a href="/aboutus">تماس با ما</a>         -->
+            <a href="/aboutus">درباره ما</a> 
+            <a href="/">لیست رزرو ها</a>       
+            <a href="/questions">سوالات متداول</a>                
+            <a href="/search">لیست پزشکان</a>
+            <a href="/">صفحه اصلی</a>
+        </div>
+        <a class="logo" href="/">
+            <span class="logo-text"><span style="color: rgb(0, 0, 0);">دکتر </span>رزرو </span>
+            <img  src="/images/logo.png">
+        </a>
+    </header>
+</body>
+</html>
+
+
+
+<link rel="stylesheet" href="/partials/header1.css">
+

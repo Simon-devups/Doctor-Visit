@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/style6.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">      
+</head>
+<body>
+    <%- include('partials/header1') %>
+
+    <section class="sectionone">                   
+        <div class="sectionone-in">                                             
+            <div class="angry-grid">                                       
+                <div id="item-0"><img src="/images/<%=doctor.image_url%>"></div>                                                      
+                <div id="item-1">                                                              
+                    <button type="button" class="suggest-btn" id="noBtn">👎 پزشک را پیشنهاد نمی‌کنم</button>
+                    <button type="button" class="suggest-btn" id="yesBtn">👍 پزشک را پیشنهاد می‌کنم</button>                                               
+                </div>                                                            
+                <div id="item-2">                                                                 
+                    <div class="doctor-row">                                                                                
+                        <div class="doctor-code">                                                                                   
+                            <span>کد نظام پزشکی: <%=doctor.description[0].code%></span>                                                                                   
+                            <img src="/images/Vector.png" class="check-icon" alt="check">                                                                              
+                        </div>                                                                             
+                        <div class="doctor-name">                                                                           
+                            دکتر <%=doctor.first_name%> <%=doctor.last_name%>                                                                     
+                        </div>                                                                     
+                    </div>                                                             
+                    <div class="doctor-info">                                                                                                    
+                        <p class="doctor-specialty"><%=doctor.spetialty.spetialty%></p>                                                                                                                             
+                    </div>                                                        
+                </div>                                                                         
+                <div id="item-3">                                                                                                                                
+                    <input type="radio" name="star" id="star5"><label for="star5">&#9733;</label>
+                    <input type="radio" name="star" id="star4"><label for="star4">&#9733;</label>
+                    <input type="radio" name="star" id="star3"><label for="star3">&#9733;</label>  
+                    <input type="radio" name="star" id="star2"><label for="star2">&#9733;</label> 
+                    <input type="radio" name="star" id="star1"><label for="star1">&#9733;</label>
+                </div>  
+                <div id="item-4"><span>نظر خود را در بخش زیر وارد کنید</span></div>    
+                <div id="item-5" dir="rtl">
+                    <textarea id="comment" placeholder="نظر خود را اینجا وارد کنید"></textarea>
+                </div>                                                                     
+            </div>
+        </div>
+    </section> 
+    <section class="container"  dir="rtl">
+        <div class="checkbox-container">
+            <input type="checkbox" id="agree">
+            <label >قوانین ثبت نظر را خوانده‌ام و موافقم.</label>
+        </div>
+        <button class="btn">ارسال نظر</button>
+    </section>    
+    <footer class="footer" dir="rtl">   
+      <div class="footer-top">    
+        <div class="div3">     
+          <div style="display:flex;gap:40px;justify-content:space-between">    
+            <div class="quick-links">      
+              <h4>لینک‌های سریع</h4>      
+              <ul>       
+                <li>صفحه اصلی</li>           
+                <li>لیست پزشکان</li>           
+                <li>سوالات متداول</li>          
+                <li>درباره ما</li>          
+                <li>تماس با ما</li>        
+              </ul>       
+            </div>       
+            <div class="legal" style="min-width:180px">       
+              <h4>اطلاعات حقوقی</h4>        
+              <p>تمامی حقوق محفوظ است.</p>        
+              <p style="margin-top:8px;">سال تاسیس یا بروزرسانی: 2025</p>      
+            </div>     
+          </div> 
+        </div> 
+        <div class="cocontact"> 
+          <div class="group"> 
+            <h4>اطلاعات تماس</h4>         
+            <img src="resources\logo\smart-phone-01-stroke-rounded 1.png" />           
+            <div class="phones">        
+              <div>0912-345-6789</div>       
+              <div>0912-345-6790</div>     
+            </div> 
+          </div>    
+          <div class="group">   
+            <img src="resources\logo\phone 3.png" />  
+            <div class="phones">  
+              <div>021-77 345867</div>  
+              <div>021-77 345868</div>  
+            </div>  
+          </div>  
+        </div>        
+        <div class="code">
+          <div class="subscribe-card">   
+            <h4>مشترک شوید</h4>   
+            <div class="input-row">   
+              <input type="email" placeholder="آدرس ایمیل" />   
+              <button class="send-btn" aria-hidden="true">←</button>   
+            </div>   
+            <p class="desc">اپلیکیشن رزرو نوبت برای گرفتن نوبت سریع</br> و غیرحضوری و بهترین دکترهای متخصص با </br>دکتر رزرو.</p>  
+          </div>  
+        </div> 
+      </div>   
+     
+       <div class="footer-bottom">
+        <div class="socials">           
+          <button ><img src="resources\logo\whatsapp.png" /></button>      
+          <button ><img src="resources\logo\instagram.png" /></button>
+          <button ><img src="resources\logo\telegram.png" /></button>     
+          <button ><img src="resources\logo\linkedin-01.png" /></button>    
+        </div>               
+        <div class="brand">    
+          <div class="plus"><img src="resources\logo\logo.png" /></div>   
+          <div class="logo">دکتر <span style="color:#4179F0">رزرو</span></div>
+        </div>
+      </div>
+    </footer>
+</body>
+<script defer>
+  const thumbsCont = document.getElementById('item-1');
+  const Up = document.getElementById('yesBtn');
+  const Down = document.getElementById('noBtn');
+
+  thumbsCont.addEventListener('click' , (e)=>{
+    if(e.target.closest('#yesBtn')){
+      Up.firstElementChild.src='recourses/vectors/thumbs-up[accent].svg'
+      Down.firstElementChild.src='recourses/vectors/thumbs-down[grey].svg'
+      Up.style = 'transition:all 0.2s ease ; color: var(--accent);border-color: var(--accent)'
+      Down.style = ''
+    }
+    if(e.target.closest('#noBtn')){
+      Up.firstElementChild.src='recourses/vectors/thumbs-up[grey].svg'
+      Down.firstElementChild.src='recourses/vectors/thumbs-down[accent].svg'
+      Down.style = 'transition:all 0.2s ease ;color: var(--accent);border-color: var(--accent)'
+      Up.style = ''
+    }
+  })
+</script>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/flow.css">
+    <script>
+        // Load more comments functionality
+        function loadMoreComments() {
+            const commentContainer = document.querySelector('.N2-comments');
+            const showMoreBtn = document.querySelector('.show-more-comments');
+            
+            // Validate elements exist
+            if (!commentContainer || !showMoreBtn) {
+                console.warn('Comment elements not found');
+                return;
+            }
+
+            // Sample new comments data
+            const newComments = [
+                {
+                    name: 'علی محمدی',
+                    date: '(۱۴۰۳/۱۰/۱۹)',
+                    text: 'تجربه بسیار خوبی داشتم با دکتر وارسته. بسیار حرفه‌ای و دقیق است.',
+                    avatar: '/recourses/Avatar.png'
+                },
+                {
+                    name: 'مریم احمدی',
+                    date: '(۱۴۰۳/۱۰/۱۸)',
+                    text: 'نوبت‌دهی بسیار آسان و سریع بود. خیلی راضی هستم.',
+                    avatar: '/recourses/Avatar.png'
+                }
+            ];
+
+            // Create and insert new comments
+            newComments.forEach(comment => {
+                const commentDiv = document.createElement('div');
+                commentDiv.className = 'comment';
+                commentDiv.setAttribute('role', 'article');
+                commentDiv.setAttribute('aria-label', `نظر از ${comment.name}`);
+                
+                commentDiv.innerHTML = `
+                    <div class="comment-top">
+                        <div class="comment-date">${comment.date}</div>
+                        <div class="comment-property">
+                            <div class="comment-starsAndname">
+                                <div class="name">${comment.name}</div>
+                                <div class="stars" aria-label="رتبه‌بندی"></div>
+                            </div>
+                            <div class="comment-profile">
+                                <img src="${comment.avatar}" alt="پروفایل ${comment.name}" loading="lazy">
+                            </div>
+                        </div>
+                    </div>
+                    <p class="comment-nazar">${comment.text}</p>
+                `;
+                
+                commentContainer.insertBefore(commentDiv, showMoreBtn);
+            });
+
+            // Hide the "show more" button after loading
+            showMoreBtn.style.display = 'none';
+            showMoreBtn.setAttribute('aria-hidden', 'true');
+        }
+
+        // Bio expand/collapse functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const flowTop = document.querySelector('.flow-top');
+            if (!flowTop) return;
+
+            const btn = flowTop.querySelector('.expand-btn');
+            const collapse = flowTop.querySelector('.bio-collapse');
+
+            // Defensive checks
+            if (!btn || !collapse) return;
+
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                const isOpen = flowTop.classList.toggle('open');
+                
+                // Update ARIA attributes for accessibility
+                btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                collapse.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+
+                // Smooth scroll on mobile to show revealed content
+                if (isOpen && window.innerWidth <= 650) {
+                    setTimeout(() => {
+                        collapse.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }, 150);
+                }
+            });
+        });
+    </script>
+
+</head>
+
+<body>
+
+    <%- include('partials/header1') %>
+
+    <div class="breadcrumb-section">
+        <span class="breadcrumb-title">صفحه پزشک</span>
+        <img src="/recourses/vectors/right-icon-circle.svg" alt="آیکن">
+    </div>
+    <main class="main">
+        <div class="left-m">
+            <!-- persian-calendar.html -->
+            <section class="pc-card" dir="rtl" aria-label="تقویم فارسی">
+                <header class="pc-header">
+                    <h3 class="pc-title">تقویم</h3>
+                    <div class="pc-top-row">
+                        <button class="pc-nav pc-prev" aria-label="ماه قبل">‹</button>
+                        <div class="pc-month">دی ۱۴۰۳</div>
+                        <button class="pc-nav pc-next" aria-label="ماه بعد">›</button>
+                    </div>
+                    <div class="pc-small-date">۱۵ دی ماه ۱۴۰۳</div>
+                </header>
+
+                <div class="pc-weekdays" aria-hidden="true">
+                    <div>شنبه</div>
+                    <div>یکشنبه</div>
+                    <div>دوشنبه</div>
+                    <div>سه‌شنبه</div>
+                    <div>چهارشنبه</div>
+                    <div>پنج‌شنبه</div>
+                    <div>جمعه</div>
+                </div>
+
+                <!-- Day grid: static demo for دی ۱۴۰۳.
+        JS will need to generate days dynamically later. -->
+                <div class="pc-grid" role="grid" aria-label="روزهای ماه">
+                    <!-- each .pc-day has data-day for future JS -->
+                    <div class="pc-day empty" aria-hidden="true"></div>
+                    <div class="pc-day empty" aria-hidden="true"></div>
+                    <div class="pc-day">۱</div>
+                    <div class="pc-day">۲</div>
+                    <div class="pc-day">۳</div>
+                    <div class="pc-day">۴</div>
+                    <div class="pc-day">۵</div>
+
+                    <div class="pc-day">۶</div>
+                    <div class="pc-day">۷</div>
+                    <div class="pc-day">۸</div>
+                    <div class="pc-day">۹</div>
+                    <div class="pc-day">۱۰</div>
+                    <div class="pc-day">۱۱</div>
+                    <div class="pc-day">۱۲</div>
+
+                    <div class="pc-day">۱۳</div>
+                    <div class="pc-day">۱۴</div>
+                    <div class="pc-day pc-today" aria-current="date">۱۵</div>
+                    <div class="pc-day">۱۶</div>
+                    <div class="pc-day">۱۷</div>
+                    <div class="pc-day">۱۸</div>
+                    <div class="pc-day">۱۹</div>
+
+                    <div class="pc-day">۲۰</div>
+                    <div class="pc-day">۲۱</div>
+                    <div class="pc-day">۲۲</div>
+                    <div class="pc-day">۲۳</div>
+                    <div class="pc-day">۲۴</div>
+                    <div class="pc-day">۲۵</div>
+                    <div class="pc-day">۲۶</div>
+
+                    <div class="pc-day">۲۷</div>
+                    <div class="pc-day">۲۸</div>
+                    <div class="pc-day">۲۹</div>
+                    <div class="pc-day">۳۰</div>
+                    <div class="pc-day empty muted">۱</div> <!-- overflow next month (example) -->
+                    <div class="pc-day empty muted">۲</div>
+                    <div class="pc-day empty muted">۳</div>
+                </div>
+
+                <!-- Time slots area (visual only). JS can toggle .active -->
+                <div class="pc-times">
+                    <div class="pc-times-row">
+                        <button class="pc-slot">۹:۱۵</button>
+                        <button class="pc-slot">۹:۳۰</button>
+                        <button class="pc-slot muted">۹:۴۵</button>
+                    </div>
+                    <div class="pc-times-row">
+                        <button class="pc-slot">۱۰:۰۰</button>
+                        <button class="pc-slot active">۱۰:۱۵</button>
+                        <button class="pc-slot outlined">۱۰:۳۰</button>
+                    </div>
+                    <div class="pc-times-row">
+                        <button class="pc-slot outlined">۱۰:۴۵</button>
+                        <button class="pc-slot">۱۱:۰۰</button>
+                        <button class="pc-slot outlined">۱۱:۱۵</button>
+                    </div>
+                </div>
+
+                <div class="pc-actions">
+                    <a class="pc-reserve" href="/flow2/<%=doctor.id%>">رزرو نوبت</a>
+                </div>
+            </section>
+
+        </div>
+        <div class="right-m">
+            <div class="flow-top">
+                <div class="doctor-bio">
+                    <div class="doctor-code">
+                        <span class="doctor-code-text" style="align-items: center; justify-content: center;">
+                            <span><span class="code-label">کد نظام پزشکی: </span><span class="code-value"><%=doctor.description[0].code%></span></span>
+                            <img style="height: 1.4rem; " src="/recourses/vectors/CheckCircle.svg" alt="تایید">
+                        </span>
+                    </div>
+                    <div class="left-lables">
+                        <div class="title"><%=doctor.first_name%> <%=doctor.last_name%></div>
+                        <div class="doctor-specialty"><%=doctor.spetialty.spetialty%></div>
+                        <div class="doctor-comments-count">(۱۰۵ نظر)</div>
+                    </div>
+                    <div class="flow-img"><img src="/images/<%=doctor.image_url%>" alt="تصویر دکتر زهرا وارسته" loading="lazy"></div>
+                </div>
+                <div class="clinic-address">
+                    <%=doctor.description[0].Addres%>
+                    <img src="/recourses/vectors/map-pinpoint-02.svg" alt="آیکن موقعیت">
+                </div>
+                <div class="appointment-info">
+                    <div class="appointment-day">دوشنبه ۲۴ دی</div>
+                    <span class="appointment-text">: اولین نوبت در دسترس</span>
+                    <img src="/recourses/vectors/alarm-clock.svg" alt="آیکن ساعت">
+                </div>
+                <hr style="margin-top: 0.5rem;">
+                <!-- replace original about block with this -->
+                <div class="about-bio">
+                    <span class="title about-section-title">درباره دکتر زهرا وارسته</span>
+
+                    <!-- collapsed wrapper (short visible area) -->
+                    <div class="bio-collapse" aria-hidden="true">
+                        <p class="bio-text">
+                            <%=doctor.description[0].description%>
+                        </p>
+                    </div>
+
+                    <!-- red circular button -->
+                    <button class="expand-btn" aria-expanded="false" aria-label="نمایش بیشتر"><img src="/recourses/vectors/Vector (Stroke).svg" alt=""></button>
+                </div>
+
+            </div>
+            <div class="rah-cont">
+                <!-- داخل بعدا اد میشه -->
+                <div class="rah-ertebati"
+                    style="display: flex;flex-direction: column; margin-bottom: 1rem; margin-right: 1%;">
+                    <div class="title">راه های ارتباطی</div>
+                </div>
+                <div class="in-cont">
+                    <div class="in-rah"><%=contact.instagram%> <img src="./recourses/vectors/instagram.svg"
+                            alt=""></div>
+                    <div class="in-rah"> <%=contact.phone%> شماره تماس: <img src="./recourses/vectors/telephone.svg" alt="">
+                    </div>
+                    <div class="in-rah"><%=contact.web%> <img src="./recourses/vectors/chrome.svg" alt=""></div>
+                </div>
+            </div>
+
+    </main>
+    <div class="nazarat-cont">
+        <div class="title">نظرات کاربران</div>
+        <div class="N-flex">
+            <div class="comment-stars">(105) نظر</div>
+            <div class="recommendation-text">
+                <p>مراجعان این پزشک را پیشنهاد داده‌اند</p>
+                <span>90%</span>
+                <img src="/recourses/vectors/thumbs-up.svg" style="max-height: 1.4rem;" alt="آیکن تأیید">
+            </div>
+            <a href="/comment/<%=doctor.id%>" class="sabte-nazar">
+                <img src="/recourses/vectors/comment add-01.svg" alt="">ثبت نظر
+            </a>
+        </div>
+
+        <div class="N2-comments">
+            <%comments.forEach(comment=>{%>
+                
+                <div class="comment">
+                    <div class="comment-top">
+                        <div class="comment-date"> <%=comment.date%> </div>
+                        <div class="comment-property">
+                            <div class="comment-starsAndname">
+                                <div class="name"><%=comment.user.firt_name%></div>
+                                <div class="stars" aria-label="رتبه‌بندی"></div>
+                            </div>
+                            <div class="comment-profile"><img src="/uploads/<%=comment.user.avatar_url%>" alt="پروفایل <%=comment.user.firt_name%>" loading="lazy"></div>
+                        </div>
+                    </div>
+                    <p class="comment-nazar"><%=comment.comment%></p>
+                </div>
+            <%})%>
+            
+            <div class="show-more-comments" onclick="loadMoreComments()" role="button" tabindex="0" aria-label="نمایش نظرات بیشتر">
+                <img src="/recourses/vectors/Down.svg" alt="">نظرات بیشتر
+            </div>
+        </div>
+    </div>
+    
+    <%- include('partials/footer') %>
+
+</body>
+
+</html>
