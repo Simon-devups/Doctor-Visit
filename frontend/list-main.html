@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/list-main.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap">
+</head>
+
+<body>
+    <!--  نوباری که قرار نیست از این نو بار استفاده شود  -->
+    <header class="navbar">
+        <!-- Right: Logo -->
+        <div class="nav-logo">
+            <span>دکتر <span style="color: var(--accent);">رزرو</span></span>
+            <img src="/recourses/MainLogo.png" alt="logo" style="height:2rem; width: 2rem;">
+        </div>
+
+        <!-- Center: Nav links -->
+        <nav class="nav-links">
+            <a href="#">لیست پزشکان</a>
+            <a href="#">سوالات متداول</a>
+            <a href="#">درباره ما</a>
+            <a href="#">تماس با ما</a>
+        </nav>
+
+        <!-- Left: Login/Register -->
+        <a href="#" class="nav-auth">ورود / ثبت نام</a>
+    </header>
+
+    <div class="card-alert">
+        <div class="alert-img"><img src="./recourses/vectors/Circle !.svg" alt=""></div>
+        <p style="font-size: 1.6rem; font-weight: 500;">حذف نوبت</p>
+        <p style="color: #525252; font-weight: 400; font-size: 1.2rem;">آیا از لغو نوبت خود مطمئن هستید؟</p>
+        <div class="btns">
+            <button class="red-btn">بله</button>
+            <button class="white-btn">خیر</button>
+        </div>
+    </div>
+    <main class="main">
+        <a href="" style="display: flex; justify-content: end; gap: 0.5rem;align-self:flex-end; max-width: 1400px; text-decoration: none;" class="a-bazgasht">
+        <div class="bazgasht"
+                style="margin-top: 6.5rem; display: flex; justify-content: end; gap: 0.5rem; width: 100%; max-width: 1400px; margin-bottom: 1.7rem; padding: 0 1rem;">
+                <span style="color: var(--Neutral_900); font-weight: bold; font-size: clamp(1rem, 5vw, 1.6rem);line-height: 120%; cursor: pointer;">رزور های شما</span>
+                <img src="./recourses/vectors/right-icon-circle.svg" alt="">
+            </div>
+        </a>
+        <h3 dir="rtl" style="color: #4179F0; text-align: right ; padding-right: 0.5rem; width: 100%; max-width:1400px ; display: flex; margin-top: 1rem; ">نوبت های بعدی</h3>
+        <div class="rectangle">
+            <div class="delete"><img src="./recourses/vectors/cross.svg"><p>لغو نوبت</p></div>
+            <div class="rect-ball">
+                <div></div>
+                <div dir="rtl" ><span>۴</span> روز و <span>۱۷</span> ساعت تا نوبت</div>
+            </div>
+            <div class="rect-date">دوشنبه ۲۴ دی ساعت ۹:۳۰ </div>
+            <div class="rect-doctor-name">دکتر زهرا وارسته</div>
+        </div>
+
+        <div class="rectangle">
+            <div class="delete"><img src="./recourses/vectors/cross.svg"><p>لغو نوبت</p></div>
+            <div class="rect-ball">
+                <div></div>
+                <div dir="rtl"><span>۴</span> روز و <span>۱۷</span> ساعت تا نوبت</div>
+            </div>
+            <div class="rect-date">دوشنبه ۲۴ دی ساعت ۹:۳۰ </div>
+            <div class="rect-doctor-name">دکتر زهرا وارسته</div>
+        </div>
+
+
+
+
+        <!-- بخش های نوبت های قبلی -->
+
+
+        <h3 dir="rtl" style="color: #FF6565; text-align: right ; padding-right: 0.5rem; width: 100%; max-width:1400px ; display: flex; margin-top: 3rem;">نوبت های قبلی شما</h3>
+        <div class="past-rectangle">
+            <div class="past-rect-ball">
+                <div></div>
+            </div>
+            <div  dir="rtl" class="past-rect-date">دوشنبه ۲۴ دی ساعت ۹:۳۰ </div>
+            <div class="past-rect-doctor-name">دکتر زهرا وارسته</div>
+        </div>
+        <div class="past-rectangle">
+            <div class="past-rect-ball">
+                <div></div>
+            </div>
+            <div  dir="rtl" class="past-rect-date">دوشنبه ۲۴ دی ساعت ۹:۳۰ </div>
+            <div class="past-rect-doctor-name">دکتر زهرا وارسته</div>
+        </div>
+    </main> 
+    <!-- برای صفحات لیست فوتر نیاز نیست ! -->
+
+
+    <script>
+        // حذف مارجین تاپ از اولین رکتنگل
+        document.querySelector('.rectangle').style.marginTop = '0.4rem';
+        document.querySelector('.past-rectangle').style.marginTop = '0.4rem';
+
+        const deleteButton = document.querySelectorAll('.delete');
+        const deleteCard = document.querySelector('.card-alert');
+        const YesBtn = document.querySelector('.red-btn');
+        const NoBtn = document.querySelector('.white-btn');
+        let UIhidden=true;
+
+        deleteButton.forEach(button=>{
+            button.addEventListener('click' , ()=>{
+                deleteCard.style.display = 'flex';
+                document.body.classList.add('alert-opened')
+            })
+        });
+        NoBtn.addEventListener('click' , ()=>{
+            deleteCard.style.display='none';
+            document.body.classList.remove('alert-opened');
+        })
+        YesBtn.addEventListener('click' , ()=>{
+            deleteCard.style.display='none';
+            document.body.classList.remove('alert-opened');
+            console.log('کنسل شد');
+            
+            const Message=document.createElement('div');
+            Message.className='Message';
+            Message.style.position='fixed';
+            Message.style.bottom='2rem';
+            Message.style.right='2rem';
+            Message.innerText='نوبت شما با موفقیت کنسل شد';
+            document.body.appendChild(Message);
+
+            setTimeout(() => {
+                Message.classList.add('add');
+            }, 50);
+
+            setTimeout(() => {
+                Message.classList.add('less')
+            }, 3000);
+            setTimeout(() => {
+                Message.remove();
+            }, 3700);
+        })
+        addEventListener('keydown' , (event)=>{
+            if (event.key==='Enter' && document.body.classList.contains('alert-opened')){
+                YesBtn.click();
+            }
+        })
+
+    </script>
+</body>
+
+</html>

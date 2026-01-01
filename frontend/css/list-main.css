@@ -1,0 +1,200 @@
+:root {
+    --accent: #4179F0;
+    --Grey_100: #E7E7E7;
+    --Neutral_40: #F7F7F7;
+    --Neutral_900: #3D3D3D;
+    --Neutral_800: #454545;
+    --Neutral_600: #5D5D5D;
+    --Neutral_500: #6D6D6D;
+    --Neutral_400: #888888;
+}
+
+* {
+    font-family: 'vazirmatn';
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    padding: 0 0rem;
+    background-color: #ffffff;
+    line-height: 1.6;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+/* نوباری که قرار نیست از این نو بار استفاده شود */
+.navbar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background-color: white;
+    flex-direction: row-reverse;
+    border-bottom: var(--Grey_100) 1px solid;
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+}
+
+/* ===== Right Section (Logo + Brand) ===== */
+.nav-logo {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--Neutral_900);
+}
+
+.nav-logo img {
+    width: 22px;
+    height: 22px;
+    filter: drop-shadow(0 0 6px rgba(65, 121, 240, 0.5));
+}
+
+/* ===== Center Links ===== */
+.nav-links {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 3rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.nav-links a {
+    color: var(--Neutral_900);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+    color: var(--accent);
+}
+
+/* ===== Left Side (Login/Register) ===== */
+.nav-auth {
+    color: var(--accent);
+    font-weight: 500;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+    font-size: 0.95rem;
+}
+
+.nav-auth:hover {
+    opacity: 0.7;
+}
+
+/* navbar responsive */
+@media (max-width: 900px) {
+    .navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .nav-links {
+        gap: 2rem;
+    }
+}
+
+
+
+
+/* //مستطیل ها */
+.rectangle , .past-rectangle{
+    width: 100%;
+    max-width: 1400px;
+    border-radius: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5rem;
+    border: 1px solid var(--Grey_100);
+    border-radius: 20px;
+    align-items: center;
+    position: relative;
+    margin-top: 48px;
+    cursor: pointer;
+}
+
+.rect-ball , .past-rect-ball{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.rect-ball div:first-child , .past-rect-ball div:first-child{
+    width: 1.2rem;
+    height: 1.2rem;
+    background-color: var(--accent);
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+}
+
+.rect-ball div:first-child , .past-rect-ball div:first-child {
+    font-size: clamp(0.8rem, 3vw, 1rem);
+    color: var(--Neutral_900);
+    width: 44px;
+    height: 44px;
+    border: var(--Neutral_40) solid 2px;
+}
+
+.rect-ball div:last-child , .past-rect-ball div:last-child{
+    color: var(--Neutral_900);
+    color: var(--Neutral_600);
+}
+
+.rect-date , .past-rect-date{
+    color: var(--Neutral_600);
+    font-size: 0.85rem;
+}
+
+.rect-doctor-name , .past-rect-doctor-name{
+    color: var(--Neutral_900);
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.delete{display: flex; position: absolute; top: -2rem; left: 0.6rem; gap: 0.5rem; color: #141B34;font-weight: 400; cursor: pointer;}
+
+.past-rectangle{margin-top: 1rem;}
+.past-list{width: 100%; margin-top: 90px;}
+.past-rect-ball div:first-child{background-color: #FF6565;}
+/* استایل تاریخ پَست که باید در وسط باشد با پدینگ تنظیم شده */
+.past-rect-date{padding-left: 9rem;}
+
+.card-alert{background-color: white; padding: 2rem !important; display: flex;flex-direction: column; padding: 10px;align-items: center;justify-content: center; gap: 1rem; border-radius: 10px; border: var(--Neutral_400) 1px solid; z-index: 999; margin: 0 auto; width: 600px; display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);}
+.alert-img{background-color: #FEEDED; height: 90px; aspect-ratio: 1/1; display: flex; align-items: center;justify-content: center; border-radius: 10px;}
+.alert-img img{height: 75%;}
+.btns{display: flex; gap: 1rem;}
+.btns > button{width: 260px;height: 50px; border-radius: 15px;}
+.red-btn{background-color: #C70E0E;color: white; border: none;font-size: 1.2rem; cursor: pointer;}
+.white-btn{background-color: white; color: var(--Neutral_400); border: 1px solid var(--Neutral_400); font-size: 1.2rem; cursor: pointer;}
+.main{position: absolute;top: 0; z-index: -1;}
+
+/* برای وقتی که کار آلرت باز شد بادی تغییر حالت میدهد */
+body.alert-opened{overflow: hidden;}
+body.alert-opened::before{content: ''; position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 1;}
+body.alert-opened .card-alert{z-index: 3;}
+
+.Message{border: 1px var(--accent) solid; background-color: white; padding: 1rem 2rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);transform: translateY(90px); transition: transform 1s ease; color: #4179F0;}
+.Message.add{transform: translateY(0px);}
+.Message.less {
+    transition: all 0.5s ease-in-out;
+    transform: translateY(90px);
+}
+main{scale: 0.9;}
+@media(min-width:1550px) and (max-width:2800px){
+    .a-bazgasht{align-self: unset !important; font-size: 3.2em;}
+}
