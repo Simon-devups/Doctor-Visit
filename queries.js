@@ -242,6 +242,68 @@ const getDoctorPrice = async(doctorId)=>{
     return result[0].price
 }
 
+const addAppointmentToPendingList = async(doctorId,userId,date)=>{
+    const result = await prisma.appointments.create({
+        data:{
+            doctorId:doctorId,
+            patientId:userId,
+            date:date,
+            status:"PENDING"
+        }
+    })
+}
+
+const addAppointmentToConfirmedList = async(doctorId,userId)=>{
+    const result = await prisma.appointments.updateMany({
+        where:{
+            doctorId:doctorId,
+            patientId:userId,
+        },
+        data:{
+            status:"CONFIRMED"
+        }
+    })
+}
+
+const getConfermedUserAppointments = async(userId)=>{
+    const result = await prisma.appointments.findMany({
+        where:{
+            patientId:userId,
+            status:'CONFIRMED'
+        },
+        include:{
+            doctor:true
+        }
+    })
+    return result
+}
+
+const getDoneUserAppointments = async(userId)=>{
+    const result = await prisma.appointments.findMany({
+        where:{
+            patientId:userId,
+            status:'DONE'
+        },
+        include:{
+            doctor:true
+        }
+    })
+    return result
+}
+
+const getPendingUserAppointments = async(userId)=>{
+    const result = await prisma.appointments.findMany({
+        where:{
+            patientId:userId,
+            status:'PENDING'
+        },
+        include:{
+            doctor:true
+        }
+    })
+    return result
+}
+
 //get fileds of inputs
 const getSpetialties = async () => {
     const result = await prisma.spetialty.findMany()
@@ -267,7 +329,9 @@ const queries = {
     getDoctorByFirstName, getDoctorByLastName, getSpetialties, getSpecifiedDoctors,
     getCities, getTopDoctors, getOldDoctors, findUser, signUpUser, findUserById, updateUser,
     updateUserPhoto, getDoctorComments,getDoctorContacts,addCommentToDoctor,getDoctorPrice,
-    getDoctorWorkingDays,
+    getDoctorWorkingDays,getConfermedUserAppointments,getDoneUserAppointments,
+    addAppointmentToConfirmedList,addAppointmentToPendingList,getPendingUserAppointments,
+    
 }
 
 export default queries;

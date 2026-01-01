@@ -132,13 +132,14 @@ app.get('/search', async (req, res) => {
         const cities = await queries.getCities()
 
         const Doctors = await queries.getSpecifiedDoctors(where)
-        console.log(where.AND[0])
+        
 
         // get spetcialies for filter section 
         const spetialties = await queries.getSpetialties()
 
         res.render("search.ejs",{doctors:Doctors , spti:spetialties , cities:cities})
     } catch (err) {
+        console.log(err)
         res.render("FAQ.ejs")
     }
 })
@@ -289,6 +290,11 @@ app.get('/flow2/:id', async(req, res) => {
     try {
         const specifiedDoctor = await queries.getDoctorById(id)
 
+        const date = '2026-01-05T10:30:00Z' //date will be fill when callendar finished
+
+        const user = req.session.user
+        const appointment = await queries.addAppointmentToPendingList(id,user.id,date)
+
         res.render("flow2.ejs",{doctor:specifiedDoctor})
     } catch (err) {
         res.render("FAQ.ejs")
@@ -315,6 +321,45 @@ app.get('/flow3/:id',async (req, res) => {
     } catch (err) {
         res.render("FAQ.ejs")
     }
+})
+
+
+app.get('/ConfirmAppointment/:id',async(req,res)=>{
+    const id = parseInt(req.params.id)
+    try{
+        const user = req.session.user
+        const appointment = await queries.addAppointmentToConfirmedList(id,user.id)
+        res.redirect('/')
+    }catch(err){
+        console.log(err)
+        res.render("FAQ.ejs")
+    }
+})
+
+//reserve list section
+app.get('/reserveList',async(req,res)=>{
+    try{
+        const user = req.session.user
+        const ConfirmedreserveList = await queries.getConfermedUserAppointments(user.id)
+        const DonereserveList = await queries.getDoneUserAppointments(user.id)
+        const PendingList = await queries.getPendingUserAppointments(user.id)
+
+        res.render('list-main.ejs',{list:ConfirmedreserveList,DoneList:DonereserveList,Pendinglist:PendingList})
+    }catch(err){
+        console.log(err)
+        res.render("FAQ.ejs")
+    }
+})
+
+app.get('/Doctor/:id',async(req,res)=>{
+    const id = parseInt(req.params.id)
+    try{
+        const specifiedDoctor = await queries.getDoctorById(id)
+        res.render('list-DoctorProfile.ejs',{doctor:specifiedDoctor})
+    }catch(err){
+        res.render("FAQ.ejs")
+    }
+    
 })
 
 

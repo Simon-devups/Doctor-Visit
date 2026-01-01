@@ -22,6 +22,10 @@ body {
     line-height: 1.6;
 }
 
+a{
+    text-decoration: none;
+}
+
 .main {
     display: flex;
     flex-direction: column;
@@ -140,6 +144,10 @@ body {
     background-color: var(--accent);
     border-radius: 50%;
     aspect-ratio: 1/1;
+}
+
+#pending{
+    background-color: #e28930;
 }
 
 .rect-ball div:first-child , .past-rect-ball div:first-child {

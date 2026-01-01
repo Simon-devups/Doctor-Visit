@@ -81,6 +81,9 @@
 }
 } */
 
+a{
+    text-decoration: none;
+}
 
 .site-header{
     font-family: "Vazirmatn", sans-serif;

@@ -10,25 +10,7 @@
 </head>
 
 <body>
-    <!--  نوباری که قرار نیست از این نو بار استفاده شود  -->
-    <header class="navbar">
-        <!-- Right: Logo -->
-        <div class="nav-logo">
-            <span>دکتر <span style="color: var(--accent);">رزرو</span></span>
-            <img src="/recourses/MainLogo.png" alt="logo" style="height:2rem; width: 2rem;">
-        </div>
-
-        <!-- Center: Nav links -->
-        <nav class="nav-links">
-            <a href="#">لیست پزشکان</a>
-            <a href="#">سوالات متداول</a>
-            <a href="#">درباره ما</a>
-            <a href="#">تماس با ما</a>
-        </nav>
-
-        <!-- Left: Login/Register -->
-        <a href="#" class="nav-auth">ورود / ثبت نام</a>
-    </header>
+    <%- include('partials/header1') %>
 
     <div class="card-alert">
         <div class="alert-img"><img src="./recourses/vectors/Circle !.svg" alt=""></div>
@@ -48,17 +30,32 @@
             </div>
         </a>
         <h3 dir="rtl" style="color: #4179F0; text-align: right ; padding-right: 0.5rem; width: 100%; max-width:1400px ; display: flex; margin-top: 1rem; ">نوبت های بعدی</h3>
-        <div class="rectangle">
-            <div class="delete"><img src="./recourses/vectors/cross.svg"><p>لغو نوبت</p></div>
-            <div class="rect-ball">
-                <div></div>
-                <div dir="rtl" ><span>۴</span> روز و <span>۱۷</span> ساعت تا نوبت</div>
-            </div>
-            <div class="rect-date">دوشنبه ۲۴ دی ساعت ۹:۳۰ </div>
-            <div class="rect-doctor-name">دکتر زهرا وارسته</div>
-        </div>
+        <%list.forEach(doctor=>{%>
+            <a href="/Doctor/<%=doctor.doctor.id%>" class="rectangle">
+                <div class="delete"><img src="./recourses/vectors/cross.svg"><p>لغو نوبت</p></div>
+                <div class="rect-ball">
+                    <div></div>
+                    <div dir="rtl" ><span>۴</span> روز و <span>۱۷</span> ساعت تا نوبت</div>
+                </div>
+                <div class="rect-date">دوشنبه ۲۴ دی ساعت ۹:۳۰ </div>
+                <div class="rect-doctor-name">دکتر <%=doctor.doctor.first_name%> <%=doctor.doctor.last_name%></div>
+            </a>
+        <%})%>
 
-        <div class="rectangle">
+        <h3 dir="rtl" style="color: #e28930; text-align: right ; padding-right: 0.5rem; width: 100%; max-width:1400px ; display: flex; margin-top: 1rem; ">نوبت های بعدی درحال پرداخت</h3>
+        <%Pendinglist.forEach(doctor=>{%>
+            <a href="/flow3/<%=doctor.doctor.id%>" class="rectangle">
+                <div class="delete"><img src="./recourses/vectors/cross.svg"><p>لغو نوبت</p></div>
+                <div class="rect-ball">
+                    <div id="pending"></div>
+                    <div dir="rtl" ><span>۴</span> روز و <span>۱۷</span> ساعت تا نوبت</div>
+                </div>
+                <div class="rect-date">دوشنبه ۲۴ دی ساعت ۹:۳۰ </div>
+                <div class="rect-doctor-name">دکتر <%=doctor.doctor.first_name%> <%=doctor.doctor.last_name%></div>
+            </a>
+        <%})%>
+
+        <!-- <div class="rectangle">
             <div class="delete"><img src="./recourses/vectors/cross.svg"><p>لغو نوبت</p></div>
             <div class="rect-ball">
                 <div></div>
@@ -66,7 +63,7 @@
             </div>
             <div class="rect-date">دوشنبه ۲۴ دی ساعت ۹:۳۰ </div>
             <div class="rect-doctor-name">دکتر زهرا وارسته</div>
-        </div>
+        </div> -->
 
 
 
@@ -75,20 +72,22 @@
 
 
         <h3 dir="rtl" style="color: #FF6565; text-align: right ; padding-right: 0.5rem; width: 100%; max-width:1400px ; display: flex; margin-top: 3rem;">نوبت های قبلی شما</h3>
-        <div class="past-rectangle">
+        <%DoneList.forEach(doctor=>{%>
+            <a href="/Doctor/<%=doctor.doctor.id%>" class="past-rectangle">
+                <div class="past-rect-ball">
+                    <div></div>
+                </div>
+                <div  dir="rtl" class="past-rect-date">دوشنبه ۲۴ دی ساعت ۹:۳۰ </div>
+                <div class="past-rect-doctor-name">دکتر <%=doctor.doctor.first_name%> <%=doctor.doctor.last_name%></div>
+            </a>
+        <%})%>
+        <!-- <div class="past-rectangle">
             <div class="past-rect-ball">
                 <div></div>
             </div>
             <div  dir="rtl" class="past-rect-date">دوشنبه ۲۴ دی ساعت ۹:۳۰ </div>
             <div class="past-rect-doctor-name">دکتر زهرا وارسته</div>
-        </div>
-        <div class="past-rectangle">
-            <div class="past-rect-ball">
-                <div></div>
-            </div>
-            <div  dir="rtl" class="past-rect-date">دوشنبه ۲۴ دی ساعت ۹:۳۰ </div>
-            <div class="past-rect-doctor-name">دکتر زهرا وارسته</div>
-        </div>
+        </div> -->
     </main> 
     <!-- برای صفحات لیست فوتر نیاز نیست ! -->
 
