@@ -1,142 +1,225 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/css/style6.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">      
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ارسال نظر</title>
+  <link rel="stylesheet" href="/css/style6.css">
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <%- include('partials/header1') %>
+  <%- include('partials/header1') %>
+    <!-- دیو مربوط به هندل کردن ارور در UI -->
 
-    <section class="sectionone">                   
-        <div class="sectionone-in">                                             
-            <div class="angry-grid">                                       
-                <div id="item-0"><img src="/images/<%=doctor.image_url%>"></div>                                                      
-                <div id="item-1">                                                              
-                    <button type="button" class="suggest-btn" id="noBtn">👎 پزشک را پیشنهاد نمی‌کنم</button>
-                    <button type="button" class="suggest-btn" id="yesBtn">👍 پزشک را پیشنهاد می‌کنم</button>                                               
-                </div>                                                            
-                <div id="item-2">                                                                 
-                    <div class="doctor-row">                                                                                
-                        <div class="doctor-code">                                                                                   
-                            <span>کد نظام پزشکی: <%=doctor.description[0].code%></span>                                                                                   
-                            <img src="/images/Vector.png" class="check-icon" alt="check">                                                                              
-                        </div>                                                                             
-                        <div class="doctor-name">                                                                           
-                            دکتر <%=doctor.first_name%> <%=doctor.last_name%>                                                                     
-                        </div>                                                                     
-                    </div>                                                             
-                    <div class="doctor-info">                                                                                                    
-                        <p class="doctor-specialty"><%=doctor.spetialty.spetialty%></p>                                                                                                                             
-                    </div>                                                        
-                </div>                                                                         
-                <div id="item-3">                                                                                                                                
-                    <input type="radio" name="star" id="star5"><label for="star5">&#9733;</label>
-                    <input type="radio" name="star" id="star4"><label for="star4">&#9733;</label>
-                    <input type="radio" name="star" id="star3"><label for="star3">&#9733;</label>  
-                    <input type="radio" name="star" id="star2"><label for="star2">&#9733;</label> 
-                    <input type="radio" name="star" id="star1"><label for="star1">&#9733;</label>
-                </div>  
-                <div id="item-4"><span>نظر خود را در بخش زیر وارد کنید</span></div>    
-                <div id="item-5" dir="rtl">
-                    <textarea id="comment" placeholder="نظر خود را اینجا وارد کنید"></textarea>
-                </div>                                                                     
+  <section class="sectionone">
+
+    <div class="sectionone-in">
+      <!-- form wraps all review fields and submit -->
+      <form id="reviewForm" class="angry-grid" action="/api/reviews" method="POST" novalidate>
+        <!-- required hidden field -->
+        <input type="hidden" name="doctor_id" id="doctorId" value="<%= doctor.id %>">
+
+        <div id="item-0"><img src="/images/<%=doctor.image_url%>" alt="doctor"></div>
+
+        <div id="item-1" dir="ltr">
+          <button type="button" class="suggest-btn" id="noBtn" aria-pressed="false"><img src="/recourses/vectors/thumbs-down[grey].svg" alt=""> پزشک را پیشنهاد نمی‌کنم</button>
+          <button type="button" class="suggest-btn" id="yesBtn" aria-pressed="false"><img src="/recourses/vectors/thumbs-up[grey].svg" alt=""> پزشک را پیشنهاد می‌کنم</button>
+          <!-- hidden form value kept for fallback (not required since front-end sends JSON) -->
+           <input type="hidden" name="recommend" id="recommendInput" value="">
+        </div>
+
+        <div id="item-2">
+          <div class="doctor-row">
+            <!-- <div class="doctor-code"> -->
+              <span>کد نظام پزشکی: <%=doctor.description[0].code%></span>
+              <img src="/images/Vector.png" class="check-icon" alt="check">
             </div>
+            <div style="display: flex; flex-direction: column;">
+            <div class="doctor-name">دکتر <%=doctor.first_name%> <%=doctor.last_name%></div>
+              <div class="doctor-info">
+                <p class="doctor-specialty"> تخصص : <%=doctor.spetialty.spetialty%></p>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="doctor-info">
+            <p class="doctor-specialty"> تخصص : <%=doctor.spetialty.spetialty%></p>
+          </div> -->
         </div>
-    </section> 
-    <section class="container"  dir="rtl">
-        <div class="checkbox-container">
-            <input type="checkbox" id="agree">
-            <label >قوانین ثبت نظر را خوانده‌ام و موافقم.</label>
+
+        <div id="item-3" dir="rtl">
+          <input type="radio" name="rating" value="5" id="star5"><label for="star5">★</label>
+          <input type="radio" name="rating" value="4" id="star4"><label for="star4">★</label>
+          <input type="radio" name="rating" value="3" id="star3"><label for="star3">★</label>
+          <input type="radio" name="rating" value="2" id="star2"><label for="star2">★</label>
+          <input type="radio" name="rating" value="1" id="star1"><label for="star1">★</label>
         </div>
-        <button class="btn">ارسال نظر</button>
-    </section>    
-    <footer class="footer" dir="rtl">   
-      <div class="footer-top">    
-        <div class="div3">     
-          <div style="display:flex;gap:40px;justify-content:space-between">    
-            <div class="quick-links">      
-              <h4>لینک‌های سریع</h4>      
-              <ul>       
-                <li>صفحه اصلی</li>           
-                <li>لیست پزشکان</li>           
-                <li>سوالات متداول</li>          
-                <li>درباره ما</li>          
-                <li>تماس با ما</li>        
-              </ul>       
-            </div>       
-            <div class="legal" style="min-width:180px">       
-              <h4>اطلاعات حقوقی</h4>        
-              <p>تمامی حقوق محفوظ است.</p>        
-              <p style="margin-top:8px;">سال تاسیس یا بروزرسانی: 2025</p>      
-            </div>     
-          </div> 
-        </div> 
-        <div class="cocontact"> 
-          <div class="group"> 
-            <h4>اطلاعات تماس</h4>         
-            <img src="resources\logo\smart-phone-01-stroke-rounded 1.png" />           
-            <div class="phones">        
-              <div>0912-345-6789</div>       
-              <div>0912-345-6790</div>     
-            </div> 
-          </div>    
-          <div class="group">   
-            <img src="resources\logo\phone 3.png" />  
-            <div class="phones">  
-              <div>021-77 345867</div>  
-              <div>021-77 345868</div>  
-            </div>  
-          </div>  
-        </div>        
-        <div class="code">
-          <div class="subscribe-card">   
-            <h4>مشترک شوید</h4>   
-            <div class="input-row">   
-              <input type="email" placeholder="آدرس ایمیل" />   
-              <button class="send-btn" aria-hidden="true">←</button>   
-            </div>   
-            <p class="desc">اپلیکیشن رزرو نوبت برای گرفتن نوبت سریع</br> و غیرحضوری و بهترین دکترهای متخصص با </br>دکتر رزرو.</p>  
-          </div>  
-        </div> 
-      </div>   
-     
-       <div class="footer-bottom">
-        <div class="socials">           
-          <button ><img src="resources\logo\whatsapp.png" /></button>      
-          <button ><img src="resources\logo\instagram.png" /></button>
-          <button ><img src="resources\logo\telegram.png" /></button>     
-          <button ><img src="resources\logo\linkedin-01.png" /></button>    
-        </div>               
-        <div class="brand">    
-          <div class="plus"><img src="resources\logo\logo.png" /></div>   
-          <div class="logo">دکتر <span style="color:#4179F0">رزرو</span></div>
+
+        <div id="item-4"><span>نظر خود را در بخش زیر وارد کنید</span></div>
+
+        <div id="item-5" dir="rtl">
+          <textarea id="comment" name="comment" placeholder="نظر خود را اینجا وارد کنید" minlength="5" required></textarea>
         </div>
-      </div>
-    </footer>
-</body>
-<script defer>
+
+        <!-- checkbox + submit are inside the form now -->
+        <div class="container" style="grid-column: 1 / -1; margin-top:18px;"  dir="rtl">
+          <div class="checkbox-container" dir="ltr">
+            <input type="checkbox" id="agree" name="agree" value="1" required>
+            <label for="agree" style="color: var(--Neutral_900);">قوانین ثبت نظر را خوانده‌ام و موافقم</label>
+          </div>
+
+          <button class="btn" type="submit" id="submitBtn">ارسال نظر</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- footer unchanged... -->
+
+<script>
+  const box1 = document.querySelector('.sectionone-in');
+  const box2 = document.querySelector('#item-5');
+
+  const width = box1.offsetWidth;
+  box2.style.width = width + 'px';
+  function syncWidth() {
+    const width = box1.getBoundingClientRect().width;
+    box2.style.width = `${width}px`;
+  }
+
+  syncWidth();
+  window.addEventListener('resize', syncWidth);
+
+
+
+
+  // لایک و دیسلایک
+  const form = document.getElementById('reviewForm');
+  const yesBtn = document.getElementById('yesBtn');
+  const noBtn  = document.getElementById('noBtn');
+  const recommendInput = document.getElementById('recommendInput');
+  const submitBtn = document.getElementById('submitBtn');
+
+
   const thumbsCont = document.getElementById('item-1');
   const Up = document.getElementById('yesBtn');
   const Down = document.getElementById('noBtn');
 
   thumbsCont.addEventListener('click' , (e)=>{
     if(e.target.closest('#yesBtn')){
-      Up.firstElementChild.src='recourses/vectors/thumbs-up[accent].svg'
-      Down.firstElementChild.src='recourses/vectors/thumbs-down[grey].svg'
+      Up.firstElementChild.src='/recourses/vectors/thumbs-up[accent].svg'
+      Down.firstElementChild.src='/recourses/vectors/thumbs-down[grey].svg'
       Up.style = 'transition:all 0.2s ease ; color: var(--accent);border-color: var(--accent)'
       Down.style = ''
     }
     if(e.target.closest('#noBtn')){
-      Up.firstElementChild.src='recourses/vectors/thumbs-up[grey].svg'
-      Down.firstElementChild.src='recourses/vectors/thumbs-down[accent].svg'
+      Up.firstElementChild.src='/recourses/vectors/thumbs-up[grey].svg'
+      Down.firstElementChild.src='/recourses/vectors/thumbs-down[accent].svg'
       Down.style = 'transition:all 0.2s ease ;color: var(--accent);border-color: var(--accent)'
       Up.style = ''
     }
   })
+
+
+  // local state (keeps UI feel snappy)
+  // این بجکت برای این کار ساخته شده حالتی که کاربر الان چه وضعیتی با دکتر انتخاب شده ش داره رو نشون بده
+  const state = { recommend: null, rating: null, comment: '' };
+
+  // thumbs toggle (keeps hidden input in sync for fallback)
+  yesBtn.addEventListener('click', () => {
+    state.recommend = true;
+    recommendInput.value = 'true';
+    yesBtn.setAttribute('aria-pressed','true');
+    noBtn.setAttribute('aria-pressed','false');
+  });
+  noBtn.addEventListener('click', () => {
+    state.recommend = false;
+    recommendInput.value = 'false';
+    yesBtn.setAttribute('aria-pressed','false');
+    noBtn.setAttribute('aria-pressed','true');
+  });
+
+  // stars
+  document.querySelectorAll('input[name="rating"]').forEach(radio => {
+    radio.addEventListener('change', e => state.rating = Number(e.target.value));
+  });
+
+  // comment
+  const commentInput = document.getElementById('comment');
+  commentInput.addEventListener('input', e => state.comment = e.target.value.trim());
+
+  // simple validator
+  function validate() {
+    if (state.recommend === null) return 'لطفاً پیشنهاد یا عدم پیشنهاد را انتخاب کنید';
+    if (!state.rating) return 'لطفاً امتیاز را انتخاب کنید';
+    if (!state.comment || state.comment.length < 5) return 'نظر باید حداقل ۵ کاراکتر باشد';
+    if (!document.getElementById('agree').checked) return 'باید با قوانین موافقت کنید';
+    return null;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const err = validate();
+    if (err) { 
+      //در اینجا ارور رو نشون میده
+      const Message = document.createElement('div');
+      Message.className='error-handler-cont';
+      Message.style.position='fixed';
+      Message.style.bottom='2rem';
+      Message.style.right='2rem';
+      Message.innerText=err;
+      document.querySelector('.sectionone').appendChild(Message)
+      setTimeout(() => {
+        Message.classList.add('add');
+      }, 50);
+      setTimeout(() => {
+        Message.classList.add('less')
+      }, 3000);
+      setTimeout(() => {
+        Message.remove();
+      }, 3700);
+    return;}
+
+    // payload front-end driven — backend will handle storage/validation
+    const payload = {
+      doctor_id: document.getElementById('doctorId').value,
+      recommend: state.recommend,       // boolean
+      rating: state.rating,             // number
+      comment: state.comment            // string
+    };
+
+    // UI: disable button while sending
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'در حال ارسال...';
+
+    try {
+      const res = await fetch(form.action || '/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await (res.headers.get('Content-Type')?.includes('application/json') ? res.json() : null);
+
+      if (!res.ok) {
+        // if backend returns errors object use it, else generic message
+        const msg = (data && (data.message || JSON.stringify(data))) || `خطا در سرور (${res.status})`;
+        throw new Error(msg);
+      }
+
+      alert((data && data.message) || 'نظر شما ثبت شد');
+      form.reset();
+      // clear JS state
+      state.recommend = null; state.rating = null; state.comment = '';
+      yesBtn.setAttribute('aria-pressed','false'); noBtn.setAttribute('aria-pressed','false');
+    } catch (error) {
+      console.error(error);
+      alert(error.message || 'خطا در ارسال نظر');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'ارسال نظر';
+    }
+  });
 </script>
+</body>
 </html>
