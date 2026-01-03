@@ -108,7 +108,21 @@ button{cursor: pointer;}
 .comment-date{color: var(--Neutral_400);}
 .comment-nazar{margin-top: 2rem; align-self: end; color: var(--Neutral_900);}
 
-
+.comment-profile img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+.comment-profile{
+  width:34px;
+    height:34px;
+    border-radius:50%;
+    overflow:hidden;
+    flex:0 0 34px;
+    box-shadow:0 1px 4px rgba(0,0,0,0.06);
+    display:inline-block;
+}
 
 /* calendar */
 /* persian-calendar.css */

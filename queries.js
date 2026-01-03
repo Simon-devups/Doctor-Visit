@@ -12,24 +12,30 @@ const getDoctors = async () => {
 }
 
 const getDoctorComments = async (doctorId) => {
-    const result = await prisma.doctors.findMany({
+    const result = await prisma.comments.findMany({
         where: {
-            id: doctorId
+            doctor_id: doctorId
         },
-        include: {
-            comments: {
-                orderBy: { date: "desc" },
-                include: {
-                    user: {
-                        select: {
-                            firt_name: true,
-                            last_name:true,
-                            avatar_url: true
-                        }
-                    }
-                }
-            }
+        include:{
+            user:true
+        },
+        orderBy:{
+            date:'desc'
         }
+        // include: {
+        //     comments: {
+        //         orderBy: { date: "desc" },
+        //         include: {
+        //             user: {
+        //                 select: {
+        //                     firt_name: true,
+        //                     last_name:true,
+        //                     avatar_url: true
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
     })
     return result
 }

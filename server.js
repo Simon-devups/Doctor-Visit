@@ -10,7 +10,8 @@ import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
 import queries from "./queries.js";
 import upload from "./multer.js";
-import { Console } from "console";
+import EnglishToPersian from "./middlewares/EnglishTopersian.js";
+import { create } from "domain";
 
 dotenv.config()
 
@@ -268,16 +269,21 @@ app.get('/flow/:id', async (req, res) => {
     try {
         //comment section
         const doctorComments = await queries.getDoctorComments(id)
-        //doctor description section
+        console.log(doctorComments)
+        const doctorCommentsP = doctorComments.map(c =>({
+            ...c,dateFa:EnglishToPersian(date)
+        }))
+        console.log(doctorCommentsP)
+        // doctor description section
         const contact = await queries.getDoctorContacts(id)
         const specifiedDoctor = await queries.getDoctorById(id)
         
         //callendar
         //result example : { weekday: 6, start_time: '09:00', end_time: '15:00' } in array
         const workingDaysInWeek = await queries.getDoctorWorkingDays(id)  // 0:saturday  ,  1:sonday  ,  ... 
-        console.log(workingDaysInWeek)
+        
 
-        res.render("flow.ejs" , {doctor : specifiedDoctor , contact:contact , comments:doctorComments[0].comments})
+        res.render("flow.ejs" , {doctor : specifiedDoctor , contact:contact , comments:doctorComments})
     } catch (err) {
         console.log(err)
         res.render("FAQ.ejs")
@@ -405,17 +411,21 @@ app.post('/comment/:id/send',async(req,res)=>{
     try{
         const userId = req.session.user.id
         const comment = req.body.comment
-        const score = req.body.score
+        const score = req.body.rating
         const data = {
             user_id:userId,
             doctor_id:id,
-            score:score,
+            score:parseInt(score),
             comment:comment
         }
+        let options = { year: 'numeric', month: 'long', day: 'numeric' };
+        let today = new Date().toLocaleDateString('fa-IR',options);
+        console.log(today);
 
         const sendComment = await queries.addCommentToDoctor(data)
-        res.redirect('/flow/:id')                                         //???????
+        res.redirect(`/flow/${id}`)                                         //???????
     }catch(err){
+        console.log(err)
         res.render("FAQ.ejs")
     }
 })
