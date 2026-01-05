@@ -16,34 +16,55 @@
 *{font-family: 'vazirmatn'; box-sizing: border-box; padding: 0; margin: 0; font-size: 0.98rem;} 
 body{padding: 0 4rem;}
 .main{display: flex; margin-top: 3.9rem; gap: 2rem;}
-.left-m{flex: 1; width: 100%; min-width: 280px;}
+.left-m{flex: 0.4; width: 100%; min-width: 280px;}
 .right-m{flex: 1; width: 100%; min-width: 280px;}
 hr{  border: none; border-top: 1px solid var(--Grey_100);}
 button{cursor: pointer;}
 .right-m{display: flex; flex-direction: column; gap: 2rem;}
 .title{font-size: 1.3rem; font-weight: 600; align-self: flex-end;}
 .flow-top , .rah-cont , .nazarat-cont{padding: 1rem; border: solid var(--Grey_100) 1px; border-radius: 1rem;}
-.flow-top{}
-.left-lables{padding-right: 1.2rem;display: flex;flex-direction: column;}
-.left-lables > *{display: flex; justify-content: end; width:max-content;}
+.left-lables{padding-right: 1.2rem;display: flex;flex-direction: column; align-items: end; }
+.left-lables > *{display: flex; justify-content: end; width:max-content; color: var(--Neutral_900);}
+.left-lables .title{font-size: 1.4rem; font-weight: 700; color: #232323;}
 .doctor-bio{display: flex; justify-content: end;position: relative;}
 .in-cont{display: flex; justify-content: space-around; gap: 0.5rem;}
-.in-rah {display: flex; align-items: center; justify-content: center; padding: 0.5rem 1.5rem; gap: 1rem; width: clamp(12rem, 30vw, 22rem); flex-wrap: nowrap; text-align: center; border: 1px solid var(--Grey_100); color: var(--Neutral_900); border-radius: 0.6rem;  }
-.flow-img{height: 10rem;}
+.in-rah {display: flex; align-items: center; justify-content: center; padding: 0.5rem 1.5rem; gap: 1rem; width: clamp(12rem, 30vw, 22rem); flex-wrap: nowrap; text-align: center; border: 1px solid var(--Grey_100); color: var(--Neutral_900); border-radius: 0.6rem;}
 .flow-img > img { border-radius: 0.5rem;}
 .doctor-code{width: 100%; }
-.left-lables{align-items: flex-end; padding: 0.5rem;}
+.doctor-code-text { display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+.doctor-code-text img { height: 1.4rem; }
+
+.breadcrumb-section{display: flex; justify-content: end; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: var(--Neutral_900);}
 
 .show-more-comments{display: flex; justify-content: center; align-items: center; color: var(--accent); font-weight: 600; cursor: pointer;}
 .expand-btn{background-color: var(--Neutral_40);}
 .about-bio{display: flex; flex-direction: column;}
 .title.about-section-title{margin-top: 1rem; margin-right: 0.8rem; align-self:flex-end !important;}
 .recommendation-text{display: flex; gap: 0.5rem;}
-.appointment-info{display: flex; justify-content: end; padding: .5rem;}
-.clinic-address, .clinic-address{display: flex; justify-content: end; padding: .5rem;}
+.appointment-info{
+  display: flex; 
+  justify-content: end; 
+  padding: 0.75rem;
+  gap: 0.5rem;
+  align-items: center;
+  background: var(--Neutral_40);
+  border-radius: 10px;
+  font-weight: 400;
+  margin-top: 5px;
+}
+.doctor-specialty{font-weight: 400;}
+.clinic-address{
+  display: flex; 
+  justify-content: end; 
+  padding: 0.75rem;
+  gap: 0.5rem;
+  align-items: center;
+  background: var(--Neutral_40);
+  border-radius: 10px;
+  font-weight: 400;
+}
 
-
-    /* ===== Left Side (Login/Register) ===== */
+/* ===== Left Side (Login/Register) ===== */
 
 
     /* ===== Responsive tweak ===== */
@@ -139,7 +160,7 @@ button{cursor: pointer;}
 
 /* container */
 .pc-card{
-  width: 90%;              /* desktop width; responsive below */
+  width: 350px;              /* desktop width; responsive below */
   background: var(--pc-surface);
   border-radius: 18px;
   padding: 18px;
@@ -156,7 +177,6 @@ button{cursor: pointer;}
 .pc-top-row { display:flex; align-items:center; justify-content: center; gap: 8px; }
 .pc-nav {
   width: 34px; height: 34px; border-radius: 50%;
-  background: linear-gradient(180deg, #fff, #FBFBFB);
   border: none; box-shadow: none; border: 1px solid rgba(0,0,0,0.03);
   font-size: 1.1rem; cursor:pointer;
 }
@@ -181,7 +201,6 @@ button{cursor: pointer;}
 /* day grid */
 .pc-grid {
   background: var(--Neutral_40);
-  padding: 16px;
   border-radius: 14px;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -195,6 +214,7 @@ button{cursor: pointer;}
   font-size: 0.85rem;
   color: var(--Neutral_400);
   border-radius: 10px;
+  cursor: pointer;
 }
 .pc-day.empty { opacity: 0.5; color: #D1D1D1; }
 .pc-day.muted { color: #D1D1D1; opacity: 0.55; }
@@ -204,6 +224,10 @@ button{cursor: pointer;}
   background: var(--accent);
   color: white;
   box-shadow: 0 4px 10px rgba(65,121,240,0.18);
+  border-radius: 50px;
+  aspect-ratio: 1/1 !important;
+  max-height: 44px;
+  width: 100%;
 }
 
 /* time slots */
@@ -223,7 +247,7 @@ button{cursor: pointer;}
 .pc-slot.active { background: var(--accent); color: white; border: none; box-shadow: 0 6px 12px rgba(65,121,240,0.18); }
 
 /* actions */
-.pc-actions { display: flex;; }
+.pc-actions { display: flex; }
 .pc-reserve {
   width: 100%;
   padding: 14px;
@@ -233,6 +257,9 @@ button{cursor: pointer;}
   border: none;
   font-size: 1.02rem;
   font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
 /*footer*/
 .footer {
@@ -445,11 +472,10 @@ button{cursor: pointer;}
     order: 2;
     flex: 0 0 100px;
     height: 100px;
-    display: block;
   }
   .flow-img img {
     width: 100%;
-    height: 100%;
+    height: 100% !important;
     object-fit: cover;
     border-radius: 8px;
   }
@@ -549,7 +575,6 @@ button{cursor: pointer;}
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(229,57,53,0.18);
   transition: all 300ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms;
 }
 
@@ -561,11 +586,6 @@ button{cursor: pointer;}
   transform: translateX(-50%) rotate(180deg);
 }
 
-/* accessibility: focus style */
-.expand-btn:focus {
-  outline: 3px solid rgba(65,121,240,0.12);
-  outline-offset: 3px;
-}
 
 /* small tweak for very small screens so button doesn't overflow too far */
 @media (max-width: 480px) {

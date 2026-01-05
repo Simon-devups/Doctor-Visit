@@ -299,6 +299,17 @@
     
     <%- include('partials/footer') %>
 
+<script>
+    const calBTNs = document.querySelectorAll('.pc-day');
+    calBTNs.forEach(btn => {
+        btn.addEventListener('click', function(){
+            calBTNs.forEach(b => b.classList.remove('pc-today'));
+            this.classList.add('pc-today');
+            console.log('Today button clicked');
+        });
+    });
+</script>
+
 </body>
 
 </html>
