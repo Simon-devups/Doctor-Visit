@@ -270,10 +270,10 @@ app.get('/flow/:id', async (req, res) => {
         //comment section
         const doctorComments = await queries.getDoctorComments(id)
         console.log(doctorComments)
-        const doctorCommentsP = doctorComments.map(c =>({
-            ...c,dateFa:EnglishToPersian(date)
-        }))
-        console.log(doctorCommentsP)
+        // const doctorCommentsP = doctorComments.map(c =>({
+        //     ...c,dateFa:EnglishToPersian(date)
+        // }))
+        // console.log(doctorCommentsP)
         // doctor description section
         const contact = await queries.getDoctorContacts(id)
         const specifiedDoctor = await queries.getDoctorById(id)
