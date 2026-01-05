@@ -15,7 +15,7 @@
 
     <div class="sectionone-in">
       <!-- form wraps all review fields and submit -->
-      <form id="reviewForm" class="angry-grid" action="/api/reviews" method="POST" novalidate>
+      <form id="reviewForm" class="angry-grid" action="/comment/<%=doctor.id%>/send" method="POST" novalidate>
         <!-- required hidden field -->
         <input type="hidden" name="doctor_id" id="doctorId" value="<%= doctor.id %>">
 
@@ -156,70 +156,70 @@
     return null;
   }
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  // form.addEventListener('submit', async (e) => {
+  //   e.preventDefault();
 
-    const err = validate();
-    if (err) { 
-      //در اینجا ارور رو نشون میده
-      const Message = document.createElement('div');
-      Message.className='error-handler-cont';
-      Message.style.position='fixed';
-      Message.style.bottom='2rem';
-      Message.style.right='2rem';
-      Message.innerText=err;
-      document.querySelector('.sectionone').appendChild(Message)
-      setTimeout(() => {
-        Message.classList.add('add');
-      }, 50);
-      setTimeout(() => {
-        Message.classList.add('less')
-      }, 3000);
-      setTimeout(() => {
-        Message.remove();
-      }, 3700);
-    return;}
+  //   const err = validate();
+  //   if (err) { 
+  //     //در اینجا ارور رو نشون میده
+  //     const Message = document.createElement('div');
+  //     Message.className='error-handler-cont';
+  //     Message.style.position='fixed';
+  //     Message.style.bottom='2rem';
+  //     Message.style.right='2rem';
+  //     Message.innerText=err;
+  //     document.querySelector('.sectionone').appendChild(Message)
+  //     setTimeout(() => {
+  //       Message.classList.add('add');
+  //     }, 50);
+  //     setTimeout(() => {
+  //       Message.classList.add('less')
+  //     }, 3000);
+  //     setTimeout(() => {
+  //       Message.remove();
+  //     }, 3700);
+  //   return;}
 
-    // payload front-end driven — backend will handle storage/validation
-    const payload = {
-      doctor_id: document.getElementById('doctorId').value,
-      recommend: state.recommend,       // boolean
-      rating: state.rating,             // number
-      comment: state.comment            // string
-    };
+  //   // payload front-end driven — backend will handle storage/validation
+  //   const payload = {
+  //     doctor_id: document.getElementById('doctorId').value,
+  //     recommend: state.recommend,       // boolean
+  //     rating: state.rating,             // number
+  //     comment: state.comment            // string
+  //   };
 
-    // UI: disable button while sending
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'در حال ارسال...';
+  //   // UI: disable button while sending
+  //   submitBtn.disabled = true;
+  //   submitBtn.textContent = 'در حال ارسال...';
 
-    try {
-      const res = await fetch(form.action || '/api/reviews', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+  //   try {
+  //     const res = await fetch(form.action || '/comment/:id/send', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify(payload)
+  //     });
 
-      const data = await (res.headers.get('Content-Type')?.includes('application/json') ? res.json() : null);
+  //     const data = await (res.headers.get('Content-Type')?.includes('application/json') ? res.json() : null);
 
-      if (!res.ok) {
-        // if backend returns errors object use it, else generic message
-        const msg = (data && (data.message || JSON.stringify(data))) || `خطا در سرور (${res.status})`;
-        throw new Error(msg);
-      }
+  //     if (!res.ok) {
+  //       // if backend returns errors object use it, else generic message
+  //       const msg = (data && (data.message || JSON.stringify(data))) || `خطا در سرور (${res.status})`;
+  //       throw new Error(msg);
+  //     }
 
-      alert((data && data.message) || 'نظر شما ثبت شد');
-      form.reset();
-      // clear JS state
-      state.recommend = null; state.rating = null; state.comment = '';
-      yesBtn.setAttribute('aria-pressed','false'); noBtn.setAttribute('aria-pressed','false');
-    } catch (error) {
-      console.error(error);
-      alert(error.message || 'خطا در ارسال نظر');
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'ارسال نظر';
-    }
-  });
+  //     alert((data && data.message) || 'نظر شما ثبت شد');
+  //     form.reset();
+  //     // clear JS state
+  //     state.recommend = null; state.rating = null; state.comment = '';
+  //     yesBtn.setAttribute('aria-pressed','false'); noBtn.setAttribute('aria-pressed','false');
+  //   } catch (error) {
+  //     console.error(error);
+  //     alert(error.message || 'خطا در ارسال نظر');
+  //   } finally {
+  //     submitBtn.disabled = false;
+  //     submitBtn.textContent = 'ارسال نظر';
+  //   }
+  // });
 </script>
 </body>
 </html>
