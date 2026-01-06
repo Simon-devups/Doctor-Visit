@@ -86,10 +86,10 @@
                     </div>
                 </div>
 
-                
+                <!-- //این قسمت عوض شد -->
                 <div class="doctor-actions">
-                    <a class="btn1" href="/aboutus">پشتیبانی</a>
-                    <a class="btn2" href="/flow/<%= doctor.id %>">رزرو نوبت</a>
+                    <a href="/aboutus"><button class="btn1">پشتیبانی</button></a>
+                    <a href="/flow/<%= doctor.id %>"><button class="btn2">رزرو نوبت</button></a>
                 </div>
             </div>
         </div>
@@ -258,7 +258,18 @@
 
         //     // IMPORTANT: do NOT search on every keystroke — that was the request
         // }
+    
 
+    // ریسپانسیو کردن باتن های دکتر
+    const box1 = document.querySelector('.btn1');
+    const box2 = document.querySelector('.btn2');
+
+    const width = box1.offsetWidth;
+    box2.style.width = width + 'px';
+    function syncWidth() {
+        const width = box1.getBoundingClientRect().width;
+        box2.style.width = width + 'px';
+    }
 </script>
 
 </html>

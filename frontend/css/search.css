@@ -1,8 +1,9 @@
+ *{box-sizing:border-box; padding: 0; margin: 0;}
+
 body{
     margin:0;
     font-family: "Vazirmatn", sans-serif;
 }
- *{box-sizing:border-box}
 
 .site-header{
     font-family: "Vazirmatn", sans-serif;
@@ -207,7 +208,7 @@ body{
     display: flex;    
     justify-content: space-between;    
     align-items: center;   
-    margin-bottom: 20px   
+    margin-bottom: 20px;
 }   
 .filter-header h3 {   
     font-size: 16px;   
@@ -692,10 +693,44 @@ hr{
     height:22px;
     opacity:0.95
 }
+@media (max-width:1300px){
+    .btn1, .btn2{
+        padding: 7px 100px;
+        text-wrap: nowrap;
+    }
+}
+@media (max-width:1000px){
+    .doctor-actions{display: flex; align-items: center;justify-content: center; gap: 2px;}
+    .doctor-actions > * {width: 100%;}
+    a{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    a>button{
+        width: 100%;
+    }
+}
 
-@media (max-width:900px){
+@media (max-width:910px){
     .footer-top{flex-direction:column;gap:18px}
     .contact{flex-direction:row;justify-content:space-around;width:100%}
     .subscribe-card{max-width:100%}
     .footer-bottom{flex-direction:column;gap:12px;align-items:flex-start}
+    .section2-in{flex-direction: column-reverse;}
+    .filter-box{width: 100%;}
+
+}
+@media (max-width:610px){
+    .doctor-actions>a{width: 80% !important;}
+    .doctor-actions{flex-direction: column; gap: 5px;}
+    .btn1, .btn2{text-align: center; display: flex; justify-content: center; align-items: center;}
+    .doctor-name{text-wrap: nowrap;}
+    .doctor-code > span { font-size: 0.7rem;}
+}
+@media (max-width:490px){
+    .doctor-image img{width: 100%;}
+}
+@media (max-width:443px){
+    .doctor-code{scale: 0.7;}
 }
