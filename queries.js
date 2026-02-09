@@ -195,7 +195,7 @@ const updateUser = async (userId, user) => {
                 update: {
                     where: { user_id: userId.id },
                     data: {
-                        code_meli: user.code_meli,
+                        code_meli: user.nationalCode,
                         birthday: user.birthday,
                         gender: user.gender,
                         city: user.city,

@@ -232,9 +232,14 @@ app.post('/login/code',async (req, res) => {
 
 app.get('/profile', async(req, res) => {
     try {
-        const User = await queries.findUserById(req.session.user.id)
-        console.log(User)
-        res.render("userprofile.ejs",{User:User})
+        if (req.session.user){
+            const User = await queries.findUserById(req.session.user.id)
+            const cities = await queries.getCities()
+            console.log(cities)
+            res.render("userprofile.ejs",{User:User , cities:cities})
+        }else{
+            res.redirect("/login_signUp")
+        }
     } catch (err) {
         console.log(err)
         res.render("FAQ.ejs")
@@ -244,7 +249,8 @@ app.get('/profile', async(req, res) => {
 app.post('/profile/update',async(req,res)=>{
     try{
         const updatedInfo = req.body
-        const updateUser = await queries.updateUser(req.session.user,updatedInfo)
+        console.log(updatedInfo)
+        const updateUser = await queries.updateUser(req.session.user.id,updatedInfo)
         res.redirect('/profile')
     }catch(err){
         console.log(err)

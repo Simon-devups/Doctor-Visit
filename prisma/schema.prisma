@@ -21,7 +21,7 @@ model Users {
   last_name  String
   phone      String  @unique
   role       Role    @default(PATIENT)
-  avatar_url String
+  avatar_url String  @default("empty.png")
 
   userInfo   User_informations[]
   comments   comments[]
@@ -94,7 +94,7 @@ model Appointments {
 
 model doctor_descriptions {
   id          Int     @id @default(autoincrement())
-  doctorId    Int
+  doctorId    Int     @unique
   doctor      doctors @relation(fields: [doctorId], references: [id]) 
   description String
   city        String
@@ -115,7 +115,7 @@ model doctor_contacts{
 
 model doctor_prices {
   id          Int     @id @default(autoincrement())
-  doctor_id  Int
+  doctor_id  Int      @unique
   price   String
 }
 
@@ -134,7 +134,7 @@ model comments{
 
 model score{
   id          Int     @id @default(autoincrement())
-  doctor_id  Int
+  doctor_id  Int      @unique
   doctor     doctors  @relation(fields: [doctor_id],references: [id] , onDelete: Cascade)
 
   score Int

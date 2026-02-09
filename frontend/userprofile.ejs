@@ -48,12 +48,11 @@
                         <div class="form-group city">
                             <label for="city">شهر:</label>
                             <select id="city" name="city">
-                                <option value="">انتخاب کنید...</option>
-                                <option value="تهران" selected>تهران</option>
-                                <option value="مشهد">مشهد</option>
-                                <option value="اصفهان">اصفهان</option>
-                                <option value="شیراز">شیراز</option>
-                                <option value="تبریز">تبریز</option>
+                                <% cities.forEach(city => {%>
+                                    <option value="<%=city.city%>" selected><%=city.city%></option>
+                                    
+                                <%})%>
+                                <option value="<%=User.userInfo[0].city%>" selected><%=User.userInfo[0].city%></option>
                             </select>
                         </div>
                         <div class="form-group gender">
