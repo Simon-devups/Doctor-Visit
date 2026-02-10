@@ -185,17 +185,17 @@ const signUpUser = async (user, filename) => {
 const updateUser = async (userId, user) => {
     const result = await prisma.users.update({
         where: {
-            id: userId.id
+            id: userId
         },
         data: {
-            firt_name: user.first_name,
-            last_name: user.last_name,
-            phone: user.phone,
+            firt_name: user.firstName,
+            last_name: user.lastName,
+            phone: user.mobile,
             userInfo: {
                 update: {
-                    where: { user_id: userId.id },
+                    where: { user_id: userId },
                     data: {
-                        code_meli: user.code_meli,
+                        code_meli: user.nationalCode,
                         birthday: user.birthday,
                         gender: user.gender,
                         city: user.city,

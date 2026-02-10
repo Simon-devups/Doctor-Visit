@@ -229,7 +229,7 @@
                 <hr style="margin-top: 0.5rem;">
                 <!-- replace original about block with this -->
                 <div class="about-bio">
-                    <span class="title about-section-title">درباره دکتر زهرا وارسته</span>
+                    <span class="title about-section-title">درباره دکتر <%=doctor.first_name%> <%=doctor.last_name%> </span>
 
                     <!-- collapsed wrapper (short visible area) -->
                     <div class="bio-collapse" aria-hidden="true">
@@ -262,7 +262,7 @@
     <div class="nazarat-cont">
         <div class="title">نظرات کاربران</div>
         <div class="N-flex">
-            <div class="comment-stars">(105) نظر</div>
+            <div class="comment-stars">(<%=Ncomments%>) نظر</div>
             <div class="recommendation-text">
                 <p>مراجعان این پزشک را پیشنهاد داده‌اند</p>
                 <span>90%</span>

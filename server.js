@@ -12,6 +12,7 @@ import queries from "./queries.js";
 import upload from "./multer.js";
 import EnglishToPersian from "./middlewares/EnglishTopersian.js";
 import { create } from "domain";
+import { userInfo } from "os";
 
 dotenv.config()
 
@@ -232,9 +233,14 @@ app.post('/login/code',async (req, res) => {
 
 app.get('/profile', async(req, res) => {
     try {
-        const User = await queries.findUserById(req.session.user.id)
-        console.log(User)
-        res.render("userprofile.ejs",{User:User})
+        if (req.session.user){
+            const User = await queries.findUserById(req.session.user.id)
+            const cities = await queries.getCities()
+            console.log(cities)
+            res.render("userprofile.ejs",{User:User , cities:cities})
+        }else{
+            res.redirect("/login_signUp")
+        }
     } catch (err) {
         console.log(err)
         res.render("FAQ.ejs")
@@ -243,8 +249,11 @@ app.get('/profile', async(req, res) => {
 
 app.post('/profile/update',async(req,res)=>{
     try{
-        const updatedInfo = req.body
-        const updateUser = await queries.updateUser(req.session.user,updatedInfo)
+        // const {lastName,firstName,birthYear,nationalCode,city,gender,email,mobile} = req.body;
+        const updatedInfo = req.body;
+
+
+        const updateUser = await queries.updateUser(req.session.user.id,updatedInfo)
         res.redirect('/profile')
     }catch(err){
         console.log(err)
@@ -269,12 +278,8 @@ app.get('/flow/:id', async (req, res) => {
     try {
         //comment section
         const doctorComments = await queries.getDoctorComments(id)
-        console.log(doctorComments)
-        // const doctorCommentsP = doctorComments.map(c =>({
-        //     ...c,dateFa:EnglishToPersian(date)
-        // }))
-        // console.log(doctorCommentsP)
-        // doctor description section
+        
+        
         const contact = await queries.getDoctorContacts(id)
         const specifiedDoctor = await queries.getDoctorById(id)
         
@@ -283,7 +288,7 @@ app.get('/flow/:id', async (req, res) => {
         const workingDaysInWeek = await queries.getDoctorWorkingDays(id)  // 0:saturday  ,  1:sonday  ,  ... 
         
 
-        res.render("flow.ejs" , {doctor : specifiedDoctor , contact:contact , comments:doctorComments})
+        res.render("flow.ejs" , {doctor : specifiedDoctor , contact:contact , comments:doctorComments , Ncomments:doctorComments.length})
     } catch (err) {
         console.log(err)
         res.render("FAQ.ejs")
