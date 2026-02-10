@@ -308,6 +308,43 @@
             console.log('Today button clicked');
         });
     });
+
+    //راستی آزمایی لاگین برای ثبت نظر
+    document.querySelector('.sabte-nazar').addEventListener('click' , async (e)=>{
+        e.preventDefault();
+        try{
+            const response = await fetch('/check-login');
+            const result = await response.json();
+            function createToaster(message){      
+                const Message = document.createElement('div');
+                Message.className='error-handler-cont';
+                Message.style.position='fixed';
+                Message.style.bottom='2rem';
+                Message.style.right='2rem';
+                 Message.innerText=message;
+                document.body.appendChild(Message)
+                setTimeout(() => {
+                    Message.classList.add('add');
+                }, 50);
+                setTimeout(() => {
+                    Message.classList.add('less')
+                }, 3000);
+                setTimeout(() => {
+                    Message.remove();
+                }, 3700);}
+
+            if(response.ok && result.authenticated){
+                window.location.href = "/comment/<%=doctor.id%>";
+            }
+            else {
+                createToaster(result.message);
+            }
+        }
+        catch(err){
+            console.log(err,'بررسی لاگین ناموفق')
+        }
+    });
+
 </script>
 
 </body>
