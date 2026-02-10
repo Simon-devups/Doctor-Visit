@@ -7,6 +7,13 @@
     <title>Document</title>
 </head>
 <body>
+    <link rel="stylesheet" href="/partials/header1.css">
+    <style>
+    /* 3 important css for animation list-user */
+    .error-handler-cont{border: 1px var(--accent) solid; background-color: #4179F0; padding: 1rem 2rem; border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 89, 255, 0.293);transform: translateY(90px); transition: transform 1s ease; color: white;}
+    .error-handler-cont.add{transform: translateY(0px);}
+    .error-handler-cont.less {transition: all 0.5s ease-in-out;transform: translateY(90px) !important;}
+    </style>
     <header class="site-header">
         <%if(user){%>
             <a class="profile" href="/profile">      
@@ -24,7 +31,7 @@
         <div class="links">
             <!-- <a href="/aboutus">تماس با ما</a>         -->
             <a href="/aboutus">درباره ما</a> 
-            <a href="/reserveList">لیست رزرو ها</a>       
+            <a href="/reserveList" id="reserveListBtn">لیست رزرو ها</a>       
             <a href="/questions">سوالات متداول</a>                
             <a href="/search">لیست پزشکان</a>
             <a href="/">صفحه اصلی</a>
@@ -34,10 +41,42 @@
             <img  src="/images/logo.png">
         </a>
     </header>
+    <script>
+        document.getElementById('reserveListBtn').addEventListener('click', async(e)=>{
+            e.preventDefault();
+            try{
+                const response = await fetch('/check-login');
+                const result = await response.json();
+                //فانکشن یو آی مسج
+                function createToaster(message){      
+                    const Message = document.createElement('div');
+                    Message.className='error-handler-cont';
+                    Message.style.position='fixed';
+                    Message.style.bottom='2rem';
+                    Message.style.right='2rem';
+                    Message.innerText=message;
+                    document.body.appendChild(Message)
+                    setTimeout(() => {
+                        Message.classList.add('add');
+                    }, 50);
+                    setTimeout(() => {
+                        Message.classList.add('less')
+                    }, 3000);
+                    setTimeout(() => {
+                        Message.remove();
+                    }, 3700);}
+
+                if(response.ok && result.authenticated){
+                    window.location.href = '/reserveList';
+                }
+                else{
+                    createToaster(result.message);
+                }   
+            }
+            catch(err){
+                createToaster('خطا در بررسی ورود شما به سیستم');
+            }
+        })
+    </script>
 </body>
 </html>
-
-
-
-<link rel="stylesheet" href="/partials/header1.css">
-

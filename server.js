@@ -500,7 +500,14 @@ app.get('/index6', (req, res) => {
     }
 })
 
-
+//Login check
+app.get('/check-login' , (req , res) => {
+    if(req.session.user) 
+        res.status(200).json({authenticated: true})
+    else{
+        res.status(401).json({authenticated: false , message:'ابتدا باید ثبت نام کنید یا وارد شوید'})
+    }
+})
 
 app.listen(PORT, () => {
     console.log(`running on http://localhost:${PORT}`);

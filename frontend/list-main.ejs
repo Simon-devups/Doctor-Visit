@@ -33,7 +33,7 @@
         
         <%list.forEach(doctor=>{%>
                 <div class="rectangle" style="padding: 0; ">
-                    <div class="delete"><img src="./recourses/vectors/cross.svg"><p>لغو نوبت</p></div>
+                    <div class="delete" data-doctor-id="<%=doctor.doctor.id%>"><img src="./recourses/vectors/cross.svg"><p>لغو نوبت</p></div>
                     <a href="/Doctor/<%=doctor.doctor.id%>" class="rectangle" style="margin-top: 0; text-decoration: none; border: none;">
                     <div class="rect-ball">
                         <div></div>
@@ -43,21 +43,11 @@
                     <div class="rect-doctor-name">دکتر <%=doctor.doctor.first_name%> <%=doctor.doctor.last_name%></div>
                 </a>
                 </div>
+
             <!-- </a> -->
         <%})%>
 
-        <h3 dir="rtl" style="color: #e28930; text-align: right ; padding-right: 0.5rem; width: 100%; max-width:1400px ; display: flex; margin-top: 1rem; ">نوبت های بعدی درحال پرداخت</h3>
-        <%Pendinglist.forEach(doctor=>{%>
-            <a href="/flow3/<%=doctor.doctor.id%>" class="rectangle">
-                <div class="delete"><img src="./recourses/vectors/cross.svg"><p>لغو نوبت</p></div>
-                <div class="rect-ball">
-                    <div id="pending"></div>
-                    <div dir="rtl" ><span>۴</span> روز و <span>۱۷</span> ساعت تا نوبت</div>
-                </div>
-                <div class="rect-date">دوشنبه ۲۴ دی ساعت ۹:۳۰ </div>
-                <div class="rect-doctor-name">دکتر <%=doctor.doctor.first_name%> <%=doctor.doctor.last_name%></div>
-            </a>
-        <%})%>
+
 
         <!-- <div class="rectangle">
             <div class="delete"><img src="./recourses/vectors/cross.svg"><p>لغو نوبت</p></div>
@@ -75,16 +65,6 @@
         <!-- بخش های نوبت های قبلی -->
 
 
-        <h3 dir="rtl" style="color: #FF6565; text-align: right ; padding-right: 0.5rem; width: 100%; max-width:1400px ; display: flex; margin-top: 3rem;">نوبت های قبلی شما</h3>
-        <%DoneList.forEach(doctor=>{%>
-            <a href="/Doctor/<%=doctor.doctor.id%>" class="past-rectangle">
-                <div class="past-rect-ball">
-                    <div></div>
-                </div>
-                <div  dir="rtl" class="past-rect-date">دوشنبه ۲۴ دی ساعت ۹:۳۰ </div>
-                <div class="past-rect-doctor-name">دکتر <%=doctor.doctor.first_name%> <%=doctor.doctor.last_name%></div>
-            </a>
-        <%})%>
         <!-- <div class="past-rectangle">
             <div class="past-rect-ball">
                 <div></div>
@@ -97,17 +77,19 @@
 
 
     <script>
+        //برای حذف کردن نوبت بعد از پیام
         // حذف مارجین تاپ از اولین رکتنگل
         document.querySelector('.rectangle').style.marginTop = '0.4rem';
-
         const deleteButton = document.querySelectorAll('.delete');
         const deleteCard = document.querySelector('.card-alert');
         const YesBtn = document.querySelector('.red-btn');
         const NoBtn = document.querySelector('.white-btn');
-        let UIhidden=true;
+        let currentDoctorId = null;
+
 
         deleteButton.forEach(button=>{
             button.addEventListener('click' , ()=>{
+                currentDoctorId = button.getAttribute('data-doctor-id');
                 deleteCard.style.display = 'flex';
                 document.body.classList.add('alert-opened')
             })
@@ -115,30 +97,38 @@
         NoBtn.addEventListener('click' , ()=>{
             deleteCard.style.display='none';
             document.body.classList.remove('alert-opened');
+            currentDoctorId = null;
         })
-        YesBtn.addEventListener('click' , ()=>{
+        YesBtn.addEventListener('click' , async ()=>{
             deleteCard.style.display='none';
             document.body.classList.remove('alert-opened');
-            console.log('کنسل شد');
-            
-            const Message=document.createElement('div');
-            Message.className='Message';
-            Message.style.position='fixed';
-            Message.style.bottom='2rem';
-            Message.style.right='2rem';
-            Message.innerText='نوبت شما با موفقیت کنسل شد';
-            document.body.appendChild(Message);
+            console.log('Deleting appointment for doctor:', currentDoctorId);
 
-            setTimeout(() => {
-                Message.classList.add('add');
-            }, 50);
+            try {
+                const response = await fetch(`/reserveList/deletereserve/${currentDoctorId}`, { method: 'DELETE' });
+                if (response.ok) {
+                    const Message=document.createElement('div');
+                    Message.className='Message';
+                    Message.style.position='fixed';
+                    Message.style.bottom='2rem';
+                    Message.style.right='2rem';
+                    Message.innerText='نوبت شما با موفقیت کنسل شد';
+                    document.body.appendChild(Message);
 
-            setTimeout(() => {
-                Message.classList.add('less')
-            }, 3000);
-            setTimeout(() => {
-                Message.remove();
-            }, 3700);
+                    setTimeout(() => { Message.classList.add('add'); }, 50);
+                    setTimeout(() => { Message.classList.add('less'); }, 3000);
+
+                    await new Promise(resolve => setTimeout(resolve, 3700));
+                    Message.remove();
+                    window.location.reload();
+                } else {
+                    console.error('Delete failed with status', response.status);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            } finally {
+                currentDoctorId = null;
+            }
         })
         addEventListener('keydown' , (event)=>{
             if (event.key==='Enter' && document.body.classList.contains('alert-opened')){

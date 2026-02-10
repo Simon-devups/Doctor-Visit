@@ -15,32 +15,35 @@
 }
 *{font-family: 'vazirmatn'; box-sizing: border-box; padding: 0; margin: 0; font-size: 0.98rem;} 
 body{padding: 0 4rem;}
-.main{display: flex; margin-top: 3.9rem; gap: 2rem;}
+.site-header{position: absolute; right: 0; left: 0; top: 0;}
+.main{display: flex; gap: 2rem;}
 .left-m{flex: 0.4; width: 100%; min-width: 280px;}
 .right-m{flex: 1; width: 100%; min-width: 280px;}
 hr{  border: none; border-top: 1px solid var(--Grey_100);}
 button{cursor: pointer;}
 .right-m{display: flex; flex-direction: column; gap: 2rem;}
 .title{font-size: 1.3rem; font-weight: 600; align-self: flex-end;}
+.rah-cont{display: flex; flex-direction: row-reverse; text-wrap: nowrap;}
 .flow-top , .rah-cont , .nazarat-cont{padding: 1rem; border: solid var(--Grey_100) 1px; border-radius: 1rem;}
 .left-lables{padding-right: 1.2rem;display: flex;flex-direction: column; align-items: end; }
 .left-lables > *{display: flex; justify-content: end; width:max-content; color: var(--Neutral_900);}
 .left-lables .title{font-size: 1.4rem; font-weight: 700; color: #232323;}
 .doctor-bio{display: flex; justify-content: end;position: relative;}
-.in-cont{display: flex; justify-content: space-around; gap: 0.5rem;}
+.in-cont{display: flex; ; gap: 0.5rem;}
 .in-rah {display: flex; align-items: center; justify-content: center; padding: 0.5rem 1.5rem; gap: 1rem; width: clamp(12rem, 30vw, 22rem); flex-wrap: nowrap; text-align: center; border: 1px solid var(--Grey_100); color: var(--Neutral_900); border-radius: 0.6rem;}
 .flow-img > img { border-radius: 0.5rem;}
 .doctor-code{width: 100%; }
-.doctor-code-text { display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+.doctor-code-text { display: flex; align-items: center; justify-content: start; gap: 0.5rem; }
 .doctor-code-text img { height: 1.4rem; }
-
-.breadcrumb-section{display: flex; justify-content: end; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: var(--Neutral_900);}
-
+.code-label,.code-value{color: var(--Neutral_600); font-size: 0.95rem;}
+.breadcrumb-section{display: flex; justify-content: end; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: var(--Neutral_900); margin-top:6.4rem; margin-bottom: 0.5rem;}
+.breadcrumb-title{color: var(--Neutral_900); font-weight: 700; font-size: 1.4rem; cursor:pointer;}
 .show-more-comments{display: flex; justify-content: center; align-items: center; color: var(--accent); font-weight: 600; cursor: pointer;}
 .expand-btn{background-color: var(--Neutral_40);}
 .about-bio{display: flex; flex-direction: column;}
 .title.about-section-title{margin-top: 1rem; margin-right: 0.8rem; align-self:flex-end !important;}
 .recommendation-text{display: flex; gap: 0.5rem;}
+.recommendation-text > *{color: rgb(110, 184, 0);}
 .appointment-info{
   display: flex; 
   justify-content: end; 
@@ -123,7 +126,7 @@ button{cursor: pointer;}
 .comment{display: flex; flex-direction: column; border-top: var(--Neutral_40) 1px solid; padding: 2rem 2rem;}
 .comment-top{display: flex; justify-content: space-between;}
 .comment-property, .comment-profile, .comment-starsAndname, .name, .comment-date{display: flex;}
-
+.comment-stars{color: var(--accent);}
 
 .comment-property{gap: 0.5rem;}
 .comment-date{color: var(--Neutral_400);}
@@ -380,6 +383,8 @@ button{cursor: pointer;}
 
 
 /* ریسپانسیو کردن */
+@media (max-width:1360px) {
+}
 @media (max-width:1560px) {
   .in-cont{flex-wrap: wrap;}
 }
@@ -394,6 +399,7 @@ button{cursor: pointer;}
 @media (max-width: 1000px){
   .in-cont{flex-direction: column; align-items: center; gap: 1rem; flex-wrap: wrap;}
   .in-cont > * {width: 100%;}
+  .rah-cont{flex-direction: column;}
 }
 
 @media (max-width: 768px){
@@ -407,7 +413,7 @@ button{cursor: pointer;}
     padding: 1.5rem;
   }
   
-  .main{gap: 1rem; margin-top: 4rem;}
+  .main{gap: 1rem; margin-top: 1.2rem;}
   .right-m{gap: 1.5rem;}
   
   .pc-card{padding: 12px; font-size: 5px;}
@@ -432,7 +438,7 @@ button{cursor: pointer;}
     padding: 1rem;
   }
   
-  .main{margin-top: 6rem;}
+  .main{margin-top: 1.2rem;}
   
   /* row layout, allow wrapping so one child can occupy full width */
   .doctor-bio {
