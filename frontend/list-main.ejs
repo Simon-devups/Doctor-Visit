@@ -33,7 +33,7 @@
         <%list.forEach(doctor=>{%>
                 <div class="rectangle" style="padding: 0; ">
                     <div class="delete" data-doctor-id="<%=doctor.id%>"><img src="./recourses/vectors/cross.svg"><p>لغو نوبت</p></div>
-                    <a href="/Doctor/<%=doctor.doctor.id%>" class="rectangle" style="margin-top: 0; text-decoration: none; border: none;">
+                    <a href="/Doctor/<%=doctor.id%>" class="rectangle" style="margin-top: 0; text-decoration: none; border: none;">
                     <div class="rect-ball">
                         <div></div>
                         <div dir="rtl" ><span>۴</span> روز و <span>۱۷</span> ساعت تا نوبت</div>
@@ -56,6 +56,8 @@
         const YesBtn = document.querySelector('.red-btn');
         const NoBtn = document.querySelector('.white-btn');
         let currentDoctorId = null;
+
+
         deleteButton.forEach(button=>{
             button.addEventListener('click' , ()=>{
                 currentDoctorId = button.getAttribute('data-doctor-id');

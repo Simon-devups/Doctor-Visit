@@ -420,6 +420,10 @@ hr{
     border: 1px solid #E7E7E7 ;
     color: #4179F0;
 }
+.btn1 , .btn2 {
+    font-family: 'vazirmatn';
+    font-weight: 400;
+}
 #item-2 {
    grid-area: label2;
    border-bottom:1px solid #E7E7E7 ;
