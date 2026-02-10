@@ -293,22 +293,11 @@ async function main() {
   });
 
   // 9️⃣ اضافه کردن یک Score
-  const score = await prisma.score.createMany({
-    data: [
-      {
+  const score = await prisma.score.create({
+    data:{
       doctor_id: 1,
       score: 85,
-    },{
-      doctor_id: 1,
-      score: 70,
-    },{
-      doctor_id: 1,
-      score: 85,
-    },{
-      doctor_id: 1,
-      score: 75,
     },
-    ]
   });
 
   console.log('Seed data inserted successfully!');

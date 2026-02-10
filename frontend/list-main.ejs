@@ -32,10 +32,9 @@
         <h3 dir="rtl" style="color: #4179F0; text-align: right ; padding-right: 0.5rem; width: 100%; max-width:1400px ; display: flex; margin-top: 1rem; ">نوبت های بعدی</h3>
         
         <%list.forEach(doctor=>{%>
-            <div  class="rectangle">
-                <div class="delete"><img src="./recourses/vectors/cross.svg"><p>لغو نوبت</p></div>
-                
-                <a href="/Doctor/<%=doctor.doctor.id%>" class="rectangle">
+                <div class="rectangle" style="padding: 0; ">
+                    <div class="delete"><img src="./recourses/vectors/cross.svg"><p>لغو نوبت</p></div>
+                    <a href="/Doctor/<%=doctor.doctor.id%>" class="rectangle" style="margin-top: 0; text-decoration: none; border: none;">
                     <div class="rect-ball">
                         <div></div>
                         <div dir="rtl" ><span>۴</span> روز و <span>۱۷</span> ساعت تا نوبت</div>
@@ -43,7 +42,8 @@
                     <div class="rect-date">دوشنبه ۲۴ دی ساعت ۹:۳۰ </div>
                     <div class="rect-doctor-name">دکتر <%=doctor.doctor.first_name%> <%=doctor.doctor.last_name%></div>
                 </a>
-            </div>
+                </div>
+            <!-- </a> -->
         <%})%>
 
         <h3 dir="rtl" style="color: #e28930; text-align: right ; padding-right: 0.5rem; width: 100%; max-width:1400px ; display: flex; margin-top: 1rem; ">نوبت های بعدی درحال پرداخت</h3>
@@ -99,7 +99,6 @@
     <script>
         // حذف مارجین تاپ از اولین رکتنگل
         document.querySelector('.rectangle').style.marginTop = '0.4rem';
-        document.querySelector('.past-rectangle').style.marginTop = '0.4rem';
 
         const deleteButton = document.querySelectorAll('.delete');
         const deleteCard = document.querySelector('.card-alert');
