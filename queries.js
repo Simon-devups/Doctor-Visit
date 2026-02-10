@@ -22,20 +22,7 @@ const getDoctorComments = async (doctorId) => {
         orderBy:{
             date:'desc'
         }
-        // include: {
-        //     comments: {
-        //         orderBy: { date: "desc" },
-        //         include: {
-        //             user: {
-        //                 select: {
-        //                     firt_name: true,
-        //                     last_name:true,
-        //                     avatar_url: true
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+        
     })
     return result
 }
@@ -284,19 +271,6 @@ const getConfermedUserAppointments = async(userId)=>{
     return result
 }
 
-const getDoneUserAppointments = async(userId)=>{
-    const result = await prisma.appointments.findMany({
-        where:{
-            patientId:userId,
-            status:'DONE'
-        },
-        include:{
-            doctor:true
-        }
-    })
-    return result
-}
-
 const getPendingUserAppointments = async(userId)=>{
     const result = await prisma.appointments.findMany({
         where:{
@@ -308,6 +282,14 @@ const getPendingUserAppointments = async(userId)=>{
         }
     })
     return result
+}
+
+const deleteAppointment = async(appointmentId)=>{
+    const result = await prisma.appointments.delete({
+        where:{
+            id:appointmentId
+        }
+    })
 }
 
 //get fileds of inputs
@@ -335,8 +317,8 @@ const queries = {
     getDoctorByFirstName, getDoctorByLastName, getSpetialties, getSpecifiedDoctors,
     getCities, getTopDoctors, getOldDoctors, findUser, signUpUser, findUserById, updateUser,
     updateUserPhoto, getDoctorComments,getDoctorContacts,addCommentToDoctor,getDoctorPrice,
-    getDoctorWorkingDays,getConfermedUserAppointments,getDoneUserAppointments,
-    addAppointmentToConfirmedList,addAppointmentToPendingList,getPendingUserAppointments,
+    getDoctorWorkingDays,getConfermedUserAppointments,addAppointmentToConfirmedList,addAppointmentToPendingList,
+    deleteAppointment,
     
 }
 

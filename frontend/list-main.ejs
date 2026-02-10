@@ -30,11 +30,10 @@
             </div>
         </a>
         <h3 dir="rtl" style="color: #4179F0; text-align: right ; padding-right: 0.5rem; width: 100%; max-width:1400px ; display: flex; margin-top: 1rem; ">نوبت های بعدی</h3>
-        
         <%list.forEach(doctor=>{%>
                 <div class="rectangle" style="padding: 0; ">
-                    <div class="delete" data-doctor-id="<%=doctor.doctor.id%>"><img src="./recourses/vectors/cross.svg"><p>لغو نوبت</p></div>
-                    <a href="/Doctor/<%=doctor.doctor.id%>" class="rectangle" style="margin-top: 0; text-decoration: none; border: none;">
+                    <div class="delete" data-doctor-id="<%=doctor.id%>"><img src="./recourses/vectors/cross.svg"><p>لغو نوبت</p></div>
+                    <a href="/Doctor/<%=doctor.id%>" class="rectangle" style="margin-top: 0; text-decoration: none; border: none;">
                     <div class="rect-ball">
                         <div></div>
                         <div dir="rtl" ><span>۴</span> روز و <span>۱۷</span> ساعت تا نوبت</div>
@@ -43,35 +42,7 @@
                     <div class="rect-doctor-name">دکتر <%=doctor.doctor.first_name%> <%=doctor.doctor.last_name%></div>
                 </a>
                 </div>
-
-            <!-- </a> -->
         <%})%>
-
-
-
-        <!-- <div class="rectangle">
-            <div class="delete"><img src="./recourses/vectors/cross.svg"><p>لغو نوبت</p></div>
-            <div class="rect-ball">
-                <div></div>
-                <div dir="rtl"><span>۴</span> روز و <span>۱۷</span> ساعت تا نوبت</div>
-            </div>
-            <div class="rect-date">دوشنبه ۲۴ دی ساعت ۹:۳۰ </div>
-            <div class="rect-doctor-name">دکتر زهرا وارسته</div>
-        </div> -->
-
-
-
-
-        <!-- بخش های نوبت های قبلی -->
-
-
-        <!-- <div class="past-rectangle">
-            <div class="past-rect-ball">
-                <div></div>
-            </div>
-            <div  dir="rtl" class="past-rect-date">دوشنبه ۲۴ دی ساعت ۹:۳۰ </div>
-            <div class="past-rect-doctor-name">دکتر زهرا وارسته</div>
-        </div> -->
     </main> 
     <!-- برای صفحات لیست فوتر نیاز نیست ! -->
 
@@ -105,7 +76,7 @@
             console.log('Deleting appointment for doctor:', currentDoctorId);
 
             try {
-                const response = await fetch(`/reserveList/deletereserve/${currentDoctorId}`, { method: 'DELETE' });
+                const response = await fetch(`/reserveList/deletereserve/${currentDoctorId}`, { method: 'POST' });
                 if (response.ok) {
                     const Message=document.createElement('div');
                     Message.className='Message';
