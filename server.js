@@ -406,29 +406,68 @@ app.get('/comment/:id',async(req,res)=>{
     }
 })
 
-app.post('/comment/:id/send',async(req,res)=>{
-    const id = parseInt(req.params.id)
-    try{
-        const userId = req.session.user.id
-        const comment = req.body.comment
-        const score = req.body.rating
-        const data = {
-            user_id:userId,
-            doctor_id:id,
-            score:parseInt(score),
-            comment:comment
-        }
-        let options = { year: 'numeric', month: 'long', day: 'numeric' };
-        let today = new Date().toLocaleDateString('fa-IR',options);
-        console.log(today);
+// با رفرش شدن:
+// app.post('/comment/:id/send',async(req,res)=>{
+//     const id = parseInt(req.params.id)
+//     try{
+//         const userId = req.session.user.id
+//         const comment = req.body.comment
+//         const score = req.body.rating
+//         const data = {
+//             user_id:userId,
+//             doctor_id:id,
+//             score:parseInt(score),
+//             comment:comment
+//         }
+//         let options = { year: 'numeric', month: 'long', day: 'numeric' };
+//         let today = new Date().toLocaleDateString('fa-IR',options);
+//         console.log(today);
 
-        const sendComment = await queries.addCommentToDoctor(data)
-        res.redirect(`/flow/${id}`)                                         //???????
-    }catch(err){
-        console.log(err)
-        res.render("FAQ.ejs")
+//         const sendComment = await queries.addCommentToDoctor(data)
+//         res.redirect(`/flow/${id}`)                                         //???????
+//     }catch(err){
+//         console.log(err)
+//         res.render("FAQ.ejs")
+//     }
+// })
+app.post('/comment/:id/send', async (req, res) => {
+    const id = parseInt(req.params.id);
+    try {
+        // مطمئن شو که کاربر لاگین است
+        if (!req.session.user) {
+            return res.status(401).json({ message: "لطفاً ابتدا وارد حساب خود شوید" });
+        }
+
+        const userId = req.session.user.id;
+        const { comment, rating } = req.body; // داده‌ها از body فچ می‌آیند
+
+        const data = {
+            user_id: userId,
+            doctor_id: id,
+            score: parseInt(rating),
+            comment: comment
+        };
+
+        // ثبت در دیتابیس
+        const sendComment = await queries.addCommentToDoctor(data);
+
+        // *** تغییر اصلی اینجاست ***
+        // به جای ریدایرکت، یک پیام موفقیت با فرمت JSON می‌فرستیم
+        res.status(200).json({ 
+            status: "success", 
+            message: "نظر شما با موفقیت ثبت شد",
+            redirectUrl: `/flow/${id}` // اگر خواستی بعد از فچ کاربر را منتقل کنی
+        });
+
+    } catch (err) {
+        console.log(err);
+        // ارسال خطای سرور به صورت JSON
+        res.status(500).json({ 
+            status: "error", 
+            message: "خطایی در ثبت نظر رخ داد" 
+        });
     }
-})
+});
 
 app.get('/index3', (req, res) => {
     try {
