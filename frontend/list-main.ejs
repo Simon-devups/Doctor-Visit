@@ -30,16 +30,20 @@
             </div>
         </a>
         <h3 dir="rtl" style="color: #4179F0; text-align: right ; padding-right: 0.5rem; width: 100%; max-width:1400px ; display: flex; margin-top: 1rem; ">نوبت های بعدی</h3>
+        
         <%list.forEach(doctor=>{%>
-            <a href="/Doctor/<%=doctor.doctor.id%>" class="rectangle">
+            <div  class="rectangle">
                 <div class="delete"><img src="./recourses/vectors/cross.svg"><p>لغو نوبت</p></div>
-                <div class="rect-ball">
-                    <div></div>
-                    <div dir="rtl" ><span>۴</span> روز و <span>۱۷</span> ساعت تا نوبت</div>
-                </div>
-                <div class="rect-date">دوشنبه ۲۴ دی ساعت ۹:۳۰ </div>
-                <div class="rect-doctor-name">دکتر <%=doctor.doctor.first_name%> <%=doctor.doctor.last_name%></div>
-            </a>
+                
+                <a href="/Doctor/<%=doctor.doctor.id%>" class="rectangle">
+                    <div class="rect-ball">
+                        <div></div>
+                        <div dir="rtl" ><span>۴</span> روز و <span>۱۷</span> ساعت تا نوبت</div>
+                    </div>
+                    <div class="rect-date">دوشنبه ۲۴ دی ساعت ۹:۳۰ </div>
+                    <div class="rect-doctor-name">دکتر <%=doctor.doctor.first_name%> <%=doctor.doctor.last_name%></div>
+                </a>
+            </div>
         <%})%>
 
         <h3 dir="rtl" style="color: #e28930; text-align: right ; padding-right: 0.5rem; width: 100%; max-width:1400px ; display: flex; margin-top: 1rem; ">نوبت های بعدی درحال پرداخت</h3>

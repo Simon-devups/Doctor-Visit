@@ -128,6 +128,7 @@ model comments{
   user     Users   @relation(fields: [user_id],references: [id] , onDelete: Cascade)
 
   score    Int
+  suggest  String
   date     DateTime @default(now())
   comment String
 }

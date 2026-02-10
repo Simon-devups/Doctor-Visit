@@ -12,6 +12,7 @@ import queries from "./queries.js";
 import upload from "./multer.js";
 import EnglishToPersian from "./middlewares/EnglishTopersian.js";
 import { create } from "domain";
+import { userInfo } from "os";
 
 dotenv.config()
 
@@ -248,28 +249,11 @@ app.get('/profile', async(req, res) => {
 
 app.post('/profile/update',async(req,res)=>{
     try{
-        const updatedInfo = req.body
-        const andConditions = [];
+        // const {lastName,firstName,birthYear,nationalCode,city,gender,email,mobile} = req.body;
+        const updatedInfo = req.body;
 
-        const conditions = {
-            last_name:updatedInfo.
-        }
-        
-        // andConditions.push(
-        //     ...parts.map(p => ({
-        //     OR: [
-        //         { first_name: { contains: p, mode: "insensitive" } },
-        //         { last_name: { contains: p, mode: "insensitive" } },
-        //         { spetialty: { is: { spetialty: { contains: p, mode: "insensitive" } } } },
-        //         { description: { some: { description: { contains: p, mode: "insensitive" } } } },
-        //         { description: { some: { city: { contains: p, mode: "insensitive" } } } },
-        //         { description: { some: { Addres: { contains: p, mode: "insensitive" } } } }
-        //     ]
-        //     }))
-        // );
 
-        console.log(updatedInfo)
-        // const updateUser = await queries.updateUser(req.session.user.id,updatedInfo)
+        const updateUser = await queries.updateUser(req.session.user.id,updatedInfo)
         res.redirect('/profile')
     }catch(err){
         console.log(err)
@@ -294,12 +278,8 @@ app.get('/flow/:id', async (req, res) => {
     try {
         //comment section
         const doctorComments = await queries.getDoctorComments(id)
-        console.log(doctorComments)
-        // const doctorCommentsP = doctorComments.map(c =>({
-        //     ...c,dateFa:EnglishToPersian(date)
-        // }))
-        // console.log(doctorCommentsP)
-        // doctor description section
+        
+        
         const contact = await queries.getDoctorContacts(id)
         const specifiedDoctor = await queries.getDoctorById(id)
         
@@ -308,7 +288,7 @@ app.get('/flow/:id', async (req, res) => {
         const workingDaysInWeek = await queries.getDoctorWorkingDays(id)  // 0:saturday  ,  1:sonday  ,  ... 
         
 
-        res.render("flow.ejs" , {doctor : specifiedDoctor , contact:contact , comments:doctorComments})
+        res.render("flow.ejs" , {doctor : specifiedDoctor , contact:contact , comments:doctorComments , Ncomments:doctorComments.length})
     } catch (err) {
         console.log(err)
         res.render("FAQ.ejs")
@@ -431,29 +411,68 @@ app.get('/comment/:id',async(req,res)=>{
     }
 })
 
-app.post('/comment/:id/send',async(req,res)=>{
-    const id = parseInt(req.params.id)
-    try{
-        const userId = req.session.user.id
-        const comment = req.body.comment
-        const score = req.body.rating
-        const data = {
-            user_id:userId,
-            doctor_id:id,
-            score:parseInt(score),
-            comment:comment
-        }
-        let options = { year: 'numeric', month: 'long', day: 'numeric' };
-        let today = new Date().toLocaleDateString('fa-IR',options);
-        console.log(today);
+// با رفرش شدن:
+// app.post('/comment/:id/send',async(req,res)=>{
+//     const id = parseInt(req.params.id)
+//     try{
+//         const userId = req.session.user.id
+//         const comment = req.body.comment
+//         const score = req.body.rating
+//         const data = {
+//             user_id:userId,
+//             doctor_id:id,
+//             score:parseInt(score),
+//             comment:comment
+//         }
+//         let options = { year: 'numeric', month: 'long', day: 'numeric' };
+//         let today = new Date().toLocaleDateString('fa-IR',options);
+//         console.log(today);
 
-        const sendComment = await queries.addCommentToDoctor(data)
-        res.redirect(`/flow/${id}`)                                         //???????
-    }catch(err){
-        console.log(err)
-        res.render("FAQ.ejs")
+//         const sendComment = await queries.addCommentToDoctor(data)
+//         res.redirect(`/flow/${id}`)                                         //???????
+//     }catch(err){
+//         console.log(err)
+//         res.render("FAQ.ejs")
+//     }
+// })
+app.post('/comment/:id/send', async (req, res) => {
+    const id = parseInt(req.params.id);
+    try {
+        // مطمئن شو که کاربر لاگین است
+        if (!req.session.user) {
+            return res.status(401).json({ message: "لطفاً ابتدا وارد حساب خود شوید" });
+        }
+
+        const userId = req.session.user.id;
+        const { comment, rating } = req.body; // داده‌ها از body فچ می‌آیند
+
+        const data = {
+            user_id: userId,
+            doctor_id: id,
+            score: parseInt(rating),
+            comment: comment
+        };
+
+        // ثبت در دیتابیس
+        const sendComment = await queries.addCommentToDoctor(data);
+
+        // *** تغییر اصلی اینجاست ***
+        // به جای ریدایرکت، یک پیام موفقیت با فرمت JSON می‌فرستیم
+        res.status(200).json({ 
+            status: "success", 
+            message: "نظر شما با موفقیت ثبت شد",
+            redirectUrl: `/flow/${id}` // اگر خواستی بعد از فچ کاربر را منتقل کنی
+        });
+
+    } catch (err) {
+        console.log(err);
+        // ارسال خطای سرور به صورت JSON
+        res.status(500).json({ 
+            status: "error", 
+            message: "خطایی در ثبت نظر رخ داد" 
+        });
     }
-})
+});
 
 app.get('/index3', (req, res) => {
     try {

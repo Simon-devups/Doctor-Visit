@@ -22,6 +22,8 @@
         <div id="item-0"><img src="/images/<%=doctor.image_url%>" alt="doctor"></div>
 
         <div id="item-1" dir="ltr">
+          <!-- <input type="button" class="suggest-btn" id="noBtn" aria-pressed="false" value="false" placeholder="پزشک را پیشنهاد نمی‌کنم"><img src="/recourses/vectors/thumbs-down[grey].svg" alt="">
+          <input type="button" class="suggest-btn" id="yesBtn" aria-pressed="false" placeholder="پزشک را پیشنهاد می‌کنم" value="true"><img src="/recourses/vectors/thumbs-up[grey].svg" alt=""> -->
           <button type="button" class="suggest-btn" id="noBtn" aria-pressed="false"><img src="/recourses/vectors/thumbs-down[grey].svg" alt=""> پزشک را پیشنهاد نمی‌کنم</button>
           <button type="button" class="suggest-btn" id="yesBtn" aria-pressed="false"><img src="/recourses/vectors/thumbs-up[grey].svg" alt=""> پزشک را پیشنهاد می‌کنم</button>
           <!-- hidden form value kept for fallback (not required since front-end sends JSON) -->
@@ -156,70 +158,73 @@
     return null;
   }
 
-  // form.addEventListener('submit', async (e) => {
-  //   e.preventDefault();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-  //   const err = validate();
-  //   if (err) { 
-  //     //در اینجا ارور رو نشون میده
-  //     const Message = document.createElement('div');
-  //     Message.className='error-handler-cont';
-  //     Message.style.position='fixed';
-  //     Message.style.bottom='2rem';
-  //     Message.style.right='2rem';
-  //     Message.innerText=err;
-  //     document.querySelector('.sectionone').appendChild(Message)
-  //     setTimeout(() => {
-  //       Message.classList.add('add');
-  //     }, 50);
-  //     setTimeout(() => {
-  //       Message.classList.add('less')
-  //     }, 3000);
-  //     setTimeout(() => {
-  //       Message.remove();
-  //     }, 3700);
-  //   return;}
+    const err = validate();
+    if (err) { 
+      //در اینجا ارور رو نشون میده
+      const Message = document.createElement('div');
+      Message.className='error-handler-cont';
+      Message.style.position='fixed';
+      Message.style.bottom='2rem';
+      Message.style.right='2rem';
+      Message.innerText=err;
+      document.querySelector('.sectionone').appendChild(Message)
+      setTimeout(() => {
+        Message.classList.add('add');
+      }, 50);
+      setTimeout(() => {
+        Message.classList.add('less')
+      }, 3000);
+      setTimeout(() => {
+        Message.remove();
+      }, 3700);
+    return;}
 
-  //   // payload front-end driven — backend will handle storage/validation
-  //   const payload = {
-  //     doctor_id: document.getElementById('doctorId').value,
-  //     recommend: state.recommend,       // boolean
-  //     rating: state.rating,             // number
-  //     comment: state.comment            // string
-  //   };
+    // payload front-end driven — backend will handle storage/validation
+    const payload = {
+      doctor_id: document.getElementById('doctorId').value,
+      recommend: state.recommend,       // boolean
+      rating: state.rating,             // number
+      comment: state.comment            // string
+    };
 
-  //   // UI: disable button while sending
-  //   submitBtn.disabled = true;
-  //   submitBtn.textContent = 'در حال ارسال...';
+    // UI: disable button while sending
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'در حال ارسال...';
+    //فچ به سرور
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
 
-  //   try {
-  //     const res = await fetch(form.action || '/comment/:id/send', {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify(payload)
-  //     });
-
-  //     const data = await (res.headers.get('Content-Type')?.includes('application/json') ? res.json() : null);
-
-  //     if (!res.ok) {
-  //       // if backend returns errors object use it, else generic message
-  //       const msg = (data && (data.message || JSON.stringify(data))) || `خطا در سرور (${res.status})`;
-  //       throw new Error(msg);
-  //     }
-
-  //     alert((data && data.message) || 'نظر شما ثبت شد');
-  //     form.reset();
-  //     // clear JS state
-  //     state.recommend = null; state.rating = null; state.comment = '';
-  //     yesBtn.setAttribute('aria-pressed','false'); noBtn.setAttribute('aria-pressed','false');
-  //   } catch (error) {
-  //     console.error(error);
-  //     alert(error.message || 'خطا در ارسال نظر');
-  //   } finally {
-  //     submitBtn.disabled = false;
-  //     submitBtn.textContent = 'ارسال نظر';
-  //   }
-  // });
+      const data = await (res.headers.get('Content-Type')?.includes('application/json') ? res.json() : null);
+      if (!res.ok) {
+        // if backend returns errors object use it, else generic message
+        const msg = (data && (data.message || JSON.stringify(data))) || `خطا در سرور (${res.status})`;
+        throw new Error(msg);
+      }
+      else{
+        // form.reset();
+        // clear JS state
+        state.recommend = null; state.rating = null; state.comment = '';
+        // yesBtn.setAttribute('aria-pressed','false'); noBtn.setAttribute('aria-pressed','false');
+        if(data.redirectUrl){
+          window.location.href = data.redirectUrl;
+          form.reset();
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      alert(error.message || 'خطا در ارسال نظر');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'ارسال نظر';
+    }
+  });
 </script>
 </body>
 </html>
