@@ -249,8 +249,27 @@ app.get('/profile', async(req, res) => {
 app.post('/profile/update',async(req,res)=>{
     try{
         const updatedInfo = req.body
+        const andConditions = [];
+
+        const conditions = {
+            last_name:updatedInfo.
+        }
+        
+        // andConditions.push(
+        //     ...parts.map(p => ({
+        //     OR: [
+        //         { first_name: { contains: p, mode: "insensitive" } },
+        //         { last_name: { contains: p, mode: "insensitive" } },
+        //         { spetialty: { is: { spetialty: { contains: p, mode: "insensitive" } } } },
+        //         { description: { some: { description: { contains: p, mode: "insensitive" } } } },
+        //         { description: { some: { city: { contains: p, mode: "insensitive" } } } },
+        //         { description: { some: { Addres: { contains: p, mode: "insensitive" } } } }
+        //     ]
+        //     }))
+        // );
+
         console.log(updatedInfo)
-        const updateUser = await queries.updateUser(req.session.user.id,updatedInfo)
+        // const updateUser = await queries.updateUser(req.session.user.id,updatedInfo)
         res.redirect('/profile')
     }catch(err){
         console.log(err)
