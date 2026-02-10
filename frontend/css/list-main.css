@@ -182,7 +182,7 @@ a{
 /* استایل تاریخ پَست که باید در وسط باشد با پدینگ تنظیم شده */
 .past-rect-date{padding-left: 9rem;}
 
-.card-alert{background-color: white; padding: 2rem !important; display: flex;flex-direction: column; padding: 10px;align-items: center;justify-content: center; gap: 1rem; border-radius: 10px; border: var(--Neutral_400) 1px solid; z-index: 999; margin: 0 auto; width: 600px; display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);}
+.card-alert{background-color: white; padding: 2rem !important; display: none;flex-direction: column; padding: 10px;align-items: center;justify-content: center; gap: 1rem; border-radius: 10px; border: var(--Neutral_400) 1px solid; z-index: 999; margin: 0 auto; width: 600px; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);}
 .alert-img{background-color: #FEEDED; height: 90px; aspect-ratio: 1/1; display: flex; align-items: center;justify-content: center; border-radius: 10px;}
 .alert-img img{height: 75%;}
 .btns{display: flex; gap: 1rem;}
