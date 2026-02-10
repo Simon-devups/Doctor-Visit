@@ -67,6 +67,11 @@ app.use((req, res, next) => {
     next();
 });
 
+function toPersianDigits(str) {
+    const farsiDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    return str.toString().replace(/\d/g, x => farsiDigits[x]);
+}
+
 
 
 
@@ -283,12 +288,18 @@ app.get('/flow/:id', async (req, res) => {
         const contact = await queries.getDoctorContacts(id)
         const specifiedDoctor = await queries.getDoctorById(id)
         
+        doctorComments.forEach(comment=>{
+            const persianDate = new Intl.DateTimeFormat('fa-IR', {
+                dateStyle: 'long'}).format(comment.date);
+                console.log(persianDate)
+            comment.date = persianDate
+        })
+
         //callendar
         //result example : { weekday: 6, start_time: '09:00', end_time: '15:00' } in array
         const workingDaysInWeek = await queries.getDoctorWorkingDays(id)  // 0:saturday  ,  1:sonday  ,  ... 
-        
 
-        res.render("flow.ejs" , {doctor : specifiedDoctor , contact:contact , comments:doctorComments , Ncomments:doctorComments.length})
+        res.render("flow.ejs" , {doctor : specifiedDoctor , contact:contact , comments:doctorComments })
     } catch (err) {
         console.log(err)
         res.render("FAQ.ejs")
@@ -352,10 +363,22 @@ app.get('/reserveList',async(req,res)=>{
     try{
         const user = req.session.user
         const ConfirmedreserveList = await queries.getConfermedUserAppointments(user.id)
-        const DonereserveList = await queries.getDoneUserAppointments(user.id)
-        const PendingList = await queries.getPendingUserAppointments(user.id)
+        console.log(ConfirmedreserveList)
+        // const DonereserveList = await queries.getDoneUserAppointments(user.id)
+        // const PendingList = await queries.getPendingUserAppointments(user.id)
 
-        res.render('list-main.ejs',{list:ConfirmedreserveList,DoneList:DonereserveList,Pendinglist:PendingList})
+        res.render('list-main.ejs',{list:ConfirmedreserveList})
+    }catch(err){
+        console.log(err)
+        res.render("FAQ.ejs")
+    }
+})
+
+app.post('/reserveList/deletereserve/:id',async(req,res)=>{
+    const id = parseInt(req.params.id)
+    try{
+        const deleteAppointment = await queries.deleteAppointment(id)
+        res.redirect('/reserveList')
     }catch(err){
         console.log(err)
         res.render("FAQ.ejs")
