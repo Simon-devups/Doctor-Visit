@@ -13,6 +13,7 @@ import upload from "./multer.js";
 import EnglishToPersian from "./middlewares/EnglishTopersian.js";
 import { create } from "domain";
 import { userInfo } from "os";
+import { stringify } from "querystring";
 
 dotenv.config()
 
@@ -281,25 +282,29 @@ app.post('/profile/updatePhoto',async(req,res)=>{
 app.get('/flow/:id', async (req, res) => {
     const id = parseInt(req.params.id)
     try {
-        //comment section
-        const doctorComments = await queries.getDoctorComments(id)
-        
-        
         const contact = await queries.getDoctorContacts(id)
         const specifiedDoctor = await queries.getDoctorById(id)
         
+        //comment section
+        const doctorComments = await queries.getDoctorComments(id)
+
+        let sum = 0;
         doctorComments.forEach(comment=>{
             const persianDate = new Intl.DateTimeFormat('fa-IR', {
                 dateStyle: 'long'}).format(comment.date);
-                console.log(persianDate)
             comment.date = persianDate
+            
+            if(comment.suggest == 'true') sum+=1
         })
+
+        const doctorRecommend = (sum/(doctorComments.length))*100
+        
 
         //callendar
         //result example : { weekday: 6, start_time: '09:00', end_time: '15:00' } in array
         const workingDaysInWeek = await queries.getDoctorWorkingDays(id)  // 0:saturday  ,  1:sonday  ,  ... 
 
-        res.render("flow.ejs" , {doctor : specifiedDoctor , contact:contact , comments:doctorComments })
+        res.render("flow.ejs" , {doctor : specifiedDoctor , contact:contact , comments:doctorComments , doctorRecommend:doctorRecommend})
     } catch (err) {
         console.log(err)
         res.render("FAQ.ejs")
@@ -434,30 +439,6 @@ app.get('/comment/:id',async(req,res)=>{
     }
 })
 
-// با رفرش شدن:
-// app.post('/comment/:id/send',async(req,res)=>{
-//     const id = parseInt(req.params.id)
-//     try{
-//         const userId = req.session.user.id
-//         const comment = req.body.comment
-//         const score = req.body.rating
-//         const data = {
-//             user_id:userId,
-//             doctor_id:id,
-//             score:parseInt(score),
-//             comment:comment
-//         }
-//         let options = { year: 'numeric', month: 'long', day: 'numeric' };
-//         let today = new Date().toLocaleDateString('fa-IR',options);
-//         console.log(today);
-
-//         const sendComment = await queries.addCommentToDoctor(data)
-//         res.redirect(`/flow/${id}`)                                         //???????
-//     }catch(err){
-//         console.log(err)
-//         res.render("FAQ.ejs")
-//     }
-// })
 app.post('/comment/:id/send', async (req, res) => {
     const id = parseInt(req.params.id);
     try {
@@ -467,13 +448,15 @@ app.post('/comment/:id/send', async (req, res) => {
         }
 
         const userId = req.session.user.id;
-        const { comment, rating } = req.body; // داده‌ها از body فچ می‌آیند
+        const { comment, rating , recommend } = req.body; // داده‌ها از body فچ می‌آیند
+        
 
         const data = {
             user_id: userId,
             doctor_id: id,
             score: parseInt(rating),
-            comment: comment
+            comment: comment,
+            suggest:recommend.toString(),
         };
 
         // ثبت در دیتابیس
