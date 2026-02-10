@@ -22,20 +22,7 @@ const getDoctorComments = async (doctorId) => {
         orderBy:{
             date:'desc'
         }
-        // include: {
-        //     comments: {
-        //         orderBy: { date: "desc" },
-        //         include: {
-        //             user: {
-        //                 select: {
-        //                     firt_name: true,
-        //                     last_name:true,
-        //                     avatar_url: true
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+        
     })
     return result
 }
@@ -185,17 +172,17 @@ const signUpUser = async (user, filename) => {
 const updateUser = async (userId, user) => {
     const result = await prisma.users.update({
         where: {
-            id: userId.id
+            id: userId
         },
         data: {
-            firt_name: user.first_name,
-            last_name: user.last_name,
-            phone: user.phone,
+            firt_name: user.firstName,
+            last_name: user.lastName,
+            phone: user.mobile,
             userInfo: {
                 update: {
-                    where: { user_id: userId.id },
+                    where: { user_id: userId },
                     data: {
-                        code_meli: user.code_meli,
+                        code_meli: user.nationalCode,
                         birthday: user.birthday,
                         gender: user.gender,
                         city: user.city,
@@ -284,19 +271,6 @@ const getConfermedUserAppointments = async(userId)=>{
     return result
 }
 
-const getDoneUserAppointments = async(userId)=>{
-    const result = await prisma.appointments.findMany({
-        where:{
-            patientId:userId,
-            status:'DONE'
-        },
-        include:{
-            doctor:true
-        }
-    })
-    return result
-}
-
 const getPendingUserAppointments = async(userId)=>{
     const result = await prisma.appointments.findMany({
         where:{
@@ -308,6 +282,14 @@ const getPendingUserAppointments = async(userId)=>{
         }
     })
     return result
+}
+
+const deleteAppointment = async(appointmentId)=>{
+    const result = await prisma.appointments.delete({
+        where:{
+            id:appointmentId
+        }
+    })
 }
 
 //get fileds of inputs
@@ -335,8 +317,8 @@ const queries = {
     getDoctorByFirstName, getDoctorByLastName, getSpetialties, getSpecifiedDoctors,
     getCities, getTopDoctors, getOldDoctors, findUser, signUpUser, findUserById, updateUser,
     updateUserPhoto, getDoctorComments,getDoctorContacts,addCommentToDoctor,getDoctorPrice,
-    getDoctorWorkingDays,getConfermedUserAppointments,getDoneUserAppointments,
-    addAppointmentToConfirmedList,addAppointmentToPendingList,getPendingUserAppointments,
+    getDoctorWorkingDays,getConfermedUserAppointments,addAppointmentToConfirmedList,addAppointmentToPendingList,
+    deleteAppointment,
     
 }
 

@@ -146,7 +146,7 @@ async function main() {
       firt_name:'سایمون',
       last_name:'',
       phone:'09920001122',
-      avatar_url:'.',
+      avatar_url:'simon.jpg',
     }
   })
 
@@ -256,53 +256,48 @@ async function main() {
       doctor_id: 1,
       user_id: user.id,
       score:3,
+      suggest:"true",
       comment: 'از لحاظ اطلاعات و سواد دکتر خوبیه ولی بد اخلاقه .',
     },{
       doctor_id: 1,
       user_id: user.id,
       score:3,
+      suggest:'true',
       comment: 'یکم زیادی خشکه',
     },{
       doctor_id: 2,
       user_id: user.id,
       score:3,
+      suggest:'true',
       comment: 'خیلی با ادبه',
     },{
       doctor_id: 2,
       user_id: user.id,
       score:3,
+      suggest:'false',
       comment: 'اطلاعاتش خیلی زیاده ',
     },{
       doctor_id: 3,
       user_id: user.id,
       score:3,
+      suggest:'true',
       comment: 'خیلی خوش ادبه',
     },{
       doctor_id: 4,
       user_id: user.id,
       score:3,
+      suggest:'false',
       comment: 'با ادبه',
     },
   ]
   });
 
   // 9️⃣ اضافه کردن یک Score
-  const score = await prisma.score.createMany({
-    data: [
-      {
+  const score = await prisma.score.create({
+    data:{
       doctor_id: 1,
       score: 85,
-    },{
-      doctor_id: 1,
-      score: 70,
-    },{
-      doctor_id: 1,
-      score: 85,
-    },{
-      doctor_id: 1,
-      score: 75,
     },
-    ]
   });
 
   console.log('Seed data inserted successfully!');

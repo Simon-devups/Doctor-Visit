@@ -219,7 +219,7 @@
                 <hr style="margin-top: 0.5rem;">
                 <!-- replace original about block with this -->
                 <div class="about-bio">
-                    <span class="title about-section-title">درباره دکتر زهرا وارسته</span>
+                    <span class="title about-section-title">درباره دکتر <%=doctor.first_name%> <%=doctor.last_name%> </span>
 
                     <!-- collapsed wrapper (short visible area) -->
                     <div class="bio-collapse" aria-hidden="true">
@@ -242,9 +242,9 @@
                 <div class="in-cont">
                     <div class="in-rah"><%=contact.instagram%> <img src="./recourses/vectors/instagram.svg"
                             alt=""></div>
-                    <div class="in-rah"> <%=contact.phone%> شماره تماس: <img src="./recourses/vectors/telephone.svg" alt="">
+                    <div class="in-rah"> شماره تماس: <span><%=contact.phone%></span> <img src="./recourses/vectors/telephone.svg" alt="">
                     </div>
-                    <div class="in-rah"><%=contact.web%> <img src="./recourses/vectors/chrome.svg" alt=""></div>
+                    <div class="in-rah"><a style="color: rgb(42, 42, 42);" href="https://<%=contact.web%>"><%=contact.web%></a><img src="./recourses/vectors/chrome.svg" alt=""></div>
                 </div>
             </div>
 
@@ -252,10 +252,10 @@
     <div class="nazarat-cont">
         <div class="title">نظرات کاربران</div>
         <div class="N-flex">
-            <div class="comment-stars">(105) نظر</div>
+            <div class="comment-stars">(<%=comments.length%>) نظر</div>
             <div class="recommendation-text">
                 <p>مراجعان این پزشک را پیشنهاد داده‌اند</p>
-                <span>90%</span>
+                <span><%=doctorRecommend%>%</span>
                 <img src="/recourses/vectors/thumbs-up.svg" style="max-height: 1.4rem;" alt="آیکن تأیید">
             </div>
             <a href="/comment/<%=doctor.id%>" class="sabte-nazar">
@@ -268,7 +268,7 @@
                 
                 <div class="comment">
                     <div class="comment-top">
-                        <div class="comment-date"> <%=comment.date%> </div>
+                        <div class="comment-date" style="font-size: 0.9rem;"> <%=comment.date%> </div>
                         <div class="comment-property">
                             <div class="comment-starsAndname">
                                 <div class="name"><%=comment.user.firt_name%> <%=comment.user.last_name%></div>
