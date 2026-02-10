@@ -179,19 +179,9 @@
                 <!-- Time slots area (visual only). JS can toggle .active -->
                 <div class="pc-times">
                     <div class="pc-times-row">
-                        <button class="pc-slot">۹:۱۵</button>
-                        <button class="pc-slot">۹:۳۰</button>
-                        <button class="pc-slot muted">۹:۴۵</button>
-                    </div>
-                    <div class="pc-times-row">
-                        <button class="pc-slot">۱۰:۰۰</button>
-                        <button class="pc-slot active">۱۰:۱۵</button>
-                        <button class="pc-slot outlined">۱۰:۳۰</button>
-                    </div>
-                    <div class="pc-times-row">
-                        <button class="pc-slot outlined">۱۰:۴۵</button>
-                        <button class="pc-slot">۱۱:۰۰</button>
-                        <button class="pc-slot outlined">۱۱:۱۵</button>
+                        <button class="pc-slot outlined" onclick="classList.add('active')">۱۰:۰۰</button>
+                        <button class="pc-slot outlined" onclick="classList.add('active')">۱۰:۱۵</button>
+                        <button class="pc-slot outlined" onclick="classList.add('active')">۱۰:۳۰</button>
                     </div>
                 </div>
 
@@ -205,7 +195,7 @@
             <div class="flow-top">
                 <div class="doctor-bio">
                     <div class="doctor-code">
-                        <span class="doctor-code-text" style="align-items: center; justify-content: center;">
+                        <span class="doctor-code-text">
                             <span><span class="code-label">کد نظام پزشکی: </span><span class="code-value"><%=doctor.description[0].code%></span></span>
                             <img style="height: 1.4rem; " src="/recourses/vectors/CheckCircle.svg" alt="تایید">
                         </span>
@@ -308,7 +298,14 @@
             console.log('Today button clicked');
         });
     });
-
+    //انتخاب ساعت
+    const slotBtns = document.querySelectorAll('.pc-slot.outlined');
+    slotBtns.forEach(btn => {
+        btn.addEventListener('click', function(){
+            slotBtns.forEach(activated => activated.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
     //راستی آزمایی لاگین برای ثبت نظر
     document.querySelector('.sabte-nazar').addEventListener('click' , async (e)=>{
         e.preventDefault();
