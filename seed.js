@@ -235,11 +235,11 @@ async function main() {
       doctorId: 1,
       patientId: user.id,
       date: new Date('2025-11-25T10:00:00.000Z'),
-      status: 'PENDING',
+      status: 'CONFIRMED',
     },{
       doctorId: 1,
       patientId: user.id,
-      date: new Date('2025-11-25T10:00:00.000Z'),
+      date: new Date('2025-11-25T11:00:00.000Z'),
       status: 'CONFIRMED',
     },{
       doctorId: 2,
