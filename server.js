@@ -297,17 +297,42 @@ app.get('/flow/:id', async (req, res) => {
             if(comment.suggest == 'true') sum+=1
         })
 
+        //doctor rating
         const doctorRecommend = (sum/(doctorComments.length))*100
-        
 
-        //callendar
-        //result example : { weekday: 6, start_time: '09:00', end_time: '15:00' } in array
+        //result example : [0,1,2,3,4]
         const workingDaysInWeek = await queries.getDoctorWorkingDays(id)  // 0:saturday  ,  1:sonday  ,  ... 
+        
 
         res.render("flow.ejs" , {doctor : specifiedDoctor , contact:contact , comments:doctorComments , doctorRecommend:doctorRecommend})
     } catch (err) {
         console.log(err)
         res.render("FAQ.ejs")
+    }
+})
+
+app.get('/calender/:id/checkDay',async(req,res)=>{
+    const doctorId = parseInt(req.params.id);
+    try{
+        const date = new Date('2025-11-25');
+        //request example : {date:'2026-02-11'}
+        const emptyTimes = await queries.getDoctorEmptyTimes(doctorId,date)
+        // response example : [
+        //{ start: '09:00', isAvailable: true },{ start: '09:30', isAvailable: true },{ start: '10:00', isAvailable: true },...
+        //]
+
+
+        res.status(200).json({ 
+            data:emptyTimes,
+            status: "success",
+            redirectUrl: `/flow/${doctorId}` 
+        });
+    }catch(err){
+        console.log(err)
+        res.status(500).json({ 
+            status: "error", 
+            message: "خطا در برقراری ارتباط" 
+        });
     }
 })
 
