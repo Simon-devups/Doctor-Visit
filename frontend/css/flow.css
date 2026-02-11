@@ -44,6 +44,7 @@ button{cursor: pointer;}
 .title.about-section-title{margin-top: 1rem; margin-right: 0.8rem; align-self:flex-end !important;}
 .recommendation-text{display: flex; gap: 0.5rem;}
 .recommendation-text > *{color: rgb(110, 184, 0);}
+.pc-nav{background-color: white;}
 .appointment-info{
   display: flex; 
   justify-content: end; 
@@ -180,8 +181,9 @@ button{cursor: pointer;}
 .pc-top-row { display:flex; align-items:center; justify-content: center; gap: 8px; }
 .pc-nav {
   width: 34px; height: 34px; border-radius: 50%;
-  border: none; box-shadow: none; border: 1px solid rgba(0,0,0,0.03);
+  border: none; box-shadow: none;
   font-size: 1.1rem; cursor:pointer;
+  border: 1px solid rgb(0 0 0 / 49%);
 }
 .pc-month { font-weight: 700; font-size: 1.05rem; text-align: center; padding: 4px 8px; }
 
