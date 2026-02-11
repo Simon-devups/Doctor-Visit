@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تست سلامت دکتر ویزیت</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap">
+    <link rel="stylesheet" href="/css/test-salamat.css">
+</head>
+
+<body>
+    <section class="health-check">
+        <h2 class="title">تست سریع سلامت</h2>
+        <p class="subtitle">لطفاً اطلاعات زیر را وارد کنید</p>
+        
+        <div class="human-cont">
+            <img width="100" height="100" src="https://img.icons8.com/ios-filled/100/228BE6/prelum.png" alt="prelum"/>
+            <p id="typing-text" style="color: #4f7cff; font-weight: 900; font-size: 1.6rem; min-height: 3.2rem;"></p>
+        </div>
+
+        <div class="form-grid">
+            <div class="input-group">
+                <label>وزن (کیلوگرم)</label>
+                <input type="number" id="weight" placeholder="مثلاً 72">
+            </div>
+
+            <div class="input-group">
+                <label>قد (سانتی‌متر)</label>
+                <input type="number" id="height" placeholder="مثلاً 175">
+            </div>
+
+            <div class="input-group">
+                <label>فشار خون بزرگ </label>
+                <input type="number" id="fesharBozorg" placeholder="مثلاً 120">
+            </div>
+
+            <div class="input-group">
+                <label>فشار خون کوچک </label>
+                <input type="number" id="fesharKuchak" placeholder="مثلاً 80">
+            </div>
+
+            <div class="input-group full">
+                <label>قند خون </label>
+                <input type="number" id="sugar" placeholder="مثلاً 95">
+            </div>
+        </div>
+
+        <button class="health-btn" id="actionBtn" onclick="calculateHealth()">
+            بررسی وضعیت سلامت
+        </button>
+
+        <div id="result-box" class="result-box"></div>
+    </section>
+
+</body>
+<script>
+    // متن اصلی را اینجا تعریف می‌کنیم تا تمیزتر باشد
+    // <br> را به عنوان یک جداکننده منطقی در نظر می‌گیریم
+    const targetMessage = "دکتر ویزیت به هنگام سختی همراه شما <br>قدم خواهد برداشت.";
+
+    function typeWriterEffect(elementId, text, speed = 50) {
+        const element = document.getElementById(elementId);
+        element.innerHTML = ""; // پاک کردن محتوا
+        let i = 0;
+        
+        // ایجاد اسپن برای کرسر چشمک‌زن
+        const cursor = document.createElement('span');
+        cursor.className = 'typing-cursor';
+        cursor.innerHTML = '|';
+        element.appendChild(cursor);
+
+        function type() {
+            if (i < text.length) {
+                // بررسی هوشمند برای تگ <br>
+                // اگر ۴ کاراکتر بعدی <br> باشد، آن را یکجا اضافه کن
+                if (text.substring(i, i + 4) === "<br>") {
+                    cursor.insertAdjacentHTML('beforebegin', '<br>');
+                    i += 4;
+                } else {
+                    // اضافه کردن کاراکتر قبل از کرسر
+                    const char = text.charAt(i);
+                    cursor.insertAdjacentText('beforebegin', char);
+                    i++;
+                }
+                setTimeout(type, speed);
+            } else {
+                // پایان تایپ: می‌توانیم کرسر را حذف کنیم یا بگذاریم بماند
+                // cursor.style.display = 'none'; // اگر خواستید کرسر محو شود این خط را از کامنت درآورید
+            }
+        }
+        type();
+    }
+
+    function calculateHealth() {
+        const height = parseFloat(document.querySelector('#height').value);
+        const weight = parseFloat(document.querySelector('#weight').value);
+        const fesharBozorg = parseFloat(document.querySelector('#fesharBozorg').value);
+        const fesharKuchak = parseFloat(document.querySelector('#fesharKuchak').value);
+        const sugar = parseFloat(document.querySelector('#sugar').value);
+        
+
+
+        const heightM = height / 100;
+        const BMI = weight / (heightM * heightM);
+
+        let issues = [];
+
+        if (BMI < 18.5) {
+            issues.push("شما دچار کمبود وزن هستید.");
+        } else if (BMI > 18.5 && BMI < 25) {
+            issues.push("وضعیت وزن شما در وضعیت خوبی قرار دارد")
+        } else if (BMI >= 25 && BMI < 30) {
+            issues.push("شما اضافه وزن دارید.");
+        } else if (BMI >= 30) {
+            issues.push("شما دچار چاقی هستید (ریسک بالا).");
+        }
+
+        if (fesharBozorg && fesharKuchak) {
+             if (fesharBozorg >= 180 || fesharKuchak >= 120) {
+                issues.push("فشارخون شما در حالت اورژانسی می باشد")
+            } else if (fesharBozorg >= 140 || fesharKuchak >= 90) {
+                issues.push("فشار خون شما بالاست (پرفشاری خون درجه ۲).");
+            } else if (fesharBozorg >= 130 || fesharKuchak >= 80) {
+                issues.push("فشار خون شما در مرز ابتلا قرار دارد.");
+            } else if ((120 < fesharBozorg) && (fesharBozorg< 129) && (fesharKuchak < 80)) {
+                issues.push("فشارخون شما در حالت مطلوب می باشد")
+            }
+        }
+
+        if (sugar) {
+            if (sugar >= 126) {
+                issues.push("قند خون شما بالاست (احتمال دیابت).");
+            } else if (sugar >= 100) {
+                issues.push("قند خون شما در مرز است (پیش دیابت).");
+            } else {
+                issues.push("قند خون شما در حالت مطلوب قرار دارد")
+            }
+        }
+
+        // تغییرات ظاهری
+        document.querySelector('.form-grid').style.display = 'none';
+        document.querySelector('.subtitle').style.display = 'none';
+        const healthBox = document.querySelector('.health-check');
+        let graphicalArray = [];
+
+        const oldBtn = document.getElementById('actionBtn');
+        const title = document.querySelector('.title');
+        if(oldBtn) oldBtn.remove();
+        if(title) title.remove();
+        
+        // نمایش کانتینر نتیجه
+        document.querySelector('.human-cont').style.display = 'flex';
+        
+        // *** اجرای انیمیشن تایپ دقیقاً در این لحظه ***
+        typeWriterEffect('typing-text', targetMessage, 40);
+
+        issues.forEach((issue) => {
+            const p = document.createElement('p');
+            p.textContent = issue;
+            graphicalArray.push(p)
+        }) 
+        
+        const h3 = document.createElement('h3');
+        h3.textContent = "نتیجه بررسی سلامت شما:";
+        h3.style.textAlign = 'center';
+        h3.style='font-weight: 500; text-align:center;'
+        healthBox.appendChild(h3);
+        
+        graphicalArray.forEach((a) => {
+            healthBox.appendChild(a);
+        })
+        
+        const newBtn = document.createElement('button');
+        newBtn.textContent = "بازگشت";
+        newBtn.className = "health-btn";
+        newBtn.onclick = function() {
+            window.location.href = '/'; // ریلود صفحه برای ریست کامل
+        };
+        
+        document.querySelector('.health-check').appendChild(newBtn);
+    }
+
+</script>
+
+</html>
