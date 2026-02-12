@@ -393,7 +393,6 @@ app.get('/reserveList',async(req,res)=>{
     try{
         const user = req.session.user
         const ConfirmedreserveList = await queries.getConfermedUserAppointments(user.id)
-        console.log(ConfirmedreserveList)
         // const DonereserveList = await queries.getDoneUserAppointments(user.id)
         // const PendingList = await queries.getPendingUserAppointments(user.id)
 
