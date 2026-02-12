@@ -1,0 +1,145 @@
+    :root {
+        --accent: #4179F0;
+        --Grey_100: #E7E7E7;
+        --Neutral_40: #F7F7F7;
+        --Neutral_900: #3D3D3D;
+        --Neutral_800: #454545;
+        --Neutral_600: #5D5D5D;
+        --Neutral_500: #6D6D6D;
+        --Neutral_400: #888888;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        /* تغییر به 100vh برای اطمینان از وسط‌چین بودن */
+        margin: 0;
+    }
+
+    * {
+        box-sizing: border-box;
+        font-family: 'vazirmatn', sans-serif;
+        direction: rtl;
+    }
+
+    label {
+        text-align: right;
+    }
+
+    p {
+        text-align: center;
+    }
+
+    .health-check {
+        width: 90%;
+        max-width: 700px;
+        margin: 20px auto;
+        padding: 40px;
+        background: #ffffff;
+        border-radius: 16px;
+        border: 1px solid #ddd;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        /* اضافه کردن سایه ملایم */
+    }
+
+    .health-check h2 {
+        text-align: center;
+        margin-bottom: 8px;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 30px;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        /* استفاده از gap بجای مارجین دستی */
+    }
+
+    .input-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .input-group.full {
+        grid-column: span 2;
+    }
+
+    .input-group label {
+        margin-bottom: 6px;
+        font-size: 14px;
+        color: #444;
+    }
+
+    .input-group input {
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        font-size: 15px;
+        transition: border-color 0.3s;
+    }
+
+    .input-group input:focus {
+        outline: none;
+        border-color: #4f7cff;
+    }
+
+    .health-btn {
+        width: 100%;
+        margin-top: 30px;
+        padding: 14px;
+        background: #4f7cff;
+        color: #fff;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .health-btn:hover {
+        background: #3a63e0;
+    }
+
+    .human-cont {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        display: none;
+        /* پیش‌فرض مخفی */
+    }
+
+    .health-check p {
+        font-size: 16px;
+        color: var(--Neutral_900);
+        line-height: 1.8;
+        /* خوانایی بهتر */
+    }
+
+    /* استایل اختصاصی برای کرسر تایپ */
+    .typing-cursor {
+        display: inline-block;
+        color: #4f7cff;
+        font-weight: 900;
+        animation: blink 1s step-end infinite;
+        vertical-align: text-bottom;
+    }
+
+    @keyframes blink {
+
+        from,
+        to {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0;
+        }
+    }

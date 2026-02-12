@@ -512,5 +512,5 @@ form{border: var(--Grey_100) 1px solid;border-radius: 1rem; padding: 1rem 1rem 0
     -webkit-appearance: none;
     -moz-appearance: none;
 }
-
+.site-header{direction: ltr;}
 

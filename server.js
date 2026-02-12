@@ -530,6 +530,15 @@ app.get('/index6', (req, res) => {
     }
 })
 
+app.get('/test-salamat', (req, res) =>{
+    try { 
+        res.render("test-salamat.ejs");
+    }
+    catch(err){
+        res.render("FAQ.ejs")
+    }
+})
+
 //Login check
 app.get('/check-login' , (req , res) => {
     if(req.session.user) 
