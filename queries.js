@@ -201,6 +201,30 @@ const getDoctorEmptyTimes = async (doctorId , date)=>{
     return finalSchedule
 }
 
+const addAppointmentToPendingList = async(doctorId,userId,date)=>{
+    const result = await prisma.appointments.create({
+        data:{
+            doctorId:doctorId,
+            patientId:userId,
+            date:date,
+            status:"PENDING"
+        }
+    })
+}
+
+const addAppointmentToConfirmedList = async(doctorId,userId)=>{
+    const result = await prisma.appointments.updateMany({
+        where:{
+            doctorId:doctorId,
+            patientId:userId,
+        },
+        data:{
+            status:"CONFIRMED"
+        }
+    })
+}
+
+
 // const removeAppoitmentFromSlots = async(slots,)
 
 // ----------------------------------------------------------------------------------------------------
@@ -334,28 +358,7 @@ const getDoctorPrice = async(doctorId)=>{
     return result[0].price
 }
 
-const addAppointmentToPendingList = async(doctorId,userId,date)=>{
-    const result = await prisma.appointments.create({
-        data:{
-            doctorId:doctorId,
-            patientId:userId,
-            date:date,
-            status:"PENDING"
-        }
-    })
-}
 
-const addAppointmentToConfirmedList = async(doctorId,userId)=>{
-    const result = await prisma.appointments.updateMany({
-        where:{
-            doctorId:doctorId,
-            patientId:userId,
-        },
-        data:{
-            status:"CONFIRMED"
-        }
-    })
-}
 
 // ----------------------------------------------------------------------------------------------------
 // USER RESERVE LIST 

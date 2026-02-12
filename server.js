@@ -242,7 +242,7 @@ app.get('/profile', async(req, res) => {
         if (req.session.user){
             const User = await queries.findUserById(req.session.user.id)
             const cities = await queries.getCities()
-            console.log(cities)
+            console.log(User)
             res.render("userprofile.ejs",{User:User , cities:cities})
         }else{
             res.redirect("/login_signUp")
@@ -257,6 +257,7 @@ app.post('/profile/update',async(req,res)=>{
     try{
         // const {lastName,firstName,birthYear,nationalCode,city,gender,email,mobile} = req.body;
         const updatedInfo = req.body;
+        console.log(updatedInfo)
 
 
         const updateUser = await queries.updateUser(req.session.user.id,updatedInfo)
@@ -329,6 +330,52 @@ app.get('/calender/:id/checkDay',async(req,res)=>{
         });
     }catch(err){
         console.log(err)
+        res.status(500).json({ 
+            status: "error", 
+            message: "خطا در برقراری ارتباط" 
+        });
+    }
+})
+
+app.get("/reserveDoctor/:id",async(req,res)=>{
+    const doctorId = parseInt(req.params.id);
+    try{
+
+        if (!req.session.user) {
+            return res.status(401).json({ message: "لطفاً ابتدا وارد حساب خود شوید" });
+        }
+
+
+        const time = '12:00';
+        const userId = req.session.user.id;
+        const date = new Date(`2026-01-01T${time}:00`)
+
+        const reserveAppoitment = await queries.addAppointmentToPendingList(doctorId,userId,date);
+
+        res.status(200).json({ 
+            data:reserveAppoitment,
+            status: "success",
+            redirectUrl: `/flow2/${doctorId}` 
+        });
+    }catch(err){}
+        res.status(500).json({ 
+            status: "error", 
+            message: "خطا در برقراری ارتباط" 
+        });
+})
+
+app.get('/reservedAppoitment/pay/:id',async(req,res)=>{
+    const doctorId = parseInt(req.params.id);
+    try{
+
+        if (!req.session.user) {
+            return res.status(401).json({ message: "لطفاً ابتدا وارد حساب خود شوید" });
+        }
+
+        const userId = req.session.user.id;
+        
+        const reserveAppoitment = await queries.addAppointmentToConfirmedList(doctorId,userId,)
+    }catch(err){
         res.status(500).json({ 
             status: "error", 
             message: "خطا در برقراری ارتباط" 
