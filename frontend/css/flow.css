@@ -237,7 +237,7 @@ button{cursor: pointer;}
 
 /* time slots */
 .pc-times { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
-.pc-times-row { display: flex; justify-content: space-between; }
+.pc-times-row { display: flex; justify-content: space-between; flex-wrap: wrap;}
 .pc-slot {
   flex: 1;
   padding: 10px 8px;

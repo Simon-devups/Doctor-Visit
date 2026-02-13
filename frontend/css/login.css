@@ -68,6 +68,6 @@ input[type="tel"] {
     cursor: pointer;   
     width: 100%; 
     transition: background-color 0.3s;
-       
+    font-family: 'vazirmatn';
 }
         

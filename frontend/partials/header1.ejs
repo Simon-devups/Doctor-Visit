@@ -1,60 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/partials/header1.css">
     <title>Document</title>
 </head>
+
 <body>
     <link rel="stylesheet" href="/partials/header1.css">
     <style>
-    /* 3 important css for animation list-user */
-    .error-handler-cont{border: 1px var(--accent) solid; background-color: #4179F0; padding: 1rem 2rem; border-radius: 10px; box-shadow: 0 5px 10px rgba(0, 89, 255, 0.293);transform: translateY(90px); transition: transform 1s ease; color: white;}
-    .error-handler-cont.add{transform: translateY(0px);}
-    .error-handler-cont.less {transition: all 0.5s ease-in-out;transform: translateY(90px) !important;}
+        /* 3 important css for animation list-user */
+        .error-handler-cont {
+            border: 1px var(--accent) solid;
+            background-color: #4179F0;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 89, 255, 0.293);
+            transform: translateY(90px);
+            transition: transform 1s ease;
+            color: white;
+        }
+
+        .error-handler-cont.add {
+            transform: translateY(0px);
+        }
+
+        .error-handler-cont.less {
+            transition: all 0.5s ease-in-out;
+            transform: translateY(90px) !important;
+        }
     </style>
     <header class="site-header">
         <%if(user){%>
-            <a class="profile" href="/profile">      
-                <div class="name"><%=user.first_name%>    <%=user.last_name%></div>
-                <div class="avatar" >
+            <a class="profile" href="/profile">
+                <div class="name">
+                    <%=user.first_name%>
+                        <%=user.last_name%>
+                </div>
+                <div class="avatar">
                     <!-- <%=user.avatar%> -->
-                     <img src="/uploads/<%=user.avatar%>">
+                    <img src="/uploads/<%=user.avatar%>">
                 </div>
             </a>
-        <%}else{%>
-            <div class="login" >      
-                <a class="buttonof" href="/login_signUp">ورود | ثبت نام</a>
-            </div>
-        <%}%>
-        <div class="links">
-            <!-- <a href="/aboutus">تماس با ما</a>         -->
-            <a href="/aboutus">درباره ما</a> 
-            <a href="/reserveList" id="reserveListBtn">لیست رزرو ها</a>       
-            <a href="/questions">سوالات متداول</a>                
-            <a href="/search">لیست پزشکان</a>
-            <a href="/">صفحه اصلی</a>
-        </div>
-        <a class="logo" href="/">
-            <span class="logo-text"><span style="color: rgb(0, 0, 0);">دکتر </span>رزرو </span>
-            <img  src="/images/logo.png">
-        </a>
+            <%}else{%>
+                <div class="login">
+                    <a class="buttonof" href="/login_signUp">ورود | ثبت نام</a>
+                </div>
+                <%}%>
+                    <div class="links">
+                        <!-- <a href="/aboutus">تماس با ما</a>         -->
+                        <a href="/aboutus">درباره ما</a>
+                        <a href="/reserveList" id="reserveListBtn">لیست رزرو ها</a>
+                        <a href="/questions">سوالات متداول</a>
+                        <a href="/search">لیست پزشکان</a>
+                        <a href="/">صفحه اصلی</a>
+                    </div>
+                    <a class="logo" href="/">
+                        <span class="logo-text"><span style="color: rgb(0, 0, 0);">دکتر </span>رزرو </span>
+                        <img src="/images/logo.png">
+                    </a>
     </header>
     <script>
-        document.getElementById('reserveListBtn').addEventListener('click', async(e)=>{
+        document.getElementById('reserveListBtn').addEventListener('click', async (e) => {
             e.preventDefault();
-            try{
+            try {
                 const response = await fetch('/check-login');
                 const result = await response.json();
                 //فانکشن یو آی مسج
-                function createToaster(message){      
+                function createToaster(message) {
                     const Message = document.createElement('div');
-                    Message.className='error-handler-cont';
-                    Message.style.position='fixed';
-                    Message.style.bottom='2rem';
-                    Message.style.right='2rem';
-                    Message.innerText=message;
+                    Message.className = 'error-handler-cont';
+                    Message.style.position = 'fixed';
+                    Message.style.bottom = '2rem';
+                    Message.style.right = '2rem';
+                    Message.innerText = message;
                     document.body.appendChild(Message)
                     setTimeout(() => {
                         Message.classList.add('add');
@@ -64,19 +85,51 @@
                     }, 3000);
                     setTimeout(() => {
                         Message.remove();
-                    }, 3700);}
+                    }, 3700);
+                }
 
-                if(response.ok && result.authenticated){
+                if (response.ok && result.authenticated) {
                     window.location.href = '/reserveList';
                 }
-                else{
+                else {
                     createToaster(result.message);
-                }   
+                }
             }
-            catch(err){
+            catch (err) {
                 createToaster('خطا در بررسی ورود شما به سیستم');
             }
         })
     </script>
+    <script>
+        const header = document.querySelector('.site-header');
+        const hamburger = document.createElement('div');
+        hamburger.classList.add('hamburger');
+        hamburger.innerHTML = '<span></span><span></span><span></span>';
+        header.insertBefore(hamburger, header.querySelector('.links'));
+
+        hamburger.addEventListener('click', () => {
+            header.classList.toggle('active');
+        });
+    </script>
+    <script>
+        const headers = document.querySelectorAll('.accordion-header');
+        headers.forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                const icon = header.querySelector('.icon');
+                const isOpen = content.classList.contains('open');
+
+                document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('open'));
+                document.querySelectorAll('.icon').forEach(i => i.classList.remove('rotate'));
+
+                if (!isOpen) {
+                    content.classList.add('open');
+                    icon.classList.add('rotate');
+                }
+            });
+        });
+    </script>
+    <section class="section8"></section>
 </body>
+
 </html>
