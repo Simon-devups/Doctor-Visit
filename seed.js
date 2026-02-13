@@ -51,6 +51,13 @@ async function main() {
       image_url:'2.png',
       totalReservs:4
     },
+    {
+      first_name: 'پریناز',
+      last_name: 'کریمیان',
+      spetialty_id: 4,
+      image_url:'6.png',
+      totalReservs:1
+    },
   ]
   });
 
@@ -89,6 +96,15 @@ async function main() {
       insurance:'معلم',
       gender:'MALE'
     },
+    {
+      doctorId: 5,
+      description: 'پزشک با تجربه در این حوضه و دارای دکتری قلب و عروق ',
+      Addres: 'تبریز - ولیعصر - فلکه ابن سینا',
+      city:'تبریز',
+      code: 'DOC001',
+      insurance:'معلم',
+      gender:"FEMALE"
+    }
     ]
   });
 
@@ -119,7 +135,13 @@ async function main() {
       instagram: '@dr.arian',
       web: 'www.dr-shafirad.com',
       web2: '',
-    },
+    },{
+      doctorId: 5,
+      phone: '0912387460000',
+      instagram: '@dr.parinaz',
+      web: 'www.parinaz.d.com',
+      web2: '',
+    }
     ]
   });
 
@@ -137,7 +159,10 @@ async function main() {
     },{
       doctor_id: 4,
       price: '400000',
-    },
+    },{
+      doctor_id: 5,
+      price: '550000',
+    }
     ]
   });
 
