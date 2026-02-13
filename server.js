@@ -302,7 +302,7 @@ app.get('/flow/:id', async (req, res) => {
         const doctorRecommend = (sum/(doctorComments.length))*100
 
         //result example : [0,1,2,3,4]
-        const workingDaysInWeek = await queries.getDoctorWorkingDays(id)  // 0:saturday  ,  1:sonday  ,  ... 
+        const workingDaysInWeek = await queries.getDoctorWorkingDays(id)  // 0:saturday  ,  1:sonday  ,  ...
         
 
         res.render("flow.ejs" , {doctor : specifiedDoctor , contact:contact , comments:doctorComments , doctorRecommend:doctorRecommend})
@@ -315,7 +315,7 @@ app.get('/flow/:id', async (req, res) => {
 app.get('/calender/:id/checkDay',async(req,res)=>{
     const doctorId = parseInt(req.params.id);
     try{
-        const date = new Date('2025-11-25');
+        const date = new Date(req.query.date);
         //request example : {date:'2026-02-11'}
         const emptyTimes = await queries.getDoctorEmptyTimes(doctorId,date)
         // response example : [

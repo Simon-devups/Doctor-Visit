@@ -162,9 +162,9 @@ async function getResevedAppointments(doctorId, targetDate) {
     }
   });
 
-  // 3. استخراج ساعت‌ها به صورت ساده (مثلاً 10:30)
+  //  استخراج ساعت‌ها به صورت ساده (مثلاً 10:00)
   return reservedSlots.map(appointment => {
-    return appointment.date.toTimeString().slice(0, 5);
+    return appointment.date.toISOString().slice(11,16);
   });
 }
 const getDoctorEmptyTimes = async (doctorId , date)=>{
@@ -185,19 +185,20 @@ const getDoctorEmptyTimes = async (doctorId , date)=>{
 
     let slots = null;
     if(result.length>0){
-        slots = getTimeSlots(result[0].start_time,result[0].end_time,30);
+        slots = getTimeSlots(result[0].start_time,result[0].end_time,60);
     }else{
         slots = 'رزرو شده'
     }
 
 
     const appointment = await getResevedAppointments(doctorId,date);
-    
+    console.log(appointment)
     const finalSchedule = slots.map(slot => ({
         ...slot,
         isAvailable: !appointment.includes(slot.start) // اگر در لیست رزروها نبود، یعنی خالی است
         }));
     // const availableSlots = slots.filter(slot => !appointment.includes(slot));
+    console.log(finalSchedule)
     return finalSchedule
 }
 
