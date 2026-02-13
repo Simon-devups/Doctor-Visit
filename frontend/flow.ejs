@@ -22,20 +22,20 @@
             }
 
             // Sample new comments data
-            const newComments = [
-                {
-                    name: 'علی محمدی',
-                    date: '(۱۴۰۳/۱۰/۱۹)',
-                    text: 'تجربه بسیار خوبی داشتم با دکتر وارسته. بسیار حرفه‌ای و دقیق است.',
-                    avatar: '/recourses/Avatar.png'
-                },
-                {
-                    name: 'مریم احمدی',
-                    date: '(۱۴۰۳/۱۰/۱۸)',
-                    text: 'نوبت‌دهی بسیار آسان و سریع بود. خیلی راضی هستم.',
-                    avatar: '/recourses/Avatar.png'
-                }
-            ];
+            // const newComments = [
+            //     {
+            //         name: 'علی محمدی',
+            //         date: '(۱۴۰۳/۱۰/۱۹)',
+            //         text: 'تجربه بسیار خوبی داشتم با دکتر وارسته. بسیار حرفه‌ای و دقیق است.',
+            //         avatar: '/recourses/Avatar.png'
+            //     },
+            //     {
+            //         name: 'مریم احمدی',
+            //         date: '(۱۴۰۳/۱۰/۱۸)',
+            //         text: 'نوبت‌دهی بسیار آسان و سریع بود. خیلی راضی هستم.',
+            //         avatar: '/recourses/Avatar.png'
+            //     }
+            // ];
 
             // Create and insert new comments
             newComments.forEach(comment => {
@@ -269,7 +269,7 @@
                 
                 <div class="comment">
                     <div class="comment-top">
-                        <div class="comment-date" style="font-size: 0.9rem;"> <%=comment.date%> </div>
+                        <div class="comment-date" style="font-size: 0.9rem; direction: rtl;"> <%=comment.date%> </div>
                         <div class="comment-property">
                             <div class="comment-starsAndname">
                                 <div class="name"><%=comment.user.firt_name%> <%=comment.user.last_name%></div>
@@ -344,6 +344,179 @@
     });
 
 </script>
+<script src="/js/jalaali.js"></script>
+<script>
+/* === اگر توابع جلالی را در یک فایل جدا داری، آن را اینجا import یا include کن.
+   برای مثال اگر داخل <script src="/js/jalaali.js">
+ است، آن را قبل از این script بارگذاری کن. */
+
+/* Persian month names */
+const PERSIAN_MONTHS = ['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+
+/* small helper to convert persian digits to english numbers if needed */
+function persianToEnglishDigits(str){
+  const map = {'۰':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9'};
+  return String(str).replace(/[۰-۹]/g, d => map[d]);
+}
+
+// Convert ASCII digits (or numbers) to Persian numerals
+function toPersianNumber(input){
+    const map = {'0':'۰','1':'۱','2':'۲','3':'۳','4':'۴','5':'۵','6':'۶','7':'۷','8':'۸','9':'۹'};
+    return String(input).replace(/\d/g, d => map[d]);
+}
+
+/* --- Utility: generate array grid for a jalaali month --- */
+function generateCalendarArray(jy, jm){ // jm: 1..12
+  // convert 1st day of jalaali month -> gregorian
+  const g = jalaaliToGregorian(jy, jm, 1); // object {gy, gm, gd}
+  const firstDate = new Date(g.gy, g.gm - 1, g.gd);
+  // Shift so 0 = شنبه
+  let firstDayIndex = (firstDate.getDay() + 1) % 7;
+  const daysInMonth = getJalaaliMonthDays(jy, jm);
+
+  const arr = [];
+  for(let i=0;i<firstDayIndex;i++) arr.push(null);
+  for(let d=1; d<=daysInMonth; d++) arr.push(d);
+  // pad to fill full weeks (optional)
+  while(arr.length % 7 !== 0) arr.push(null);
+  return arr;
+}
+
+/* --- Render calendar into DOM --- */
+function renderCalendar(jy, jm){
+  const monthLabel = document.querySelector('.pc-month');
+  const smallDate = document.querySelector('.pc-small-date');
+  const grid = document.querySelector('.pc-grid');
+
+  // set month label: "دی ۱۴۰۳"
+  monthLabel.textContent = `${PERSIAN_MONTHS[jm-1]} ${toPersianNumber(jy)}`;
+
+  // smallDate = today's jalaali full if same month (we'll set later)
+  grid.innerHTML = ''; // clear
+
+  const cal = generateCalendarArray(jy, jm);
+  cal.forEach(cell => {
+    const div = document.createElement('div');
+    div.classList.add('pc-day');
+    if(cell === null){
+      div.classList.add('empty');
+      div.setAttribute('aria-hidden','true');
+      div.textContent = '';
+    } else {
+      div.textContent = toPersianNumber(cell);
+      div.dataset.day = String(cell);
+      div.tabIndex = 0;
+      // add click
+      div.addEventListener('click', onDayClick);
+    }
+    grid.appendChild(div);
+  });
+
+  // mark today if this month contains today
+  const todayG = new Date(); // now
+  const todayJ = gregorianToJalaali(todayG.getFullYear(), todayG.getMonth()+1, todayG.getDate());
+  if(todayJ.jy === jy && todayJ.jm === jm){
+    // find element with dataset day === todayJ.jd
+    const els = grid.querySelectorAll('.pc-day');
+    els.forEach(el=>{
+      if(el.dataset.day && Number(el.dataset.day) === todayJ.jd){
+        el.classList.add('pc-today');
+        smallDate.textContent = `${toPersianNumber(todayJ.jd)} ${PERSIAN_MONTHS[todayJ.jm-1]} ${toPersianNumber(todayJ.jy)}`;
+      }
+    });
+  } else {
+    smallDate.textContent = `${toPersianNumber(1)} ${PERSIAN_MONTHS[jm-1]} ${toPersianNumber(jy)}`;
+  }
+}
+
+/* --- when user clicks a day --- */
+let selectedDateGregorian = null;
+async function onDayClick(e){
+  const day = Number(e.currentTarget.dataset.day);
+  if(!day) return;
+
+  // get month/year from label
+  const monthText = document.querySelector('.pc-month').textContent.trim(); // e.g. "دی ۱۴۰۳"
+  const parts = monthText.split(' ');
+  const jmName = parts[0];
+  const jy = Number(persianToEnglishDigits(parts[1]));
+  const jm = PERSIAN_MONTHS.indexOf(jmName) + 1;
+
+  // convert jalaali -> gregorian
+  const g = jalaaliToGregorian(jy, jm, day);
+  selectedDateGregorian = `${g.gy}-${String(g.gm).padStart(2,'0')}-${String(g.gd).padStart(2,'0')}`;
+
+  // UI: mark selected
+  document.querySelectorAll('.pc-day').forEach(d => d.classList.remove('pc-today'));
+  e.currentTarget.classList.add('pc-today');
+
+  // fetch availability for this date
+  try {
+    const doctorId = "<%=doctor.id%>"; // ensure server template replaces it
+    const res = await fetch(`/calender/${doctorId}/checkDay?date=${selectedDateGregorian}`);
+    if(!res.ok) throw new Error('fetch failed');
+    const json = await res.json();
+    renderTimeSlots(json.data || []);
+  } catch(err){
+    console.error('خطا در دریافت تایم‌ها', err);
+  }
+}
+
+/* --- render times --- */
+function renderTimeSlots(times){
+  const row = document.querySelector('.pc-times-row');
+  row.innerHTML = '';
+  if(!times || times.length === 0){
+    row.innerHTML = '<div class="no-slots">تایمی موجود نیست</div>';
+    return;
+  }
+  times.forEach(t=>{
+    const btn = document.createElement('button');
+    btn.className = 'pc-slot outlined';
+    btn.textContent = t.start;
+    if(!t.isAvailable) btn.disabled = true;
+    btn.addEventListener('click', ()=> {
+      document.querySelectorAll('.pc-slot').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      // store selected time if needed
+      window.selectedTime = t.start;
+    });
+    row.appendChild(btn);
+  });
+}
+
+/* --- prev / next month buttons --- */
+let currentJy, currentJm;
+document.addEventListener('DOMContentLoaded', function(){
+  // compute current Jalaali month
+  const now = new Date();
+  const nowJ = gregorianToJalaali(now.getFullYear(), now.getMonth()+1, now.getDate());
+  currentJy = nowJ.jy;
+  currentJm = nowJ.jm;
+
+  renderCalendar(currentJy, currentJm);
+
+  // prev/next
+  document.querySelector('.pc-prev').addEventListener('click', ()=>{
+    currentJm--;
+    if(currentJm < 1){ currentJm = 12; currentJy--; }
+    renderCalendar(currentJy, currentJm);
+  });
+  document.querySelector('.pc-next').addEventListener('click', ()=>{
+    currentJm++;
+    if(currentJm > 12){ currentJm = 1; currentJy++; }
+    renderCalendar(currentJy, currentJm);
+  });
+
+  // optionally auto-fetch availability for today
+  const todayG = now;
+  const todayGStr = `${todayG.getFullYear()}-${String(todayG.getMonth()+1).padStart(2,'0')}-${String(todayG.getDate()).padStart(2,'0')}`;
+  // convert to jalaali and simulate click:
+  const dayEl = Array.from(document.querySelectorAll('.pc-day')).find(el => el.dataset.day && Number(el.dataset.day) === nowJ.jd);
+  if(dayEl) dayEl.click();
+});
+</script>
+
 
 </body>
 

@@ -14,7 +14,7 @@
       --text-main: #0f172a;
       --text-soft: #64748b;
       --text-lighter: #94a3b8;
-      --accent: #2563eb;
+      --accent: #3b82f6;
       --accent-strong: #1e40af;
       --accent-light: #eff6ff;
       --border: #e2e8f0;
@@ -83,7 +83,6 @@
       justify-content: center;
       color: #fff;
       font-size: 20px;
-      box-shadow: 0 6px 20px rgba(37, 99, 235, .25);
 
     }
 
@@ -292,6 +291,7 @@
       transition: .18s ease;
       letter-spacing: .3px;
       font-family: 'vazirmatn';
+      background-color: #3b82f6;
     }
 
     .btn:hover {
@@ -618,6 +618,25 @@
     .day.today {
       box-shadow: inset 0 0 0 2px var(--accent-light)
     }
+    .avatar input[type="file"] {
+  display: none;
+}
+
+    .custom-file {
+      display: inline-block;
+      padding: 12px 20px;
+      background-color: #3b82f6;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.3s ease;
+    }
+
+    .custom-file:hover {
+      background-color: #2563eb;
+    }
+
 
     /* responsive small */
     @media (max-width:420px) {
@@ -746,16 +765,19 @@
           <input id="phone" name="phone" type="tel" placeholder="09xxxxxxxxx" aria-label="شماره موبایل" />
         </div>
       </div>
-      <div class="avatar">
-        <input type="file" name="avatar" accept="image/*" required>
-      </div>
+        <div class="avatar">
+          <label for="avatarInput" class="custom-file">
+            انتخاب عکس پروفایل
+          </label>          
+          <input type="file" name="avatar" accept="image/*"  id="avatarInput">
+        </div>
 
       <div class="signin-link">
         حساب کاربری دارید؟ <a href="/login_signUp">ورود</a>
       </div>
-      <div class="signin-link">
+      <!-- <div class="signin-link">
         <a href="#" style="font-size: 17px; font-weight: 400;">ورود به عنوان پزشک</a>
-      </div>
+      </div> -->
       <div class="actions">
         <button type="submit" class="btn">ثبت نام</button>
       </div>

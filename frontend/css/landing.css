@@ -72,7 +72,11 @@ body{
     object-fit:cover;
     display:block;
 }
-
+ @media (min-width:1364px){
+    .pezeshk-img > img {
+        width: 100%;
+    }
+}
  @media (max-width:860px){
 .links{
     gap:18px;

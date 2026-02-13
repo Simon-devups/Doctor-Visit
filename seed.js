@@ -25,28 +25,28 @@ async function main() {
 
   const doctor = await prisma.doctors.createMany({
     data: [{
-      first_name: 'نیما',
-      last_name: 'شمشیری',
+      first_name: 'ارسلان',
+      last_name: 'مهری',
       spetialty_id: 1,
       image_url:'image (1).png',
       totalReservs:1
     },
     {
-      first_name: 'فریار',
-      last_name: 'انصاری',
+      first_name: 'کامیار',
+      last_name: 'علیزاده',
       spetialty_id: 3,
       image_url:'image.png',
       totalReservs:4
     },{
-      first_name: 'سجاد ',
-      last_name: 'پیغمبردوست',
+      first_name: 'سهیل ',
+      last_name: 'ساعدی نیا',
       spetialty_id: 2,
       image_url:'3.png',
       totalReservs:2
     },
     {
-      first_name: 'آرین',
-      last_name: 'شفیع راد',
+      first_name: 'رادمهر',
+      last_name: 'سرباز وطن',
       spetialty_id: 2,
       image_url:'2.png',
       totalReservs:4
