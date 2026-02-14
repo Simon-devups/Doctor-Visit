@@ -285,6 +285,22 @@ const findUserById = async (id) => {
 }
 
 const signUpUser = async (user, filename) => {
+    // let data = {
+    //         firt_name: user.first_name,
+    //         last_name: user.last_name,
+    //         phone: user.phone,
+    //         userInfo: {
+    //             create: {
+    //                 code_meli: user.code_meli,
+    //                 birthday: user.birthday,
+    //                 gender: user.gender,
+    //                 city: user.city,
+    //                 email: user.email,
+    //             }
+    //         }
+    //     };
+    //     if (filename.length > 5){data['avatar_url'] = filename}
+    //     console.log(data)
     const result = await prisma.users.create({
         data: {
             firt_name: user.first_name,

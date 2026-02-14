@@ -192,6 +192,7 @@ app.post('/signUp', upload.single("avatar") , async(req,res) => {
         const signUpUser = await queries.signUpUser(user,filename)
         res.redirect('/login_signUp')
     }catch(err){
+        console.log(err)
         res.render("FAQ.ejs")
     }
 })
@@ -299,7 +300,7 @@ app.get('/flow/:id', async (req, res) => {
         })
 
         //doctor rating
-        const doctorRecommend = (sum/(doctorComments.length))*100
+        const doctorRecommend = parseInt((sum/(doctorComments.length))*100)
 
         //result example : [0,1,2,3,4]
         const workingDaysInWeek = await queries.getDoctorWorkingDays(id)  // 0:saturday  ,  1:sonday  ,  ...
