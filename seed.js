@@ -192,13 +192,13 @@ async function main() {
       {
         doctorId: 1,
         weekday: 6, // Saturday
-        start_time: "09:00",
-        end_time: "15:00",
+        start_time: "17:00",
+        end_time: "19:00",
       },
       {
         doctorId: 1,
         weekday: 0, // Sunday
-        start_time: "09:00",
+        start_time: "15:00",
         end_time: "17:00",
       },
       {
@@ -210,44 +210,44 @@ async function main() {
       {
         doctorId: 1,
         weekday: 2, // Tuesday
-        start_time: "09:00",
+        start_time: "14:00",
         end_time: "17:00",
       },
       {
         doctorId: 1,
         weekday: 3, // Wednesday
-        start_time: "09:00",
+        start_time: "15:00",
         end_time: "17:00",
       },
       // doctor 2
       {
         doctorId: 2,
         weekday: 6, // Saturday
-        start_time: "09:00",
-        end_time: "15:00",
+        start_time: "15:00",
+        end_time: "16:00",
       },
       {
         doctorId: 2,
         weekday: 0, // Sunday
-        start_time: "09:00",
+        start_time: "15:00",
         end_time: "17:00",
       },
       {
         doctorId: 2,
         weekday: 1, // Monday
         start_time: "10:00",
-        end_time: "14:00",
+        end_time: "12:00",
       },
       {
         doctorId: 2,
         weekday: 2, // Tuesday
-        start_time: "09:00",
+        start_time: "15:00",
         end_time: "17:00",
       },
       {
         doctorId: 2,
         weekday: 3, // Wednesday
-        start_time: "09:00",
+        start_time: "15:00",
         end_time: "17:00",
       },
 
@@ -259,12 +259,12 @@ async function main() {
       {
       doctorId: 1,
       patientId: user.id,
-      date: new Date('2025-11-25T10:00:00.000Z'),
+      date: new Date('2026-02-14T10:00:00.000Z'),
       status: 'CONFIRMED',
     },{
       doctorId: 1,
       patientId: user.id,
-      date: new Date('2025-11-25T11:00:00.000Z'),
+      date: new Date('2026-02-14T11:00:00.000Z'),
       status: 'CONFIRMED',
     },{
       doctorId: 2,

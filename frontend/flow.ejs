@@ -203,7 +203,7 @@
                     <div class="left-lables">
                         <div class="title"><%=doctor.first_name%> <%=doctor.last_name%></div>
                         <div class="doctor-specialty"><%=doctor.spetialty.spetialty%></div>
-                        <div class="doctor-comments-count">(۱۰۵ نظر)</div>
+                        <div class="doctor-comments-count">(<span class="n-of-comments"></span> نظر)</div>
                     </div>
                     <div class="flow-img"><img src="/images/<%=doctor.image_url%>" alt="تصویر دکتر زهرا وارسته" loading="lazy"></div>
                 </div>
@@ -252,7 +252,7 @@
     <div class="nazarat-cont">
         <div class="title">نظرات کاربران</div>
         <div class="N-flex">
-            <div class="comment-stars">(<%=comments.length%>) نظر</div>
+            <div class="comment-stars">(<span class="n-of-comments"></span>) نظر</div>
             <div class="recommendation-text">
                 <p>مراجعان این پزشک را پیشنهاد داده‌اند</p>
                 <span><%=doctorRecommend%>%</span>
@@ -472,7 +472,7 @@ function renderTimeSlots(times){
   times.forEach(t=>{
     const btn = document.createElement('button');
     btn.className = 'pc-slot outlined';
-    btn.textContent = t.start;
+    btn.textContent = toPersianNumber(t.start);
     if(!t.isAvailable) btn.disabled = true;
     btn.addEventListener('click', ()=> {
       document.querySelectorAll('.pc-slot').forEach(b=>b.classList.remove('active'));
@@ -514,6 +514,14 @@ document.addEventListener('DOMContentLoaded', function(){
   const dayEl = Array.from(document.querySelectorAll('.pc-day')).find(el => el.dataset.day && Number(el.dataset.day) === nowJ.jd);
   if(dayEl) dayEl.click();
 });
+
+// number of comments to persian digits
+const nOfComments = document.querySelectorAll('.n-of-comments');
+document.addEventListener("DOMContentLoaded", function() {
+        nOfComments.forEach(div => {
+        div.textContent = toPersianNumber('<%=comments.length%>');
+    });
+})
 </script>
 
 
