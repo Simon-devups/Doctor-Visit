@@ -10,7 +10,8 @@ import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
 import queries from "./queries.js";
 import upload from "./multer.js";
-import EnglishToPersian from "./middlewares/EnglishTopersian.js";
+// import EnglishToPersian from "./middlewares/EnglishTopersian.js";
+import internetCheck from './middlewares/internetCheck.js';
 import { create } from "domain";
 import { userInfo } from "os";
 import { stringify } from "querystring";
@@ -30,6 +31,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, './frontend')));
 app.set('views', path.join(__dirname, './frontend'));
 app.use(cors());
+// app.use(internetCheck)
 
 
 const pool = new pg.Pool({
@@ -187,7 +189,9 @@ app.get('/signUp_page',(req,res)=>{
 
 app.post('/signUp', upload.single("avatar") , async(req,res) => {
     try{
-        const filename = req.file.filename
+        let filename = "empty.png"
+        if(req.file.filename) filename = req.file.filename
+        
         const user = req.body
         const signUpUser = await queries.signUpUser(user,filename)
         res.redirect('/login_signUp')
@@ -238,6 +242,20 @@ app.post('/login/code',async (req, res) => {
     }
 })
 
+app.get('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      return res.status(500).json({
+        message: 'Logout failed',
+        status: 'error'
+      })
+    }
+
+    res.clearCookie('connect.sid')
+    return res.redirect('/')
+  })
+})
+
 app.get('/profile', async(req, res) => {
     try {
         if (req.session.user){
@@ -258,8 +276,8 @@ app.post('/profile/update',async(req,res)=>{
     try{
         // const {lastName,firstName,birthYear,nationalCode,city,gender,email,mobile} = req.body;
         const updatedInfo = req.body;
-        console.log(updatedInfo)
-
+        // const filename = req.file.filename?yes:no;
+        // console.log(filename)
 
         const updateUser = await queries.updateUser(req.session.user.id,updatedInfo)
         res.redirect('/profile')

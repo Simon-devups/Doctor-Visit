@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Simon-devups/Doctor-Visit#readme",
   "dependencies": {
     "@prisma/client": "^6.19.0",
+    "axios": "^1.13.5",
     "bcrypt": "^6.0.0",
     "body-parser": "^2.2.0",
     "connect-pg-simple": "^10.0.0",
