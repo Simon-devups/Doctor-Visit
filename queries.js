@@ -56,18 +56,18 @@ const getDoctorComments = async (doctorId) => {
         where: {
             doctor_id: doctorId
         },
-        include:{
-            user:true
+        include: {
+            user: true
         },
-        orderBy:{
-            date:'desc'
+        orderBy: {
+            date: 'desc'
         }
-        
+
     })
     return result
 }
 
-const addCommentToDoctor = async(data)=>{
+const addCommentToDoctor = async (data) => {
     const result = await prisma.comments.create({
         data
     })
@@ -86,23 +86,23 @@ const getDoctorById = async (doctorId) => {
     return result
 }
 
-const getDoctorContacts = async(doctorId)=>{
+const getDoctorContacts = async (doctorId) => {
     const result = await prisma.doctor_contacts.findUnique({
-        where:{
-            doctorId:doctorId
+        where: {
+            doctorId: doctorId
         }
     })
     return result
 }
 
 //callendar schedule
-const getDoctorWorkingDays = async(doctorId)=>{
+const getDoctorWorkingDays = async (doctorId) => {
     const result = await prisma.workingHours.findMany({
-        where:{
-            doctorId:doctorId
+        where: {
+            doctorId: doctorId
         },
-        select:{
-            weekday:true,
+        select: {
+            weekday: true,
         }
     })
     const out = result.map(item => item.weekday)
@@ -112,7 +112,7 @@ const getDoctorWorkingDays = async(doctorId)=>{
 // تابع برای ایجاد بازه های زمانی بین زمان شروع و زمان پایان
 function getTimeSlots(startTime, endTime, intervalMinutes) {
     const slots = [];
-    
+
     // تبدیل رشته‌های ساعت (مثلا 08:00) به شیء Date برای محاسبات راحت‌تر
     let start = new Date(`2026-01-01T${startTime}:00`);
     const end = new Date(`2026-01-01T${endTime}:00`);
@@ -120,10 +120,10 @@ function getTimeSlots(startTime, endTime, intervalMinutes) {
     while (start < end) {
         // زمان فعلی را با فرمت HH:mm ذخیره می‌کنیم
         const currentSlot = start.toTimeString().slice(0, 5);
-        
+
         // زمان بعدی را با اضافه کردن ۳۰ دقیقه محاسبه می‌کنیم
         start.setMinutes(start.getMinutes() + intervalMinutes);
-        
+
         const nextSlot = start.toTimeString().slice(0, 5);
 
         // اگر زمان بعدی از زمان پایان بیشتر شد، حلقه را متوقف کن
@@ -138,89 +138,88 @@ function getTimeSlots(startTime, endTime, intervalMinutes) {
 }
 
 async function getResevedAppointments(doctorId, targetDate) {
-  // 1. تنظیم شروع و پایان روز مورد نظر
-  const startOfDay = new Date(targetDate);
-  startOfDay.setHours(0, 0, 0, 0);
+    // 1. تنظیم شروع و پایان روز مورد نظر
+    const startOfDay = new Date(targetDate);
+    startOfDay.setHours(0, 0, 0, 0);
 
-  const endOfDay = new Date(targetDate);
-  endOfDay.setHours(23, 59, 59, 999);
+    const endOfDay = new Date(targetDate);
+    endOfDay.setHours(23, 59, 59, 999);
 
-  // 2. کوئری زدن به جدول Appointments
-  const reservedSlots = await prisma.appointments.findMany({
-    where: {
-      doctorId: parseInt(doctorId),
-      date: {
-        gte: startOfDay, // بزرگتر یا مساوی شروع روز
-        lte: endOfDay,   // کوچکتر یا مساوی پایان روز
-      },
-    },
-    select: {
-      date: true // فقط زمان رزرو شده را برمی‌گردانیم
-    },
-    orderBy: {
-      date: 'asc' // مرتب‌سازی از صبح به شب
-    }
-  });
+    // 2. کوئری زدن به جدول Appointments
+    const reservedSlots = await prisma.appointments.findMany({
+        where: {
+            doctorId: parseInt(doctorId),
+            date: {
+                gte: startOfDay, // بزرگتر یا مساوی شروع روز
+                lte: endOfDay,   // کوچکتر یا مساوی پایان روز
+            },
+        },
+        select: {
+            date: true // فقط زمان رزرو شده را برمی‌گردانیم
+        },
+        orderBy: {
+            date: 'asc' // مرتب‌سازی از صبح به شب
+        }
+    });
 
-  //  استخراج ساعت‌ها به صورت ساده (مثلاً 10:00)
-  return reservedSlots.map(appointment => {
-    return appointment.date.toISOString().slice(11,16);
-  });
+    //  استخراج ساعت‌ها به صورت ساده (مثلاً 10:00)
+    return reservedSlots.map(appointment => {
+        return appointment.date.toISOString().slice(11, 16);
+    });
 }
-const getDoctorEmptyTimes = async (doctorId , date)=>{
+const getDoctorEmptyTimes = async (doctorId, date) => {
     // return number of weekday
     const weekday = (date.getDay() + 1) % 7;
 
     // const weekday = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(date);
     const result = await prisma.workingHours.findMany({
-        where:{
-            doctorId:doctorId,
-            weekday:weekday
+        where: {
+            doctorId: doctorId,
+            weekday: weekday
         },
-        select:{
-            start_time:true,
-            end_time:true
+        select: {
+            start_time: true,
+            end_time: true
         }
     });
 
     let slots = null;
-    if(result.length>0){
-        slots = getTimeSlots(result[0].start_time,result[0].end_time,60);
-    }else{
-        slots = 'رزرو شده'
+    if (result.length > 0) {
+        slots = getTimeSlots(result[0].start_time, result[0].end_time, 60);
+    } else {
+        slots = []
     }
 
 
-    const appointment = await getResevedAppointments(doctorId,date);
-    console.log(appointment)
+    const appointment = await getResevedAppointments(doctorId, date);
+
     const finalSchedule = slots.map(slot => ({
         ...slot,
         isAvailable: !appointment.includes(slot.start) // اگر در لیست رزروها نبود، یعنی خالی است
-        }));
+    }));
     // const availableSlots = slots.filter(slot => !appointment.includes(slot));
-    console.log(finalSchedule)
     return finalSchedule
 }
 
-const addAppointmentToPendingList = async(doctorId,userId,date)=>{
+const addAppointmentToPendingList = async (doctorId, userId, date) => {
     const result = await prisma.appointments.create({
-        data:{
-            doctorId:doctorId,
-            patientId:userId,
-            date:date,
-            status:"PENDING"
+        data: {
+            doctorId: doctorId,
+            patientId: userId,
+            date: date,
+            status: "PENDING"
         }
     })
 }
 
-const addAppointmentToConfirmedList = async(doctorId,userId)=>{
+const addAppointmentToConfirmedList = async (doctorId, userId) => {
     const result = await prisma.appointments.updateMany({
-        where:{
-            doctorId:doctorId,
-            patientId:userId,
+        where: {
+            doctorId: doctorId,
+            patientId: userId,
         },
-        data:{
-            status:"CONFIRMED"
+        data: {
+            status: "CONFIRMED"
         }
     })
 }
@@ -316,7 +315,7 @@ const updateUser = async (userId, user) => {
             firt_name: user.firstName,
             last_name: user.lastName,
             phone: user.mobile,
-            
+
             userInfo: {
                 update: {
                     where: { user_id: userId },
@@ -351,10 +350,10 @@ const updateUserPhoto = async (user, filename) => {
 
 
 //flow3
-const getDoctorPrice = async(doctorId)=>{
+const getDoctorPrice = async (doctorId) => {
     const result = await prisma.doctor_prices.findMany({
-        where:{
-            doctor_id:doctorId
+        where: {
+            doctor_id: doctorId
         }
     })
     return result[0].price
@@ -364,36 +363,36 @@ const getDoctorPrice = async(doctorId)=>{
 
 // ----------------------------------------------------------------------------------------------------
 // USER RESERVE LIST 
-const getConfermedUserAppointments = async(userId)=>{
+const getConfermedUserAppointments = async (userId) => {
     const result = await prisma.appointments.findMany({
-        where:{
-            patientId:userId,
-            status:'CONFIRMED'
+        where: {
+            patientId: userId,
+            status: 'CONFIRMED'
         },
-        include:{
-            doctor:true
+        include: {
+            doctor: true
         }
     })
     return result
 }
 
-const getPendingUserAppointments = async(userId)=>{
+const getPendingUserAppointments = async (userId) => {
     const result = await prisma.appointments.findMany({
-        where:{
-            patientId:userId,
-            status:'PENDING'
+        where: {
+            patientId: userId,
+            status: 'PENDING'
         },
-        include:{
-            doctor:true
+        include: {
+            doctor: true
         }
     })
     return result
 }
 
-const deleteAppointment = async(appointmentId)=>{
+const deleteAppointment = async (appointmentId) => {
     const result = await prisma.appointments.delete({
-        where:{
-            id:appointmentId
+        where: {
+            id: appointmentId
         }
     })
 }
@@ -423,10 +422,10 @@ const queries = {
     getDoctors, getDoctorById, getDoctorBySpetialty,
     getDoctorByFirstName, getDoctorByLastName, getSpetialties, getSpecifiedDoctors,
     getCities, getTopDoctors, getOldDoctors, findUser, signUpUser, findUserById, updateUser,
-    updateUserPhoto, getDoctorComments,getDoctorContacts,addCommentToDoctor,getDoctorPrice,
-    getDoctorWorkingDays,getDoctorEmptyTimes,getConfermedUserAppointments,
-    addAppointmentToConfirmedList,addAppointmentToPendingList,deleteAppointment,
-    
+    updateUserPhoto, getDoctorComments, getDoctorContacts, addCommentToDoctor, getDoctorPrice,
+    getDoctorWorkingDays, getDoctorEmptyTimes, getConfermedUserAppointments,
+    addAppointmentToConfirmedList, addAppointmentToPendingList, deleteAppointment,
+
 }
 
 export default queries;
