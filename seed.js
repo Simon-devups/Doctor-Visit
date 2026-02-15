@@ -218,6 +218,16 @@ async function main() {
         weekday: 3, // Wednesday
         start_time: "15:00",
         end_time: "17:00",
+      },{
+        doctorId: 1,
+        weekday: 4, // Wednesday
+        start_time: "15:00",
+        end_time: "17:00",
+      },{
+        doctorId: 1,
+        weekday: 5, // Wednesday
+        start_time: "15:00",
+        end_time: "17:00",
       },
       // doctor 2
       {

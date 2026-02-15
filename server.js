@@ -12,27 +12,16 @@ import queries from "./queries.js";
 import upload from "./multer.js";
 // import EnglishToPersian from "./middlewares/EnglishTopersian.js";
 import internetCheck from './middlewares/internetCheck.js';
-import { create } from "domain";
-import { userInfo } from "os";
-import { stringify } from "querystring";
 
 dotenv.config()
 
+// initialise some important variable
 const app = express()
 const PORT = process.env.PORT;
 
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(express.static(path.join(__dirname, './frontend')));
-app.set('views', path.join(__dirname, './frontend'));
-app.use(cors());
-// app.use(internetCheck)
-
 
 const pool = new pg.Pool({
     user: process.env.DB_USER,
@@ -64,17 +53,53 @@ app.use(
 )
 
 
+// middlewares
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static(path.join(__dirname, './frontend')));
+app.set('views', path.join(__dirname, './frontend'));
+app.use(cors());
+// app.use(internetCheck)
+
+
 // authentication middleware
 app.use((req, res, next) => {
     res.locals.user = req.session.user || null;
     next();
 });
 
+
+//functions
 function toPersianDigits(str) {
     const farsiDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
     return str.toString().replace(/\d/g, x => farsiDigits[x]);
 }
 
+async function availableAppointment(doctorId){
+    const now = new Date()
+
+    let tomorrow = new Date(now);
+
+    // const weekday = (now.getDay() + 1) % 7;
+    let appointment = null;
+    let a = 0;
+    while(appointment == null){
+        const emptyTimes = await queries.getDoctorEmptyTimes(doctorId,tomorrow)
+
+        for (const time of emptyTimes){
+            if(time.isAvailable === true) {
+                appointment = {
+                    date:tomorrow.toISOString().split("T")[0],
+                    time:time.start
+                }
+                // appointment =  new Date(`${tomorrow.toISOString().split("T")[0]}T${time.start}`);
+                break;
+            }
+        }
+        tomorrow.setDate(tomorrow.getDate() + 1);
+    }
+    return appointment
+}
 
 
 
@@ -308,12 +333,19 @@ app.get('/flow/:id', async (req, res) => {
         //comment section
         const doctorComments = await queries.getDoctorComments(id)
 
+        const availableApt = await availableAppointment(id);
+        const apt = new Intl.DateTimeFormat('fa-IR', {
+                dateStyle: 'long'}).format(new Date(availableApt.date));
+                console.log()
+
+        
         let sum = 0;
         doctorComments.forEach(comment=>{
             const persianDate = new Intl.DateTimeFormat('fa-IR', {
                 dateStyle: 'long'}).format(comment.date);
             comment.date = persianDate
             
+            // number of true rating
             if(comment.suggest == 'true') sum+=1
         })
 
@@ -324,7 +356,12 @@ app.get('/flow/:id', async (req, res) => {
         const workingDaysInWeek = await queries.getDoctorWorkingDays(id)  // 0:saturday  ,  1:sonday  ,  ...
         
 
-        res.render("flow.ejs" , {doctor : specifiedDoctor , contact:contact , comments:doctorComments , doctorRecommend:doctorRecommend})
+        res.render("flow.ejs" , {
+            doctor : specifiedDoctor , 
+            contact:contact , comments:doctorComments ,
+            doctorRecommend:doctorRecommend,
+            availableAppointment:availableApt
+        })
     } catch (err) {
         console.log(err)
         res.render("FAQ.ejs")
@@ -340,7 +377,6 @@ app.get('/calender/:id/checkDay',async(req,res)=>{
         // response example : [
         //{ start: '09:00', isAvailable: true },{ start: '09:30', isAvailable: true },{ start: '10:00', isAvailable: true },...
         //]
-
 
         res.status(200).json({ 
             data:emptyTimes,
@@ -364,23 +400,22 @@ app.get("/reserveDoctor/:id",async(req,res)=>{
             return res.status(401).json({ message: "لطفاً ابتدا وارد حساب خود شوید" });
         }
 
+        const specifiedDoctor = await queries.getDoctorById(doctorId)
 
         const time = '12:00';
-        const userId = req.session.user.id;
+        const user = req.session.user
         const date = new Date(`2026-01-01T${time}:00`)
 
-        const reserveAppoitment = await queries.addAppointmentToPendingList(doctorId,userId,date);
+        const appointment = await queries.addAppointmentToPendingList(doctorId,user.id,date)
 
-        res.status(200).json({ 
-            data:reserveAppoitment,
-            status: "success",
-            redirectUrl: `/flow2/${doctorId}` 
-        });
-    }catch(err){}
+        res.render("flow2.ejs",{doctor:specifiedDoctor})
+    }catch(err){
+        console.log(err)
         res.status(500).json({ 
             status: "error", 
             message: "خطا در برقراری ارتباط" 
         });
+    }
 })
 
 app.get('/reservedAppoitment/pay/:id',async(req,res)=>{
@@ -402,22 +437,6 @@ app.get('/reservedAppoitment/pay/:id',async(req,res)=>{
     }
 })
 
-
-app.get('/flow2/:id', async(req, res) => {
-    const id = parseInt(req.params.id)
-    try {
-        const specifiedDoctor = await queries.getDoctorById(id)
-
-        const date = '2026-01-05T10:30:00Z' //date will be fill when callendar finished
-
-        const user = req.session.user
-        const appointment = await queries.addAppointmentToPendingList(id,user.id,date)
-
-        res.render("flow2.ejs",{doctor:specifiedDoctor})
-    } catch (err) {
-        res.render("FAQ.ejs")
-    }
-})
 
 
 app.get('/flow3/:id',async (req, res) => {
