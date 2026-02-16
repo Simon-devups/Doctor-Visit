@@ -169,9 +169,12 @@ async function getResevedAppointments(doctorId, targetDate) {
 }
 const getDoctorEmptyTimes = async (doctorId, date) => {
     // return number of weekday
+
     const weekday = (date.getDay() + 1) % 7;
 
+
     // const weekday = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(date);
+    
     const result = await prisma.workingHours.findMany({
         where: {
             doctorId: doctorId,
@@ -182,6 +185,7 @@ const getDoctorEmptyTimes = async (doctorId, date) => {
             end_time: true
         }
     });
+        
 
     let slots = null;
     if (result.length > 0) {
@@ -199,6 +203,7 @@ const getDoctorEmptyTimes = async (doctorId, date) => {
     }));
     // const availableSlots = slots.filter(slot => !appointment.includes(slot));
     return finalSchedule
+
 }
 
 const addAppointmentToPendingList = async (doctorId, userId, date) => {
@@ -414,6 +419,20 @@ const getCities = async () => {
     )
     return cities
 }
+// ----------------------------------------------------------------------------------------------------
+//middlewares
+async function pasteAppointmentToDone(){
+    const result = await prisma.appointments.updateMany({
+        where:{
+            date:{
+                lt:new Date()
+            }
+        },
+        data:{
+            status:'DONE'
+        }
+    })
+}
 
 
 
@@ -425,6 +444,7 @@ const queries = {
     updateUserPhoto, getDoctorComments, getDoctorContacts, addCommentToDoctor, getDoctorPrice,
     getDoctorWorkingDays, getDoctorEmptyTimes, getConfermedUserAppointments,
     addAppointmentToConfirmedList, addAppointmentToPendingList, deleteAppointment,
+    pasteAppointmentToDone,
 
 }
 

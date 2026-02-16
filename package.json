@@ -25,6 +25,7 @@
     "connect-pg-simple": "^10.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "cron": "^4.4.0",
     "dayjs": "^1.11.19",
     "dotenv": "^17.2.3",
     "ejs": "^3.1.10",
@@ -32,6 +33,7 @@
     "express-session": "^1.18.2",
     "jalaliday": "^3.1.1",
     "multer": "^2.0.2",
+    "node-cron": "^4.2.1",
     "pg": "^8.16.3"
   },
   "devDependencies": {

@@ -212,7 +212,7 @@
                     <img src="/recourses/vectors/map-pinpoint-02.svg" alt="آیکن موقعیت">
                 </div>
                 <div class="appointment-info">
-                    <div class="appointment-day">دوشنبه ۲۴ دی</div>
+                    <div class="appointment-day"><span class="available-weekday"></span>  <%=availableAppointment.date%></div>
                     <span class="appointment-text">: اولین نوبت در دسترس</span>
                     <img src="/recourses/vectors/alarm-clock.svg" alt="آیکن ساعت">
                 </div>
@@ -517,11 +517,20 @@ document.addEventListener('DOMContentLoaded', function(){
 
 // number of comments to persian digits
 const nOfComments = document.querySelectorAll('.n-of-comments');
+const availableAptWeekday = document.querySelector('.available-weekday');
 document.addEventListener("DOMContentLoaded", function() {
-        nOfComments.forEach(div => {
+    nOfComments.forEach(div => {
         div.textContent = toPersianNumber('<%=comments.length%>');
     });
-})
+
+    availableAptWeekday.textContent = numberToWeekday('<%=availableAppointment.weekday%>')
+});
+
+// change number of weekday to persian weekday
+function numberToWeekday (n){
+    const map = {'0':'شنبه','1':'یکشنبه','2':'دوشنبه','3':'سه شنبه','4':'چهارشنبه','5':'پنجشنبه','6':'جمعه'};
+    return String(n).replace(/\d/g, d => map[d]);
+}
 </script>
 
 
