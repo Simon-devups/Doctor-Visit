@@ -239,6 +239,15 @@ app.post('/signUp', upload.single("avatar") , async(req,res) => {
     }
 })
 
+app.get('/role',async (req, res) => {
+
+    try {
+        res.render("role.ejs")
+    } catch (err) {
+        res.render("FAQ.ejs")
+    }
+})
+
 app.post('/login',async(req,res)=>{
     try {
         const userCode = req.body.code1 + req.body.code2 + req.body.code3 + req.body.code4 + req.body.code5
@@ -663,23 +672,12 @@ app.get('/check-login' , (req , res) => {
 })
 
 
+// ----------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------
+// ADMIN PAGES
 
-app.get('/user',async (req, res) => {
-
-    try {
-        
-        // const topDoctors = await queries.getTopDoctors()
-        
-        // const oldDoctor = await queries.getOldDoctors()
-        
-        res.render("user.ejs")
-        //{topDoctors:topDoctors,oldDoctors:oldDoctor}
-    } catch (err) {
-        res.render("FAQ.ejs")
-    }
-})
-
-app.get('/role',async (req, res) => {
+app.get("/login/doctor",async (req, res) => {
 
     try {
         
@@ -694,22 +692,7 @@ app.get('/role',async (req, res) => {
     }
 })
 
-app.get('/list-doctor',async (req, res) => {
-
-    try {
-        
-        // const topDoctors = await queries.getTopDoctors()
-        
-        // const oldDoctor = await queries.getOldDoctors()
-        
-        res.render("list-doctor.ejs")
-        //{topDoctors:topDoctors,oldDoctors:oldDoctor}
-    } catch (err) {
-        res.render("FAQ.ejs")
-    }
-})
-
-app.get('/doctor-signup',async (req, res) => {
+app.get('/signup/doctor',async (req, res) => {
 
     try {
         
@@ -724,7 +707,35 @@ app.get('/doctor-signup',async (req, res) => {
     }
 })
 
-app.get('/doctor-profile',async (req, res) => {
+app.get('/doctor/:id/list',async (req, res) => {
+    const doctorId = parseInt(req.params.id);
+    try {
+        // get appointment of doctor (with id)
+        const doctorAppointment = await queries.getDoctorAppointment(doctorId)
+        console.log(doctorAppointment)
+        // const topDoctors = await queries.getTopDoctors()
+        
+        // const oldDoctor = await queries.getOldDoctors()
+        
+        res.render("list-doctor.ejs",{reservs:doctorAppointment})
+        //{topDoctors:topDoctors,oldDoctors:oldDoctor}
+    } catch (err) {
+        res.render("FAQ.ejs")
+    }
+})
+
+app.get("/doctor/list/patient/:id",async (req, res) => {
+    const patientId = parseInt(req.params.id);
+    try {
+        // a query that take patient informations
+        
+        res.render("user.ejs")
+    } catch (err) {
+        res.render("FAQ.ejs")
+    }
+})
+
+app.get('/profile/doctor',async (req, res) => {
 
     try {
         
@@ -744,6 +755,8 @@ app.get('/doctor-profile',async (req, res) => {
 
 
 
+
+// run port
 
 app.listen(PORT, () => {
     console.log(`running on http://localhost:${PORT}`);
