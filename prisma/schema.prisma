@@ -39,6 +39,17 @@ model User_informations {
   Patient_appointments  Appointments[]   @relation("PatientAppointments")
 }
 
+model doctorsAccount{
+  id           Int     @id @default(autoincrement())
+
+  doctor_id    Int     @unique
+  doctor       doctors @relation(fields: [doctor_id], references: [id]) 
+
+  natinalCode  Int     @unique
+
+  password     String  
+}
+
 model doctors {
   id           Int     @id @default(autoincrement())
   first_name   String
@@ -49,8 +60,9 @@ model doctors {
 
   image_url    String
 
-  totalReservs Int
+  totalReservs Int       @default(0)
 
+  doctorInfo       doctorsAccount[]
   workingHours  WorkingHours[]
   appointments  Appointments[]   @relation("DoctorAppointments")
   description   doctor_descriptions[]

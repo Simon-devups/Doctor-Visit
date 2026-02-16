@@ -210,8 +210,17 @@ app.post('/search', async (req, res) => {
     }
 })
 
+app.get('/choserole',async (req, res) => {
+
+    try {
+        res.render("role.ejs")
+    } catch (err) {
+        res.render("FAQ.ejs")
+    }
+})
+
 //login page and signup
-app.get('/login_signUp', (req, res) => {
+app.get('/login', (req, res) => {
     try {
         res.render("login.ejs")
     } catch (err) {
@@ -219,8 +228,7 @@ app.get('/login_signUp', (req, res) => {
     }
 })
 
-
-app.get('/signUp_page',(req,res)=>{
+app.get('/signUp',(req,res)=>{
     res.render('signUp.ejs')
 })
 
@@ -235,15 +243,6 @@ app.post('/signUp', upload.single("avatar") , async(req,res) => {
         res.redirect('/login_signUp')
     }catch(err){
         console.log(err)
-        res.render("FAQ.ejs")
-    }
-})
-
-app.get('/role',async (req, res) => {
-
-    try {
-        res.render("role.ejs")
-    } catch (err) {
         res.render("FAQ.ejs")
     }
 })
@@ -677,7 +676,7 @@ app.get('/check-login' , (req , res) => {
 // ----------------------------------------------------------------------------------------------------
 // ADMIN PAGES
 
-app.get("/login/doctor",async (req, res) => {
+app.get("/login/doctor", (req, res) => {
 
     try {
         
@@ -685,24 +684,71 @@ app.get("/login/doctor",async (req, res) => {
         
         // const oldDoctor = await queries.getOldDoctors()
         
-        res.render("role.ejs")
+        res.render("doctorlogin.ejs")
         //{topDoctors:topDoctors,oldDoctors:oldDoctor}
     } catch (err) {
         res.render("FAQ.ejs")
     }
 })
 
-app.get('/signup/doctor',async (req, res) => {
+app.post("/login/doctor",async(req,res)=>{
+    try{
+        const data = req.body;
 
+
+
+        res.redirect(`/doctor/${doctorId}/list`)
+    }catch(err){
+        res.send(500).json({
+            data:'an error accured!'
+        })
+    }
+})
+
+app.get('/signup/doctor',async (req, res) => {
     try {
-        
-        // const topDoctors = await queries.getTopDoctors()
-        
-        // const oldDoctor = await queries.getOldDoctors()
-        
-        res.render("doctor-signup.ejs")
+        const spetialties = await queries.getSpetialties()
+
+        res.render("doctor-signup.ejs",{spti:spetialties})
         //{topDoctors:topDoctors,oldDoctors:oldDoctor}
     } catch (err) {
+        res.render("FAQ.ejs")
+    }
+})
+
+app.post('/signup/doctor',async (req, res) => {
+    try {
+        let redirectUrl = "/login/doctor";
+
+        const info = req.body;
+        // const DoctorExisting = await queries.checkDoctorExisting(nezamCode)
+        
+        // if(DoctorExisting) return res.json({message:"شما قبلا ثبت نام کرده اید"})
+        
+        const data = {
+            first_name:info.first[0],
+            last_name:info.last,
+            spetialty:info.province[1],
+            image_url:'',
+            totalReservs:0,
+            doctorInfo:{
+                natinalCode:info.natinolCode
+            },
+            description:{
+                description:'',
+                city:info.city,
+                Addres:info.address,
+                code:info.medical_code,
+                insurance:'',
+                gender:info.gender
+            }
+        }
+        const signUpDoctor = await queries.createDoctorAccount(data)
+
+
+        res.redirect("/login/doctor")
+    } catch (err) {
+        console.log(err)
         res.render("FAQ.ejs")
     }
 })

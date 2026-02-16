@@ -17,7 +17,7 @@
         </div>
         <h1>ثبت نام</h1>  
         <p class="form-subtitle"><span style="color: rgb(0, 0, 0);font-size: 20px;font-weight: 500;">مرحله ۱ </span>اطلاعات هویتی خود را وارد کنید</p> 
-        <form autocomplete="on" novalidate> 
+        <form autocomplete="on" novalidate action="/signup/doctor" method="post"> 
             <div class="form-row">
                 <div class="form-group"> 
                     <label for="first">نام</label>
@@ -32,7 +32,7 @@
                 <div class="form-group">  
                     <label for="birth_display">تاریخ تولد</label>
                     <div class="date-wrap">
-                        <input id="birth_display" type="text" placeholder="۱۴۰۰/۰۱/۰۱" inputmode="numeric" />
+                        <input id="birth_display" name="birthday" type="text" placeholder="۱۴۰۰/۰۱/۰۱" inputmode="numeric" />
                         <input id="birth" name="birth" type="hidden" /> 
                         <button type="button" id="birth_toggle" class="date-toggle" aria-haspopup="dialog" aria-expanded="false">📅</button>
                     </div>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="form-group">
                     <label for="nid">کد ملی</label>
-                    <input id="nid" name="nid" type="text" placeholder="137xxxx" aria-label="کد ملی" />
+                    <input id="nid" name="natinolCode" type="text" placeholder="137xxxx" aria-label="کد ملی" />
                 </div>
             </div>
             <div class="form-row">
@@ -69,12 +69,12 @@
                     <label>جنسیت</label>
                     <div class="gender-group" role="radiogroup" aria-label="جنسیت">
                         <label class="radio-option">
-                            <input type="radio" name="gender" value="female" checked aria-checked="true">
+                            <input type="radio" name="gender" value="FEMALE" checked aria-checked="true">
                             <span class="radio-control" aria-hidden="true"></span>
                             <span class="radio-label">خانم</span>
                         </label>
                         <label class="radio-option">
-                            <input type="radio" name="gender" value="male" aria-checked="false">
+                            <input type="radio" name="gender" value="MALe" aria-checked="false">
                             <span class="radio-control" aria-hidden="true"></span>
                             <span class="radio-label">آقا</span>
                         </label>
@@ -114,9 +114,9 @@
                     <label for="province">تخصص</label>
                     <select id="province" name="province" aria-label="استان">
                         <option value="" style="color:#64748b;" disabled selected hidden>انتخاب کنید...</option>
-                        <option>قلب و عروق</option>
-                        <option>پوست و مو </option> 
-                        <option>گوش و حلق وبینی</option> 
+                        <%spti.forEach(option=>{%>
+                          <option value="<%=option.spetialty%>"><%=option.spetialty%></option>
+                        <%})%>
                     </select>
                 </div>
             </div>       
