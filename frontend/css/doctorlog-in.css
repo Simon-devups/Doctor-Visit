@@ -1,0 +1,73 @@
+body{
+    margin:0;
+    font-family: "Vazirmatn", sans-serif;
+}
+* { box-sizing: border-box;}
+        
+body {       
+    background-color: #ffffff;          
+    display: flex;          
+    justify-content: center;          
+    align-items: center;          
+    min-height: 100vh;         
+    padding: 20px;      
+}              
+.container {       
+    background-color: rgb(255, 255, 255);      
+    border-radius: 10px;     
+    width: 100%;              
+    max-width: 400px;                
+    padding: 30px;             
+    text-align: center; 
+    border: 1px solid #E7E7E7; 
+    border-radius: 20px;    
+}         
+.logo {         
+    margin-bottom: 20px;     
+}         
+h1 {       
+    color: #262626;       
+    margin-bottom: 30px;
+    font-size: 24px;
+    font-weight: 600;          
+}         
+p {     
+    color: #5D5D5D;     
+    margin-bottom: 30px;     
+    font-size: 16px;     
+    font-weight: 500; 
+}            
+.input-group {       
+    margin-bottom: 20px;              
+    text-align: right;       
+}             
+label {      
+    display: block;        
+    margin-bottom: 8px;        
+    color: #333;        
+    font-weight: 500;     
+}            
+input[type="tel"] {       
+    font-family: "Vazirmatn", sans-serif;        
+    width: 100%;        
+    padding: 12px 15px;         
+    border: 1px solid #ddd;         
+    border-radius: 10px;         
+    font-size: 16px;         
+    text-align: right;         
+    direction: ltr;         
+    margin-bottom: 15px;      
+}                
+.btn {         
+    background-color: #4179F0;         
+    color: rgb(255, 255, 255);         
+    border: none;         
+    border-radius: 10px;         
+    padding: 12px 39px;         
+    font-size: 16px;        
+    cursor: pointer;   
+    width: 100%; 
+    transition: background-color 0.3s;
+    font-family: 'vazirmatn';
+}
+        

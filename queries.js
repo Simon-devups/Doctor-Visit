@@ -439,6 +439,41 @@ async function pasteAppointmentToDone(){
 // ----------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------------------
 // ADMIN SECTION QUERIES
+const checkDoctorExisting = async()=>{}
+
+const findDoctorpass = async(nezamCode)=>{
+    const result = await prisma.doctors.findUnique({
+        where:{
+            description:{
+                code:nezamCode
+            }
+        },
+        include:{
+            doctorInfo:true
+        }
+    });
+    return result.doctorInfo.password
+}
+
+const createDoctorAccount = async(data)=>{
+    const result = await prisma.doctors.create({
+        data
+    })
+}
+
+const setPassToDoctor = async(doctorId,pass)=>{
+    const result = await prisma.doctors.update({
+        where:{
+            id:doctorId
+        },
+        data:{
+            doctorInfo:{
+                password:pass
+            }
+        }
+    })
+}
+
 const getDoctorAppointment = async (doctorId)=>{
     const result = await prisma.appointments.findMany({
         where:{
@@ -448,6 +483,8 @@ const getDoctorAppointment = async (doctorId)=>{
     })
     return result
 }
+
+
 
 
 
@@ -463,7 +500,7 @@ const queries = {
     pasteAppointmentToDone,
     
     //admin
-    getDoctorAppointment,
+    getDoctorAppointment,findDoctorpass,createDoctorAccount,checkDoctorExisting
 
 }
 
