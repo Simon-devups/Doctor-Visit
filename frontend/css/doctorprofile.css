@@ -1,0 +1,300 @@
+*{margin: 0; padding: 0; box-sizing: border-box;}
+:root{
+    --accent : #4179F0 ;
+    --Grey_100 : #E7E7E7 ;
+    --Neutral_40 : #F7F7F7 ;
+    --Neutral_900 : #3D3D3D ;
+    --Neutral_800 : #454545 ;
+    --Neutral_600 : #5D5D5D ;
+    --Neutral_500 : #6D6D6D ;
+    --Neutral_400 : #888888 ;
+}
+:root {
+    --primary-color: #3f51b5; 
+    --secondary-color: #f50057; 
+    --background-color: #ffffff;
+    --text-color-dark: #333333;
+    --text-color-light: #555555;
+    --input-border-color: #cccccc;
+    --button-bg-color: #3f51b5; 
+    --button-text-color: #ffffff;
+    --label-color: #333333;
+    --value-color: #666666; 
+    --upload-btn-border: #bbdefb; 
+    --upload-btn-text: #3f51b5; 
+}
+.profile-form {
+    padding: 2rem 2rem;
+}
+
+.form-row {
+    margin-bottom: 30px;
+}
+
+body {
+    font-family: 'Vazirmatn', sans-serif;
+    direction: rtl; 
+    margin: 0;
+    padding: 0;
+}
+
+.profile-cont {
+    display: flex;
+    flex-direction: row-reverse;
+    max-width: 1000px;
+    margin: 2px auto;
+    background-color: var(--background-color);
+    border-radius: 8px;
+    padding: 40px;
+    gap: 1.2rem;
+}
+
+form{border-radius: 1rem; padding: 1rem 1rem 0rem 1rem;}
+.left {
+    flex: 2; 
+    padding-left: 50px; 
+}
+
+.right {
+    flex: 0.7; 
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+    border: var(--Grey_100) 1px solid;
+    height: 300px;
+    width: clamp(200px , 250px , 250px) !important;
+    height: max-content;
+    padding: 1rem 0;
+    border-radius: 1rem;
+}
+
+.profile-form {
+    width: 100%;
+    border: var(--Grey_100) 1px solid;
+}
+
+.form input{color: #262626;}
+
+.form-row {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-bottom: 25px;
+    gap: 30px;
+}
+
+.form-group {
+    flex-direction: column;
+    flex: 1; 
+    gap: 1rem;
+    display: flex;
+    align-items:flex-start;
+    justify-content:flex-start; 
+    padding-bottom: 10px;
+}
+
+.form-group label {
+    font-weight: 500; 
+    color: var(--label-color);
+    white-space: nowrap;
+    font-size: 1rem;
+}
+
+.form-group input {
+    border: none;
+    outline: none;
+    text-align: right;
+    padding: 0;
+    font-weight: 500; 
+    color: #262626;
+    padding-right: 0.4rem;
+    font-size: 1rem;
+    width: 60%;
+    direction: ltr; 
+    font-family: 'vazirmatn';
+}
+.form-group label {color: var(--Neutral_600); font-weight: 500;}
+.button-row {
+    justify-content: flex-start; 
+    margin-top: 40px; 
+}
+
+.edit-btn {
+    background-color: var(--accent);
+    color: var(--button-text-color);
+    border: none;
+    border-radius: 6px;
+    padding: 10px 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+    font-family: 'Vazirmatn' ;
+    margin-left: 0.6rem;
+}
+.profile-image-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.profile-img {
+    width: 150px; 
+    height: 150px;
+    border-radius: 50%;
+    border: 1px solid #eee; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.upload-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 8px 15px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    background-color: #fff; 
+    border-radius: 0.5rem;
+    width: 100%;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.upload-btn .icon-plus {
+    width: 18px;
+    height: 18px;
+}
+
+
+
+
+
+.profile-cont {
+    display: flex;
+    flex-wrap: wrap;
+
+}
+.title {
+    width: 100%; 
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-align: right;
+    color: var(--text-color-dark);
+}
+.left {
+    flex: 2;
+
+    padding-left: 50px; 
+    box-sizing: border-box; 
+}
+
+.right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    max-width: 220px;
+}
+
+@media (max-width:891px) {
+    .profile-cont{flex-direction: column-reverse; flex-wrap: nowrap;}
+    .left{flex: 1; order: 0; padding-left: 0px;}
+    .right{flex: 1; order: 1; min-width: 100%;}
+    .title{order: 2;}
+    .profile-img{height: 300px; width: 300px;}
+    *{font-size: 0.95rem;}
+}
+.form-group select {
+    border: none;
+    outline: none;
+    text-align: right;
+    padding: 0;
+    font-weight: 500;
+    color: #262626;
+    padding-right: 0.4rem;
+    font-size: 1rem;
+    width: 60%;
+    direction: rtl; 
+    font-family: 'Vazirmatn', sans-serif;
+    background: transparent;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+.site-header{direction: ltr;}
+#lastName{
+    border: 1px solid var(--accent);
+    border-radius: 0.5rem;
+    padding: 8px 10px;
+    
+}
+#firstName{
+    border: 1px solid var(--accent);
+    border-radius: 0.5rem;
+    padding: 8px 10px;
+    
+}
+#birthYear{
+    border: 1px solid var(--accent);
+    border-radius: 0.5rem;
+    padding: 8px 10px;
+    
+}
+#nationalCode{
+    border: 1px solid var(--accent);
+    border-radius: 0.5rem;
+    padding: 8px 10px;
+    
+}
+#city{
+    border: 1px solid var(--accent);
+    border-radius: 0.5rem;
+    padding: 12px 10px;
+    
+}
+#gender{
+    border: 1px solid var(--accent);
+    border-radius: 0.5rem;
+    padding: 12px 10px;
+    
+}
+#email{
+    border: 1px solid var(--accent);
+    border-radius: 0.5rem;
+    padding: 8px 10px;
+    
+}
+#mobile{
+    border: 1px solid var(--accent);
+    border-radius: 0.5rem;
+    padding: 8px 10px;
+    
+}
+textarea { 
+    width: 80%;
+    height:100px; 
+    padding: 12px 14px; 
+    font-size: 15px; 
+    font-weight: 400;   
+    border: 1.5px solid #e2e8f0;
+    
+    transition: .18s ease;
+    font-family: inherit;
+    resize: none
+}
+textarea::placeholder { 
+    color: #94a3b8; 
+}
+textarea:hover { 
+    border-color: #2563eb; 
+    background: #fff;
+}
+textarea:focus {  
+    outline: none;
+    background: #fff;
+    border-color: #2563eb;
+
+}

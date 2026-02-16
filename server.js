@@ -662,6 +662,89 @@ app.get('/check-login' , (req , res) => {
     }
 })
 
+
+
+app.get('/user',async (req, res) => {
+
+    try {
+        
+        // const topDoctors = await queries.getTopDoctors()
+        
+        // const oldDoctor = await queries.getOldDoctors()
+        
+        res.render("user.ejs")
+        //{topDoctors:topDoctors,oldDoctors:oldDoctor}
+    } catch (err) {
+        res.render("FAQ.ejs")
+    }
+})
+
+app.get('/role',async (req, res) => {
+
+    try {
+        
+        // const topDoctors = await queries.getTopDoctors()
+        
+        // const oldDoctor = await queries.getOldDoctors()
+        
+        res.render("role.ejs")
+        //{topDoctors:topDoctors,oldDoctors:oldDoctor}
+    } catch (err) {
+        res.render("FAQ.ejs")
+    }
+})
+
+app.get('/list-doctor',async (req, res) => {
+
+    try {
+        
+        // const topDoctors = await queries.getTopDoctors()
+        
+        // const oldDoctor = await queries.getOldDoctors()
+        
+        res.render("list-doctor.ejs")
+        //{topDoctors:topDoctors,oldDoctors:oldDoctor}
+    } catch (err) {
+        res.render("FAQ.ejs")
+    }
+})
+
+app.get('/doctor-signup',async (req, res) => {
+
+    try {
+        
+        // const topDoctors = await queries.getTopDoctors()
+        
+        // const oldDoctor = await queries.getOldDoctors()
+        
+        res.render("doctor-signup.ejs")
+        //{topDoctors:topDoctors,oldDoctors:oldDoctor}
+    } catch (err) {
+        res.render("FAQ.ejs")
+    }
+})
+
+app.get('/doctor-profile',async (req, res) => {
+
+    try {
+        
+        // const topDoctors = await queries.getTopDoctors()
+        
+        // const oldDoctor = await queries.getOldDoctors()
+        
+        res.render("doctor-profile.ejs")
+        //{topDoctors:topDoctors,oldDoctors:oldDoctor}
+    } catch (err) {
+        res.render("FAQ.ejs")
+    }
+})
+
+
+
+
+
+
+
 app.listen(PORT, () => {
     console.log(`running on http://localhost:${PORT}`);
 })

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/listdoctor.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap">
+</head>
+
+<body>
+    <div class="card-alert">
+        <div class="alert-img"><img src="resources\logo\Circle !.svg" alt=""></div>
+        <p style="font-size: 1.6rem; font-weight: 500;">حذف نوبت</p>
+        <p style="color: #525252; font-weight: 400; font-size: 1.2rem;">آیا از لغو نوبت خود مطمئن هستید؟</p>
+        <div class="btns">
+            <button class="red-btn">بله</button>
+            <button class="white-btn">خیر</button>
+        </div>
+    </div>
+    <main class="main">      
+        <a href="" style="display: flex; justify-content: end; gap: 0.5rem;align-self:flex-end; max-width: 1400px; text-decoration: none;" class="a-bazgasht">
+        <div class="bazgasht"
+                style="margin-top: 2rem; display: flex; justify-content: end; gap: 0.5rem; width: 100%; max-width: 1400px; margin-bottom: 1.7rem; padding: 0 1rem;">
+                <span style="color: var(--Neutral_900); font-weight: bold; font-size: clamp(1rem, 5vw, 1.6rem);line-height: 120%; cursor: pointer;">رزور های شما</span>
+                <img src="resources\logo\right-icon-circle.svg" alt="">
+            </div>
+        </a>
+        <h3 dir="rtl" style="color: #4179F0; text-align: right ; padding-right: 0.5rem; width: 100%; max-width:1400px ; display: flex; margin-top: 1rem;margin-bottom: 10px; ">نوبت های بعدی</h3>
+                <div class="rectangle" style="padding: 0; ">
+                    <div class="delete" data-doctor-id="<%=doctor.id%>"><img src="resources/logo/cross.svg"><p>لغو نوبت</p></div>
+                    <a href="" class="rectangle" style="margin-top: 0; text-decoration: none; border: none;">
+                        <div class="rect-ball">
+                            <div></div>
+                            <div dir="rtl" ><span>۴</span> روز و <span>۱۷</span> ساعت تا نوبت</div>
+                        </div>
+                    
+                        <div class="rect-date">دوشنبه ۲۴ دی ساعت ۹:۳۰ </div>
+                    
+                        <div class="rect-doctor-name">علی محمدی</div>
+               
+                    </a>
+
+                </div>
+    </main> 
+    <!-- برای صفحات لیست فوتر نیاز نیست ! -->
+
+
+    <script>
+        //برای حذف کردن نوبت بعد از پیام
+        // حذف مارجین تاپ از اولین رکتنگل
+        document.querySelector('.rectangle').style.marginTop = '0.4rem';
+        const deleteButton = document.querySelectorAll('.delete');
+        const deleteCard = document.querySelector('.card-alert');
+        const YesBtn = document.querySelector('.red-btn');
+        const NoBtn = document.querySelector('.white-btn');
+        let currentDoctorId = null;
+
+
+        deleteButton.forEach(button=>{
+            button.addEventListener('click' , ()=>{
+                currentDoctorId = button.getAttribute('data-doctor-id');
+                deleteCard.style.display = 'flex';
+                document.body.classList.add('alert-opened')
+            })
+        });
+        NoBtn.addEventListener('click' , ()=>{
+            deleteCard.style.display='none';
+            document.body.classList.remove('alert-opened');
+            currentDoctorId = null;
+        })
+        YesBtn.addEventListener('click' , async ()=>{
+            deleteCard.style.display='none';
+            document.body.classList.remove('alert-opened');
+            console.log('Deleting appointment for doctor:', currentDoctorId);
+
+            try {
+                const response = await fetch(`/reserveList/deletereserve/${currentDoctorId}`, { method: 'POST' });
+                if (response.ok) {
+                    const Message=document.createElement('div');
+                    Message.className='Message';
+                    Message.style.position='fixed';
+                    Message.style.bottom='2rem';
+                    Message.style.right='2rem';
+                    Message.innerText='نوبت شما با موفقیت کنسل شد';
+                    document.body.appendChild(Message);
+
+                    setTimeout(() => { Message.classList.add('add'); }, 50);
+                    setTimeout(() => { Message.classList.add('less'); }, 3000);
+
+                    await new Promise(resolve => setTimeout(resolve, 3700));
+                    Message.remove();
+                    window.location.reload();
+                } else {
+                    console.error('Delete failed with status', response.status);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            } finally {
+                currentDoctorId = null;
+            }
+        })
+        addEventListener('keydown' , (event)=>{
+            if (event.key==='Enter' && document.body.classList.contains('alert-opened')){
+                YesBtn.click();
+            }
+        })
+
+
+    </script>
+</body>
+
+</html>
