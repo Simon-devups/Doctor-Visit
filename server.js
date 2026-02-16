@@ -8,6 +8,7 @@ import pg from "pg"
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
+import cron from 'node-cron';
 import queries from "./queries.js";
 import upload from "./multer.js";
 // import EnglishToPersian from "./middlewares/EnglishTopersian.js";
@@ -68,7 +69,10 @@ app.use((req, res, next) => {
     next();
 });
 
-
+//
+cron.schedule('*/5 * * * *', async () => {
+    await queries.pasteAppointmentToDone();
+})
 //functions
 function toPersianDigits(str) {
     const farsiDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
@@ -77,12 +81,12 @@ function toPersianDigits(str) {
 
 async function availableAppointment(doctorId){
     const now = new Date()
+    const timeout = 3000;
 
     let tomorrow = new Date(now);
 
     // const weekday = (now.getDay() + 1) % 7;
     let appointment = null;
-    let a = 0;
     while(appointment == null){
         const emptyTimes = await queries.getDoctorEmptyTimes(doctorId,tomorrow)
 
@@ -96,7 +100,13 @@ async function availableAppointment(doctorId){
                 break;
             }
         }
+    
         tomorrow.setDate(tomorrow.getDate() + 1);
+        if (Date.now() - now > timeout) {
+            console.log('⏰ timeout!');
+            break;
+        }
+    
     }
     return appointment
 }
@@ -109,6 +119,9 @@ app.get('/',async (req, res) => {
     try {
         
         const topDoctors = await queries.getTopDoctors()
+        const emptyTimes = await queries.getDoctorEmptyTimes(3,new Date())
+        console.log(emptyTimes)
+
         
         const oldDoctor = await queries.getOldDoctors()
         
@@ -333,10 +346,22 @@ app.get('/flow/:id', async (req, res) => {
         //comment section
         const doctorComments = await queries.getDoctorComments(id)
 
-        const availableApt = await availableAppointment(id);
-        const apt = new Intl.DateTimeFormat('fa-IR', {
-                dateStyle: 'long'}).format(new Date(availableApt.date));
-                console.log()
+        //return date of first available appointment
+        const time = await availableAppointment(id);
+        let availableApt = {}
+        if(time == null){
+            availableApt = {
+                date : 'وقت ملاقات پیدا نشد'
+            }
+        }else{
+            const availableAptDate = new Intl.DateTimeFormat('fa-IR', {
+                dateStyle: 'long'}).format(new Date(time.date));
+            availableApt = {
+                date:availableAptDate.toString().slice(0,7),
+                weekday:new Date(time.date).getDay()+1
+        }}
+        
+
 
         
         let sum = 0;
@@ -360,7 +385,7 @@ app.get('/flow/:id', async (req, res) => {
             doctor : specifiedDoctor , 
             contact:contact , comments:doctorComments ,
             doctorRecommend:doctorRecommend,
-            availableAppointment:availableApt
+            availableAppointment:availableApt,
         })
     } catch (err) {
         console.log(err)
@@ -402,9 +427,9 @@ app.get("/reserveDoctor/:id",async(req,res)=>{
 
         const specifiedDoctor = await queries.getDoctorById(doctorId)
 
-        const time = '12:00';
+        const time = '15:00';
         const user = req.session.user
-        const date = new Date(`2026-01-01T${time}:00`)
+        const date = new Date(`2026-02-17T${time}:00`)
 
         const appointment = await queries.addAppointmentToPendingList(doctorId,user.id,date)
 
@@ -478,6 +503,10 @@ app.get('/reserveList',async(req,res)=>{
     try{
         const user = req.session.user
         const ConfirmedreserveList = await queries.getConfermedUserAppointments(user.id)
+        const appointment = {
+            
+        }
+        console.log(ConfirmedreserveList)
         // const DonereserveList = await queries.getDoneUserAppointments(user.id)
         // const PendingList = await queries.getPendingUserAppointments(user.id)
 

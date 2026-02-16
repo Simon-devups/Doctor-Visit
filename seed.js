@@ -205,7 +205,7 @@ async function main() {
         doctorId: 1,
         weekday: 1, // Monday
         start_time: "10:00",
-        end_time: "17:00",
+        end_time: "12:00",
       },
       {
         doctorId: 1,
