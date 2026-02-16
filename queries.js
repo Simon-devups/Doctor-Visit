@@ -435,6 +435,22 @@ async function pasteAppointmentToDone(){
 }
 
 
+// ----------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------
+// ADMIN SECTION QUERIES
+const getDoctorAppointment = async (doctorId)=>{
+    const result = await prisma.appointments.findMany({
+        where:{
+            doctorId:doctorId,
+            status:'CONFIRMED'
+        }
+    })
+    return result
+}
+
+
+
 
 
 const queries = {
@@ -445,7 +461,11 @@ const queries = {
     getDoctorWorkingDays, getDoctorEmptyTimes, getConfermedUserAppointments,
     addAppointmentToConfirmedList, addAppointmentToPendingList, deleteAppointment,
     pasteAppointmentToDone,
+    
+    //admin
+    getDoctorAppointment,
 
 }
+
 
 export default queries;
