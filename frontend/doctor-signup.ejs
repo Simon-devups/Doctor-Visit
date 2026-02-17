@@ -74,7 +74,7 @@
                             <span class="radio-label">خانم</span>
                         </label>
                         <label class="radio-option">
-                            <input type="radio" name="gender" value="MALe" aria-checked="false">
+                            <input type="radio" name="gender" value="MALE" aria-checked="false">
                             <span class="radio-control" aria-hidden="true"></span>
                             <span class="radio-label">آقا</span>
                         </label>
@@ -111,11 +111,11 @@
                     </select> 
                 </div>         
                 <div class="form-group">
-                    <label for="province">تخصص</label>
-                    <select id="province" name="province" aria-label="استان">
+                    <label >تخصص</label>
+                    <select id="province" name="spetialty" >
                         <option value="" style="color:#64748b;" disabled selected hidden>انتخاب کنید...</option>
                         <%spti.forEach(option=>{%>
-                          <option value="<%=option.spetialty%>"><%=option.spetialty%></option>
+                          <option value="<%=option.id%>"><%=option.spetialty%></option>
                         <%})%>
                     </select>
                 </div>

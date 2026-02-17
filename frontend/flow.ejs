@@ -21,22 +21,6 @@
                 return;
             }
 
-            // Sample new comments data
-            // const newComments = [
-            //     {
-            //         name: 'علی محمدی',
-            //         date: '(۱۴۰۳/۱۰/۱۹)',
-            //         text: 'تجربه بسیار خوبی داشتم با دکتر وارسته. بسیار حرفه‌ای و دقیق است.',
-            //         avatar: '/recourses/Avatar.png'
-            //     },
-            //     {
-            //         name: 'مریم احمدی',
-            //         date: '(۱۴۰۳/۱۰/۱۸)',
-            //         text: 'نوبت‌دهی بسیار آسان و سریع بود. خیلی راضی هستم.',
-            //         avatar: '/recourses/Avatar.png'
-            //     }
-            // ];
-
             // Create and insert new comments
             newComments.forEach(comment => {
                 const commentDiv = document.createElement('div');
@@ -179,14 +163,14 @@
                 <!-- Time slots area (visual only). JS can toggle .active -->
                 <div class="pc-times">
                     <div class="pc-times-row">
-                        <button class="pc-slot outlined">۱۰:۰۰</button>
-                        <button class="pc-slot outlined">۱۰:۱۵</button>
-                        <button class="pc-slot outlined">۱۰:۳۰</button>
+                        <button class="pc-slot outlined" aria-pressed="false">۱۰:۰۰</button>
+                        <button class="pc-slot outlined" aria-pressed="false">۱۰:۱۵</button>
+                        <button class="pc-slot outlined" aria-pressed="false">۱۰:۳۰</button>
                     </div>
                 </div>
 
                 <div class="pc-actions">
-                    <a class="pc-reserve" href="/reserveDoctor/<%=doctor.id%>">رزرو نوبت</a>
+                    <a class="pc-reserve" >رزرو نوبت</a>
                 </div>
             </section>
 
@@ -212,7 +196,7 @@
                     <img src="/recourses/vectors/map-pinpoint-02.svg" alt="آیکن موقعیت">
                 </div>
                 <div class="appointment-info">
-                    <div class="appointment-day"><span class="available-weekday"></span>  <%=availableAppointment.date%></div>
+                    <div class="appointment-day">دوشنبه ۲۴ دی</div>
                     <span class="appointment-text">: اولین نوبت در دسترس</span>
                     <img src="/recourses/vectors/alarm-clock.svg" alt="آیکن ساعت">
                 </div>
@@ -289,60 +273,6 @@
     
     <%- include('partials/footer') %>
 
-<script>
-    const calBTNs = document.querySelectorAll('.pc-day');
-    calBTNs.forEach(btn => {
-        btn.addEventListener('click', function(){
-            calBTNs.forEach(b => b.classList.remove('pc-today'));
-            this.classList.add('pc-today');
-            console.log('Today button clicked');
-        });
-    });
-    //انتخاب ساعت
-    const slotBtns = document.querySelectorAll('.pc-slot.outlined');
-    slotBtns.forEach(btn => {
-        btn.addEventListener('click', function(){
-            slotBtns.forEach(activated => activated.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
-    //راستی آزمایی لاگین برای ثبت نظر
-    document.querySelector('.sabte-nazar').addEventListener('click' , async (e)=>{
-        e.preventDefault();
-        try{
-            const response = await fetch('/check-login');
-            const result = await response.json();
-            function createToaster(message){      
-                const Message = document.createElement('div');
-                Message.className='error-handler-cont';
-                Message.style.position='fixed';
-                Message.style.bottom='2rem';
-                Message.style.right='2rem';
-                 Message.innerText=message;
-                document.body.appendChild(Message)
-                setTimeout(() => {
-                    Message.classList.add('add');
-                }, 50);
-                setTimeout(() => {
-                    Message.classList.add('less')
-                }, 3000);
-                setTimeout(() => {
-                    Message.remove();
-                }, 3700);}
-
-            if(response.ok && result.authenticated){
-                window.location.href = "/comment/<%=doctor.id%>";
-            }
-            else {
-                createToaster(result.message);
-            }
-        }
-        catch(err){
-            console.log(err,'بررسی لاگین ناموفق')
-        }
-    });
-
-</script>
 <script src="/js/jalaali.js"></script>
 <script>
 /* === اگر توابع جلالی را در یک فایل جدا داری، آن را اینجا import یا include کن.
@@ -480,6 +410,7 @@ function renderTimeSlots(times){
       // store selected time if needed
       window.selectedTime = t.start;
     });
+    btn.dataset.time = t.start;
     row.appendChild(btn);
   });
 }
@@ -517,21 +448,114 @@ document.addEventListener('DOMContentLoaded', function(){
 
 // number of comments to persian digits
 const nOfComments = document.querySelectorAll('.n-of-comments');
-const availableAptWeekday = document.querySelector('.available-weekday');
 document.addEventListener("DOMContentLoaded", function() {
-    nOfComments.forEach(div => {
+        nOfComments.forEach(div => {
         div.textContent = toPersianNumber('<%=comments.length%>');
     });
-
-    availableAptWeekday.textContent = numberToWeekday('<%=availableAppointment.weekday%>')
-});
-
-// change number of weekday to persian weekday
-function numberToWeekday (n){
-    const map = {'0':'شنبه','1':'یکشنبه','2':'دوشنبه','3':'سه شنبه','4':'چهارشنبه','5':'پنجشنبه','6':'جمعه'};
-    return String(n).replace(/\d/g, d => map[d]);
-}
+})
 </script>
+<script>
+    //فانکشن یو آی
+    function createToaster(message){      
+        const Message = document.createElement('div');
+        Message.className='error-handler-cont';
+        Message.style.position='fixed';
+        Message.style.bottom='2rem';
+        Message.style.right='2rem';
+            Message.innerText=message;
+        document.body.appendChild(Message)
+        setTimeout(() => {
+            Message.classList.add('add');
+        }, 50);
+        setTimeout(() => {
+            Message.classList.add('less')
+        }, 3000);
+        setTimeout(() => {
+            Message.remove();
+        }, 3700);
+    }
+
+    const ahrefBtn = document.querySelector('.pc-reserve');
+    
+    // Store selected date and time
+    let selectedDate = null;
+    let selectedTime = null;
+
+    // Remove default href since we'll add it dynamically
+    
+    // Listen for time slot selections (dynamically created buttons)
+    document.addEventListener('click', function(e) {
+        if(e.target.closest('.pc-times-row .pc-slot')) {
+            const btn = e.target.closest('.pc-times-row .pc-slot');
+            if(btn.disabled) return;
+            
+            // Update all time slots - remove active from others
+            document.querySelectorAll('.pc-times-row .pc-slot').forEach(b => {
+                b.classList.remove('active');
+            });
+            btn.classList.add('active');
+            
+            // Store selected time
+            selectedTime = btn.dataset.time;            
+            console.log('Selected time:', selectedTime);
+            
+            if (selectedDateGregorian && selectedTime) {
+                // اضافه کردن پارامترهای کوئری به href
+                ahrefBtn.href = `/flow2/${encodeURIComponent(doctor.id)}?date=${encodeURIComponent(selectedDateGregorian)}&time=${encodeURIComponent(selectedTime)}`;
+                ahrefBtn.style.cursor = 'pointer';
+            }
+        }
+    });
+    
+    // Hook into the existing onDayClick to track selected date
+    const originalOnDayClick = window.onDayClick;
+    window.onDayClick = function(e) {
+        originalOnDayClick.call(this, e);
+        selectedDate = e.currentTarget.dataset.day;
+        console.log('Selected date:', selectedDate, 'Gregorian:', selectedDateGregorian);
+        selectedTime = null; // Reset time when date changes
+        ahrefBtn.href = ''; // Clear href until time is selected
+    };
+
+ 
+    //راستی آزمایی لاگین برای ثبت نظر
+    document.querySelector('.sabte-nazar').addEventListener('click' , async (e)=>{
+        e.preventDefault();
+        try{
+            const response = await fetch('/check-login');
+            const result = await response.json();
+            function createToaster(message){
+                const Message = document.createElement('div');
+                Message.className='error-handler-cont';
+                Message.style.position='fixed';
+                Message.style.bottom='2rem';
+                Message.style.right='2rem';
+                 Message.innerText=message;
+                document.body.appendChild(Message)
+                setTimeout(() => {
+                    Message.classList.add('add');
+                }, 50);
+                setTimeout(() => {
+                    Message.classList.add('less')
+                }, 3000);
+                setTimeout(() => {
+                    Message.remove();
+                }, 3700);}
+
+            if(response.ok && result.authenticated){
+                window.location.href = "/comment/<%=doctor.id%>";
+            }
+            else {
+                createToaster(result.message);
+            }
+        }
+        catch(err){
+            console.log(err,'بررسی لاگین ناموفق')
+        }
+    });
+
+</script>
+
 
 
 </body>

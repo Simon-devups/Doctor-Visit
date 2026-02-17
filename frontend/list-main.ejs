@@ -36,9 +36,9 @@
                     <a href="/Doctor/<%=doctor.id%>" class="rectangle" style="margin-top: 0; text-decoration: none; border: none;">
                     <div class="rect-ball">
                         <div></div>
-                        <div dir="rtl" ><span>۴</span> روز و <span>۱۷</span> ساعت تا نوبت</div>
+                        <div dir="rtl" ><span><%=doctor.before.day%></span> روز و <span><%=doctor.before.hour%></span> ساعت تا نوبت</div>
                     </div>
-                    <div class="rect-date">دوشنبه ۲۴ دی ساعت ۹:۳۰ </div>
+                    <div class="rect-date"><%=doctor.date.date%> ساعت <%=doctor.date.hour%></div>
                     <div class="rect-doctor-name">دکتر <%=doctor.doctor.first_name%> <%=doctor.doctor.last_name%></div>
                 </a>
                 </div>

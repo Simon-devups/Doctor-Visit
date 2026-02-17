@@ -95,6 +95,7 @@ model Appointments {
 
   patient    User_informations    @relation("PatientAppointments", fields: [patientId], references: [id])
   patientId  Int
+  // patientInfo Users
 
   date       DateTime
 
