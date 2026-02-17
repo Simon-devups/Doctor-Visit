@@ -31,16 +31,16 @@
         <h3 dir="rtl" style="color: #4179F0; text-align: right ; padding-right: 0.5rem; width: 100%; max-width:1400px ; display: flex; margin-top: 1rem;margin-bottom: 10px; ">نوبت های بعدی</h3>
             <% reservs.forEach(patient=>{%>
                 <div class="rectangle" style="padding: 0; ">
-                    <div class="delete" data-doctor-id="<%=patient.id%>"><img src="/resources/logo/cross.svg"><p>لغو نوبت</p></div>
-                    <a href="/doctor/list/patient/<%=patient.id%>" class="rectangle" style="margin-top: 0; text-decoration: none; border: none;">
+                    <div class="delete" data-doctor-id="<%=patient.id%>"><img src="/recourses/vectors/cross.svg"><p>لغو نوبت</p></div>
+                    <a href="/doctor/list/patient/<%=patient.patientId%>" class="rectangle" style="margin-top: 0; text-decoration: none; border: none;">
                         <div class="rect-ball">
                             <div></div>
-                            <div dir="rtl" ><span>۴</span> روز و <span>۱۷</span> ساعت تا نوبت</div>
+                            <div dir="rtl" ><span><%=patient.before.day%></span> روز و <span><%=patient.before.hour%></span> ساعت تا نوبت</div>
                         </div>
                     
-                        <div class="rect-date">دوشنبه ۲۴ دی ساعت ۹:۳۰ </div>
+                        <div class="rect-date"><%=patient.date.date%> ساعت <%=patient.date.hour%> </div>
                     
-                        <div class="rect-doctor-name">علی محمدی</div>
+                        <div class="rect-doctor-name"><%=patient.patient.firt_name%> <%=patient.patient.last_name%></div>
                
                     </a>
 

@@ -439,20 +439,41 @@ async function pasteAppointmentToDone(){
 // ----------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------------------
 // ADMIN SECTION QUERIES
-const checkDoctorExisting = async()=>{}
+const checkDoctorExisting = async(nezamCode)=>{
+    const result = await prisma.doctor_descriptions.findMany({
+        where:{
+            code:nezamCode
+        }
+    })
+    return result[0]
+}
+
+const checkPasswordValidation = async()=>{
+    const result = await prisma.doctors.deleteMany({
+        where:{
+            doctorInfo:{
+                password:''
+            }
+        }
+    })
+    return result
+}
 
 const findDoctorpass = async(nezamCode)=>{
-    const result = await prisma.doctors.findUnique({
+    const result = await prisma.doctors.findMany({
         where:{
             description:{
-                code:nezamCode
+                some:{
+                    code:nezamCode
+                }
             }
         },
         include:{
             doctorInfo:true
         }
     });
-    return result.doctorInfo.password
+    
+    return result[0].doctorInfo[0].password
 }
 
 const createDoctorAccount = async(data)=>{
@@ -462,14 +483,12 @@ const createDoctorAccount = async(data)=>{
 }
 
 const setPassToDoctor = async(doctorId,pass)=>{
-    const result = await prisma.doctors.update({
+    const result = await prisma.doctorsAccount.update({
         where:{
-            id:doctorId
+            doctor_id:doctorId
         },
         data:{
-            doctorInfo:{
-                password:pass
-            }
+            password:pass
         }
     })
 }
@@ -481,8 +500,21 @@ const getDoctorAppointment = async (doctorId)=>{
             status:'CONFIRMED'
         }
     })
-    return result
+    const appointments = await Promise.all(
+        result.map(async (apt) => {
+        const patient = await prisma.Users.findUnique({
+            where: { id: apt.patientId },
+        });
+
+        return {
+                ...apt,
+                patient, // ✅ فیلد جدا
+            };
+        })
+    );
+    return appointments
 }
+
 
 
 
@@ -500,7 +532,8 @@ const queries = {
     pasteAppointmentToDone,
     
     //admin
-    getDoctorAppointment,findDoctorpass,createDoctorAccount,checkDoctorExisting
+    getDoctorAppointment,findDoctorpass,createDoctorAccount,checkDoctorExisting,
+    setPassToDoctor,checkPasswordValidation
 
 }
 

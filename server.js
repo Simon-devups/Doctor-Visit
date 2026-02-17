@@ -13,6 +13,7 @@ import queries from "./queries.js";
 import upload from "./multer.js";
 // import EnglishToPersian from "./middlewares/EnglishTopersian.js";
 import internetCheck from './middlewares/internetCheck.js';
+import bcrypt from "bcrypt";
 
 dotenv.config()
 
@@ -110,6 +111,8 @@ async function availableAppointment(doctorId){
     }
     return appointment
 }
+
+const CODE = '12345';
 
 
 
@@ -253,7 +256,7 @@ app.post('/login',async(req,res)=>{
 
         //initialiez code that will send to user phone
         const user = await queries.findUser(req.session.phone)
-        const CODE = '12345';
+        
 
         if(userCode !== CODE) {res.json({message:'code is wrong'})}
         else{
@@ -437,7 +440,7 @@ app.get("/reserveDoctor/:id",async(req,res)=>{
 
         const time = '15:00';
         const user = req.session.user
-        const date = new Date(`2026-02-17T${time}:00`)
+        const date = new Date(`2026-02-20T${time}:00`)
 
         const appointment = await queries.addAppointmentToPendingList(doctorId,user.id,date)
 
@@ -511,12 +514,32 @@ app.get('/reserveList',async(req,res)=>{
     try{
         const user = req.session.user
         const ConfirmedreserveList = await queries.getConfermedUserAppointments(user.id)
-        const appointment = {
+        
+
+        ConfirmedreserveList.forEach(appointment=>{
+            const now = new Date();
+            const date = new Date(appointment.date);
+
+            // how much day and hour to appointment
+            const day = (date - now) / (1000 * 60 * 60 * 24);
+            appointment.before =  {
+                day:parseInt(day),
+                hour:parseInt((day - parseInt(day))*24),
+            };
+
+            const persianDate = new Intl.DateTimeFormat('fa-IR', {
+                dateStyle: 'long'}).format(appointment.date);
             
-        }
+            const persianHour = new Intl.DateTimeFormat('fa-IR',{
+                timeZone: 'Asia/Tehran',
+                hour: '2-digit',
+                minute: '2-digit'
+            }).format(appointment.date)
+            appointment.date = {date:persianDate,hour:persianHour}
+            
+        })
+
         console.log(ConfirmedreserveList)
-        // const DonereserveList = await queries.getDoneUserAppointments(user.id)
-        // const PendingList = await queries.getPendingUserAppointments(user.id)
 
         res.render('list-main.ejs',{list:ConfirmedreserveList})
     }catch(err){
@@ -676,16 +699,11 @@ app.get('/check-login' , (req , res) => {
 // ----------------------------------------------------------------------------------------------------
 // ADMIN PAGES
 
-app.get("/login/doctor", (req, res) => {
+const saltRound = 10;
 
+app.get("/login/doctor", (req, res) => {
     try {
-        
-        // const topDoctors = await queries.getTopDoctors()
-        
-        // const oldDoctor = await queries.getOldDoctors()
-        
         res.render("doctorlogin.ejs")
-        //{topDoctors:topDoctors,oldDoctors:oldDoctor}
     } catch (err) {
         res.render("FAQ.ejs")
     }
@@ -693,12 +711,24 @@ app.get("/login/doctor", (req, res) => {
 
 app.post("/login/doctor",async(req,res)=>{
     try{
-        const data = req.body;
+        const {code,password} = req.body;
+        
+        const doctorExisting = await queries.checkDoctorExisting(code)
+        if(doctorExisting.length<1) res.json({message:'first sign up'})
 
+        const doctorPass = await queries.findDoctorpass(code)
 
+        const match = await bcrypt.compare(password,doctorPass)
+        if (!match) return res.status(400)
 
-        res.redirect(`/doctor/${doctorId}/list`)
+        req.session.doctor = {
+            id: doctorExisting.doctorId,
+            code: code,
+        };
+        
+        res.redirect(`/doctor/${doctorExisting.doctorId}/list`)
     }catch(err){
+        console.log(err)
         res.send(500).json({
             data:'an error accured!'
         })
@@ -707,11 +737,15 @@ app.post("/login/doctor",async(req,res)=>{
 
 app.get('/signup/doctor',async (req, res) => {
     try {
+        // const deleteInvalidPass = await queries.checkPasswordValidation();
+
+        // console.log(deleteInvalidPass)
         const spetialties = await queries.getSpetialties()
 
         res.render("doctor-signup.ejs",{spti:spetialties})
         //{topDoctors:topDoctors,oldDoctors:oldDoctor}
     } catch (err) {
+        console.log(err)
         res.render("FAQ.ejs")
     }
 })
@@ -721,35 +755,66 @@ app.post('/signup/doctor',async (req, res) => {
         let redirectUrl = "/login/doctor";
 
         const info = req.body;
-        // const DoctorExisting = await queries.checkDoctorExisting(nezamCode)
+        console.log(info)
+        const DoctorExisting = await queries.checkDoctorExisting(info.medical_code)
         
-        // if(DoctorExisting) return res.json({message:"شما قبلا ثبت نام کرده اید"})
+        if(DoctorExisting) return res.json({message:"شما قبلا ثبت نام کرده اید"})
         
         const data = {
             first_name:info.first[0],
             last_name:info.last,
-            spetialty:info.province[1],
+            spetialty_id:parseInt(info.spetialty),
             image_url:'',
-            totalReservs:0,
+            // totalReservs:0,
             doctorInfo:{
-                natinalCode:info.natinolCode
+                create:{
+                    natinalCode:parseInt(info.natinolCode),
+                    password:''
+                }
             },
             description:{
-                description:'',
-                city:info.city,
-                Addres:info.address,
-                code:info.medical_code,
-                insurance:'',
-                gender:info.gender
+                create:{
+                    description:'',
+                    city:info.city,
+                    Addres:info.address,
+                    code:info.medical_code,
+                    insurance:'',
+                    gender:info.gender
+                }
             }
         }
         const signUpDoctor = await queries.createDoctorAccount(data)
 
+        const Doctor = await queries.checkDoctorExisting(info.medical_code);
+        const doctorId = Doctor.doctorId;
 
-        res.redirect("/login/doctor")
+        res.redirect(`/signup/doctor/${doctorId}`)
     } catch (err) {
         console.log(err)
         res.render("FAQ.ejs")
+    }
+})
+
+app.get("/signup/doctor/:id",async(req,res)=>{
+    try{
+        const doctorId = parseInt(req.params.id);
+        res.render('password.ejs',{id:doctorId})
+    }catch(err){}
+})
+
+app.post('/signup/doctor/:id/setpassword',async(req,res)=>{
+    const doctorId = parseInt(req.params.id);
+    try{
+        const {password,confirm} = req.body;
+        
+        if(password != confirm) return res.json({message:'پسورد هماهنگ نیست'})
+
+        const hash = await bcrypt.hash(password,saltRound);
+        const setPass = await queries.setPassToDoctor(doctorId,hash)
+
+        res.redirect('/login/doctor')
+    }catch(err){
+        console.log(err)
     }
 })
 
@@ -757,11 +822,33 @@ app.get('/doctor/:id/list',async (req, res) => {
     const doctorId = parseInt(req.params.id);
     try {
         // get appointment of doctor (with id)
-        const doctorAppointment = await queries.getDoctorAppointment(doctorId)
-        console.log(doctorAppointment)
-        // const topDoctors = await queries.getTopDoctors()
+        const doctorAppointment = await queries.getDoctorAppointment(1)
         
-        // const oldDoctor = await queries.getOldDoctors()
+
+        doctorAppointment.forEach(appointment=>{
+            const now = new Date();
+            const date = new Date(appointment.date);
+
+            // how much day and hour to appointment
+            const day = (date - now) / (1000 * 60 * 60 * 24);
+            appointment.before =  {
+                day:parseInt(day),
+                hour:parseInt((day - parseInt(day))*24),
+            };
+
+            const persianDate = new Intl.DateTimeFormat('fa-IR', {
+                dateStyle: 'long'}).format(appointment.date);
+            
+            const persianHour = new Intl.DateTimeFormat('fa-IR',{
+                timeZone: 'Asia/Tehran',
+                hour: '2-digit',
+                minute: '2-digit'
+            }).format(appointment.date)
+            appointment.date = {date:persianDate,hour:persianHour}
+            
+        })
+        console.log(doctorAppointment)
+
         
         res.render("list-doctor.ejs",{reservs:doctorAppointment})
         //{topDoctors:topDoctors,oldDoctors:oldDoctor}
@@ -774,8 +861,10 @@ app.get("/doctor/list/patient/:id",async (req, res) => {
     const patientId = parseInt(req.params.id);
     try {
         // a query that take patient informations
+        const patientInfo = await queries.findUserById(patientId)
+        console.log(patientInfo)
         
-        res.render("user.ejs")
+        res.render("user.ejs",{data:patientInfo})
     } catch (err) {
         res.render("FAQ.ejs")
     }

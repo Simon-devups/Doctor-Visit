@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>Patient</title>
     <link rel="stylesheet" href="/css/user.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap"
@@ -26,12 +26,12 @@
 
         <div class="info-item">
             <div class="label">نام</div>
-            <div class="value">علی</div>
+            <div class="value"><%=data.firt_name%></div>
         </div>
 
         <div class="info-item">
             <div class="label">نام خانوادگی</div>
-            <div class="value">رضایی</div>
+            <div class="value"><%=data.last_name%></div>
         </div>
 
         <div class="info-item">
@@ -51,12 +51,12 @@
 
         <div class="info-item">
             <div class="label">شماره موبایل</div>
-            <div class="value">۰۹۱۲۳۴۵۶۷۸۹</div>
+            <div class="value"><%=data.phone%></div>
         </div>
 
         <div class="info-item">
             <div class="label">ایمیل</div>
-            <div class="value">a@example.com</div>
+            <div class="value"><%=data.userInfo[0].email%></div>
         </div>
 
     </div>
