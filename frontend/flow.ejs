@@ -481,31 +481,64 @@ document.addEventListener("DOMContentLoaded", function() {
     let selectedDate = null;
     let selectedTime = null;
 
+    document.addEventListener('click', function(e) {
+        const btn = e.target.closest('.pc-slot');
+        if (!btn || btn.disabled) return;
+
+        document.querySelectorAll('.pc-slot')
+            .forEach(b => b.classList.remove('active'));
+
+        btn.classList.add('active');
+
+        selectedTime = btn.dataset.time;
+        console.log('Selected time:', selectedTime);
+
+        updateReserveLink();
+    });
+
     // Remove default href since we'll add it dynamically
     
     // Listen for time slot selections (dynamically created buttons)
-    document.addEventListener('click', function(e) {
-        if(e.target.closest('.pc-times-row .pc-slot')) {
-            const btn = e.target.closest('.pc-times-row .pc-slot');
-            if(btn.disabled) return;
-            
-            // Update all time slots - remove active from others
-            document.querySelectorAll('.pc-times-row .pc-slot').forEach(b => {
-                b.classList.remove('active');
-            });
-            btn.classList.add('active');
-            
-            // Store selected time
-            selectedTime = btn.dataset.time;            
-            console.log('Selected time:', selectedTime);
-            
-            if (selectedDateGregorian && selectedTime) {
-                // اضافه کردن پارامترهای کوئری به href
-                ahrefBtn.href = `/flow2/${encodeURIComponent(doctor.id)}?date=${encodeURIComponent(selectedDateGregorian)}&time=${encodeURIComponent(selectedTime)}`;
-                ahrefBtn.style.cursor = 'pointer';
-            }
+    ahrefBtn.addEventListener('click', function (e) {
+        console.log(selectedTime)
+        if (!selectedDateGregorian || !selectedTime) {
+            e.preventDefault();
+            createToaster('لطفاً ابتدا روز و ساعت را انتخاب کنید');
+            return;
         }
+
+        ahrefBtn.href =
+            `/reserveDoctor/<%=doctor.id%>?date=${encodeURIComponent(
+                selectedDateGregorian
+            )}&time=${encodeURIComponent(selectedTime)}`;
+
+        ahrefBtn.style.cursor = 'pointer';
     });
+
+
+
+    // document.addEventListener('click', function(e) {
+    //     if(e.target.closest('.pc-times-row .pc-slot')) {
+    //         const btn = e.target.closest('.pc-times-row .pc-slot');
+    //         if(btn.disabled) return;
+            
+    //         // Update all time slots - remove active from others
+    //         document.querySelectorAll('.pc-times-row .pc-slot').forEach(b => {
+    //             b.classList.remove('active');
+    //         });
+    //         btn.classList.add('active');
+            
+    //         // Store selected time
+    //         selectedTime = btn.dataset.time;            
+    //         console.log('Selected time:', selectedTime);
+            
+    //         if (selectedDateGregorian && selectedTime) {
+    //             // اضافه کردن پارامترهای کوئری به href
+    //             ahrefBtn.href = `/reserveDoctor/${encodeURIComponent(doctor.id)}?date=${encodeURIComponent(selectedDateGregorian)}&time=${encodeURIComponent(selectedTime)}`;
+    //             ahrefBtn.style.cursor = 'pointer';
+    //         }
+    //     }
+    // });
     
     // Hook into the existing onDayClick to track selected date
     const originalOnDayClick = window.onDayClick;

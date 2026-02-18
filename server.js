@@ -372,6 +372,7 @@ app.get('/flow/:id', async (req, res) => {
                 weekday:new Date(time.date).getDay()+1
         }}
         
+        
 
 
         
@@ -404,6 +405,7 @@ app.get('/flow/:id', async (req, res) => {
     }
 })
 
+// check doctor working hours for apecified day
 app.get('/calender/:id/checkDay',async(req,res)=>{
     const doctorId = parseInt(req.params.id);
     try{
@@ -413,6 +415,7 @@ app.get('/calender/:id/checkDay',async(req,res)=>{
         // response example : [
         //{ start: '09:00', isAvailable: true },{ start: '09:30', isAvailable: true },{ start: '10:00', isAvailable: true },...
         //]
+        console.log(emptyTimes)
 
         res.status(200).json({ 
             data:emptyTimes,
@@ -436,13 +439,15 @@ app.get("/reserveDoctor/:id",async(req,res)=>{
             return res.status(401).json({ message: "لطفاً ابتدا وارد حساب خود شوید" });
         }
 
+        const {date,time} = req.query
+        
         const specifiedDoctor = await queries.getDoctorById(doctorId)
 
-        const time = '15:00';
         const user = req.session.user
-        const date = new Date(`2026-02-20T${time}:00`)
+        const dateInfo = new Date(`${date}T${time}:00`)
+        console.log(dateInfo)
 
-        const appointment = await queries.addAppointmentToPendingList(doctorId,user.id,date)
+        const appointment = await queries.addAppointmentToPendingList(doctorId,user.id,dateInfo)
 
         res.render("flow2.ejs",{doctor:specifiedDoctor})
     }catch(err){
@@ -536,10 +541,10 @@ app.get('/reserveList',async(req,res)=>{
                 minute: '2-digit'
             }).format(appointment.date)
             appointment.date = {date:persianDate,hour:persianHour}
-            
+            console.log(now , date)
         })
 
-        console.log(ConfirmedreserveList)
+        console.log()
 
         res.render('list-main.ejs',{list:ConfirmedreserveList})
     }catch(err){
