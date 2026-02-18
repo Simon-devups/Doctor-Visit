@@ -238,12 +238,17 @@ app.get('/signUp',(req,res)=>{
 
 app.post('/signUp', upload.single("avatar") , async(req,res) => {
     try{
-        let filename = "empty.png"
-        if(req.file.filename) filename = req.file.filename
-        
         const user = req.body
+
+        const userExisting = await queries.findUser(user.phone)
+        if(userExisting) res.json({message:'ثبت نام کرده اید'})
+
+        let filename = "empty.png"
+        if(req.file) filename = req.file.filename
+
+        
         const signUpUser = await queries.signUpUser(user,filename)
-        res.redirect('/login_signUp')
+        res.redirect('/login')
     }catch(err){
         console.log(err)
         res.render("FAQ.ejs")
@@ -876,15 +881,8 @@ app.get("/doctor/list/patient/:id",async (req, res) => {
 })
 
 app.get('/profile/doctor',async (req, res) => {
-
     try {
-        
-        // const topDoctors = await queries.getTopDoctors()
-        
-        // const oldDoctor = await queries.getOldDoctors()
-        
         res.render("doctor-profile.ejs")
-        //{topDoctors:topDoctors,oldDoctors:oldDoctor}
     } catch (err) {
         res.render("FAQ.ejs")
     }
