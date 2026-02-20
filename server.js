@@ -11,6 +11,7 @@ import connectPgSimple from "connect-pg-simple";
 import cron from 'node-cron';
 import queries from "./queries.js";
 import upload from "./multer.js";
+import Dupload from  "./doctorMulter.js"
 // import EnglishToPersian from "./middlewares/EnglishTopersian.js";
 import internetCheck from './middlewares/internetCheck.js';
 import bcrypt from "bcrypt";
@@ -760,7 +761,7 @@ app.get('/signup/doctor',async (req, res) => {
     }
 })
 
-app.post('/signup/doctor',async (req, res) => {
+app.post('/signup/doctor', Dupload.single("medicalEvidence") ,async (req, res) => {
     try {
         let redirectUrl = "/login/doctor";
 
@@ -774,7 +775,7 @@ app.post('/signup/doctor',async (req, res) => {
             first_name:info.first[0],
             last_name:info.last,
             spetialty_id:parseInt(info.spetialty),
-            image_url:'',
+            image_url:'empty.png',
             // totalReservs:0,
             doctorInfo:{
                 create:{
@@ -857,7 +858,6 @@ app.get('/doctor/:id/list',async (req, res) => {
             appointment.date = {date:persianDate,hour:persianHour}
             
         })
-        console.log(doctorAppointment)
 
         
         res.render("list-doctor.ejs",{reservs:doctorAppointment})
